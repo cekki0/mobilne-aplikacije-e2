@@ -15,14 +15,7 @@
         android:theme="@style/Theme.FijiApp"
         tools:targetApi="31">
         <activity
-            android:name=".StaffDetailActivity"
-            android:exported="false" />
-        <activity
-            android:name=".MainActivity"
-            android:exported="false"
-            android:theme="@style/Theme.FijiApp" />
-        <activity
-            android:name=".OwnerActivity"
+            android:name=".LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>
@@ -31,6 +24,17 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".StaffDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".MainActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".OwnerActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
     </application>
 
 </manifest>
