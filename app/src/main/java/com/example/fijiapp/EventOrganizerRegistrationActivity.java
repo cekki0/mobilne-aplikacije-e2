@@ -92,11 +92,9 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
         }
     }
 
-    // Method to validate email format
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
-
 
     public void navigateToLoginPage(View view) {
         Intent intent = new Intent(this, LoginActivity.class);
