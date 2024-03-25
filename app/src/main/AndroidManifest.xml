@@ -31,6 +31,23 @@
             android:name=".OwnerActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
+        </activity>
+        <activity
+            android:name=".ServiceProviderRegistrationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".EventOrganizerRegistrationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".LoginActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FijiApp">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
