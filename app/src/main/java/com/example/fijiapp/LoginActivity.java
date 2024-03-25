@@ -60,4 +60,9 @@ public class LoginActivity extends AppCompatActivity {
     private User getUserFromDatabase(String email, String password) {
         return null;
     }
+
+    public void navigateToRegisterPage(View view) {
+        Intent intent = new Intent(this, RegisterActivity.class);
+        startActivity(intent);
+    }
 }
