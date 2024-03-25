@@ -3,6 +3,7 @@ package com.example.fijiapp;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.SearchView;
+import android.widget.Spinner;
 
 import com.example.fijiapp.adapters.UserAdapter;
 import com.example.fijiapp.model.User;
@@ -65,5 +66,11 @@ public class OwnerActivity extends AppCompatActivity {
             }
         }
         adapter.filterList(filteredList);
+    }
+
+    private void populateSpinners() {
+        // Get reference to the Spinners
+        Spinner spinnerServiceType = findViewById(R.id.spinnerServiceType);
+        Spinner spinnerServiceSubtype = findViewById(R.id.spinnerServiceSubtype);
     }
 }

@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EventActivity">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <!-- Header -->
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Create Event"
+                android:textSize="24sp"
+                android:textStyle="bold"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Event Name -->
+            <EditText
+                android:id="@+id/editTextEventName"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event Name"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Event Description -->
+            <EditText
+                android:id="@+id/editTextEventDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Event Description"
+                android:minLines="3"
+                android:inputType="textMultiLine"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Max Participants -->
+            <EditText
+                android:id="@+id/editTextMaxParticipants"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Max Participants"
+                android:inputType="number"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- Location Constraint -->
+            <EditText
+                android:id="@+id/editTextLocationConstraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Location Constraint (e.g., City, Distance)"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Time Constraint -->
+            <EditText
+                android:id="@+id/editTextTimeConstraint"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Time Constraint (e.g., Date, Time)"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Spinner Layout -->
+            <LinearLayout
+                android:id="@+id/spinnerLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp">
+
+                <!-- Service Type Spinner -->
+                <Spinner
+                    android:id="@+id/spinnerServiceType"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"/>
+
+                <!-- Service Subtype Spinner -->
+                <Spinner
+                    android:id="@+id/spinnerServiceSubtype"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:layout_marginStart="8dp"/>
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/buttonAddSpinners"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Add Spinners"
+                android:layout_marginTop="16dp"
+                app:layout_constraintTop_toBottomOf="@id/spinnerEventType"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <ListView
+                android:id="@+id/listView"
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="16dp"/>
+
+            <!-- PrivateRules -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:layout_marginTop="16dp"
+                android:gravity="center_horizontal">
+
+                <RadioGroup
+                    android:id="@+id/radioGroupPrivateRules"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+
+                    <RadioButton
+                        android:id="@+id/radioButtonPublic"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Public"/>
+
+                    <RadioButton
+                        android:id="@+id/radioButtonPrivate"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Private"
+                        android:layout_marginLeft="15dp"/>
+                </RadioGroup>
+
+            </LinearLayout>
+
+            <!-- Event Type Spinner -->
+            <Spinner
+                android:id="@+id/spinnerEventType"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="16dp"/>
+
+            <!-- Save Button -->
+            <Button
+                android:id="@+id/buttonSaveEvent"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:text="Save"/>
+
+        </LinearLayout>
+    </ScrollView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
