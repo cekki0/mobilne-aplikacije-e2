@@ -1,7 +1,9 @@
 package com.example.fijiapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.SearchView;
 
 import com.example.fijiapp.adapters.UserAdapter;
@@ -65,5 +67,10 @@ public class OwnerActivity extends AppCompatActivity {
             }
         }
         adapter.filterList(filteredList);
+    }
+
+    public void onAddStaffBtnClick(View view) {
+        Intent intent = new Intent(OwnerActivity.this, StaffRegistrationActivity.class);
+        startActivity(intent);
     }
 }

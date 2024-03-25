@@ -15,6 +15,12 @@
         android:theme="@style/Theme.FijiApp"
         tools:targetApi="31">
         <activity
+            android:name=".StaffCalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StaffRegistrationActivity"
+            android:exported="false" />
+        <activity
             android:name=".StaffDetailActivity"
             android:exported="false" />
         <activity

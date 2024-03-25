@@ -47,4 +47,5 @@ dependencies {
     androidTestImplementation(libs.espresso.core)
 
     implementation (libs.picasso)
+    implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
 }
