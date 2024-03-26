@@ -10,7 +10,7 @@
     android:orientation="vertical">
 
     <TextView
-        android:id="@+id/titleTextView"
+        android:id="@+id/titleTextViewCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -21,13 +21,13 @@
         android:textSize="28sp" />
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputName"
+        android:id="@+id/textInputCategoryName"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Name">
+        android:hint="Category Name">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextName"
+            android:id="@+id/editTextCategoryName"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />
@@ -35,21 +35,76 @@
     </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/textInputDescription"
+        android:id="@+id/textInputCategoryDescription"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Description">
+        android:hint="Category Description">
 
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/editTextDescription"
+            android:id="@+id/editTextCategoryDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:inputType="text" />
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <TextView
+        android:id="@+id/titleTextViewSubCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="Add SubCategory"
+        android:textColor="@android:color/black"
+        android:textSize="28sp" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputSubCategoryName"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="SubCategory Name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextSubCategoryName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/textInputSubCategoryDescription"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="SubCategory Description">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/editTextSubCategoryDescription"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <Spinner
+        android:id="@+id/subCategoryTypeSpinner"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        android:entries="@array/subcategory_types_array" />
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonCreateUser"
+        android:id="@+id/buttonAddSubCategory"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="16dp"
+        android:text="Add SubCategory" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonAddCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"

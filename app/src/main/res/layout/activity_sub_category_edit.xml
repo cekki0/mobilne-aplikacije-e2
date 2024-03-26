@@ -16,7 +16,7 @@
         android:layout_gravity="center"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:text="Edit Category"
+        android:text="Edit SubCategory"
         android:textColor="@android:color/black"
         android:textSize="28sp" />
 
@@ -48,12 +48,18 @@
 
     </com.google.android.material.textfield.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/subCategoryTypeSpinner"
+        android:layout_width="150dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"/>
+
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonEditCategory"
+        android:id="@+id/buttonEditSubCategory"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="16dp"
-        android:text="Save Category" />
+        android:text="Save SubCategory" />
 </LinearLayout>
-

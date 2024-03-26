@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.fijiapp.CategoryEditActivity;
 import com.example.fijiapp.R;
@@ -55,7 +56,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Implement delete functionality here
+                Toast.makeText(context.getApplicationContext(), category.Name + " Category Deleted!", Toast.LENGTH_SHORT).show();
             }
         });
     }

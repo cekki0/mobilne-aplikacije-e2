@@ -1,0 +1,6 @@
+<resources>
+    <string-array name="subcategory_types_array">
+        <item>SERVICE</item>
+        <item>PRODUCT</item>
+    </string-array>
+</resources>

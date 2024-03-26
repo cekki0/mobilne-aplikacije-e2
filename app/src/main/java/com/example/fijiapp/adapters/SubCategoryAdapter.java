@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.SubCategoryEditActivity;
 import com.example.fijiapp.model.SubCategory;
 
 import java.util.List;
@@ -42,16 +44,17 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(context, CategoryEditActivity.class);
-//                intent.putExtra(CategoryEditActivity.EXTRA_SUBCATEGORY, subCategory);
-//                context.startActivity(intent);
+                Intent intent = new Intent(context, SubCategoryEditActivity.class);
+                intent.putExtra("SUBCATEGORY", subCategory);
+                context.startActivity(intent);
             }
         });
+
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle delete button click
+                Toast.makeText(context.getApplicationContext(), subCategory.Name + " SubCategory Deleted!", Toast.LENGTH_SHORT).show();
             }
         });
     }
