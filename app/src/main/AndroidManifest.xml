@@ -22,7 +22,7 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".OwnerActivity"
+            android:name=".ProductsActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>
