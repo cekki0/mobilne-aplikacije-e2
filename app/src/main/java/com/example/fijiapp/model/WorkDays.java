@@ -1,3 +1,3 @@
 package com.example.fijiapp.model;
 
-public enum WorkDays {MON, TUE, WED, THU, FRI}
+public enum WorkDays {MON, TUE, WED, THU, FRI,SAT,SUN}

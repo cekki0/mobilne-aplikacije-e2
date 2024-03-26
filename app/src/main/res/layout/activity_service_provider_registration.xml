@@ -141,6 +141,124 @@
                 android:text="Upload Company Pictures" />
 
             <TextView
+                android:id="@+id/textViewCompanyWorkHours"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginEnd="32dp"
+                android:text="Add Work Hours"
+                android:textColor="?attr/colorPrimary"
+                android:textSize="24sp"
+                android:textStyle="bold" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center_vertical"
+                    android:orientation="horizontal">
+
+                    <Spinner
+                        android:id="@+id/spinnerServiceWorkDays"
+                        android:layout_width="150dp"
+                        android:layout_height="42dp"
+                        android:layout_marginVertical="8dp" />
+
+                    <CheckBox
+                        android:id="@+id/checkBoxWorkingDay"
+                        android:layout_width="120dp"
+                        android:layout_height="42dp"
+                        android:checked="true"
+                        android:text="Working Day"/>
+
+                    <Button
+                        android:id="@+id/buttonServiceWorkDayAdd"
+                        android:layout_width="42dp"
+                        android:layout_height="42dp"
+                        android:layout_marginLeft="60dp"
+                        android:text="+" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/timeSlotsLayout"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:orientation="horizontal"
+                    android:visibility="visible">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Start:" />
+
+                    <Spinner
+                        android:id="@+id/spinnerStartTime"
+                        android:layout_width="120dp"
+                        android:layout_height="42dp"
+                        android:layout_marginVertical="8dp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="End:" />
+
+                    <Spinner
+                        android:id="@+id/spinnerEndTime"
+                        android:layout_width="120dp"
+                        android:layout_height="42dp"
+                        android:layout_marginVertical="8dp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:id="@+id/tableLayoutWorkHours"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:paddingTop="8dp"
+                    android:background="?attr/colorPrimary">
+
+                    <!-- Table Header -->
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
+                        android:padding="8dp">
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Day"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="Start Time"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold" />
+
+                        <TextView
+                            android:layout_width="0dp"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:text="End Time"
+                            android:textColor="@android:color/white"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
+
+            </LinearLayout>
+
+
+            <TextView
                 android:id="@+id/textViewServiceCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -203,36 +321,6 @@
 
             </LinearLayout>
 
-            <TextView
-                android:id="@+id/textViewCompanyWorkHours"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginEnd="32dp"
-                android:text="Add Work Hours"
-                android:textColor="?attr/colorPrimary"
-                android:textSize="24sp"
-                android:textStyle="bold" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center_vertical"
-                android:orientation="horizontal">
-
-                <Spinner
-                    android:id="@+id/spinnerServiceWorkDays"
-                    android:layout_width="150dp"
-                    android:layout_height="42dp"
-                    android:layout_marginVertical="8dp" />
-
-                <Button
-                    android:id="@+id/buttonServiceWorkHoursAdd"
-                    android:layout_width="42dp"
-                    android:layout_height="42dp"
-                    android:layout_marginLeft="180dp"
-                    android:text="+" />
-
-            </LinearLayout>
 
             <Button
                 android:id="@+id/buttonRegister"

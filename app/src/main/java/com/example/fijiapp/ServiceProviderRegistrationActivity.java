@@ -5,27 +5,42 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fijiapp.model.WorkDays;
+import com.example.fijiapp.model.WorkHours;
+import com.example.fijiapp.model.WorkingDays;
+
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
+
 public class ServiceProviderRegistrationActivity extends AppCompatActivity {
 
+    private List<WorkingDays> workingDaysList;
     private EditText editTextEmail, editTextPassword, editTextConfirmPassword, editTextFirstName,
             editTextLastName, editTextAddress, editTextPhoneNumber,
             editTextCompanyEmail, editTextCompanyName, editTextCompanyAddress,
             editTextCompanyPhoneNumber, editTextCompanyAbout;
 
-    private Spinner spinnerServiceCategories, spinnerServiceEvents, spinnerServiceWorkDays;
+    private Spinner spinnerServiceCategories, spinnerServiceEvents, spinnerServiceWorkDays,spinnerStartTime,spinnerEndTime;
     private Button buttonRegister, buttonUploadProfilePicture, buttonUploadCompanyPictures,
-            buttonServiceCategoryAdd, buttonServiceEventAdd, buttonServiceWorkHoursAdd;
+            buttonServiceCategoryAdd, buttonServiceEventAdd, buttonServiceWorkDayAdd;
+
+    private CheckBox checkBoxWorkingDay;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_registration);
+
+        workingDaysList = new ArrayList<>();
 
         //Personal info
         editTextEmail = findViewById(R.id.editTextEmail);
@@ -49,27 +64,56 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         buttonUploadCompanyPictures = findViewById(R.id.buttonUploadCompanyPictures);
         buttonServiceCategoryAdd = findViewById(R.id.buttonServiceCategoryAdd);
         buttonServiceEventAdd = findViewById(R.id.buttonServiceEventAdd);
-        buttonServiceWorkHoursAdd = findViewById(R.id.buttonServiceWorkHoursAdd);
+        buttonServiceWorkDayAdd = findViewById(R.id.buttonServiceWorkDayAdd);
 
         spinnerServiceCategories = findViewById(R.id.spinnerServiceCategories);
         spinnerServiceEvents = findViewById(R.id.spinnerServiceEvents);
         spinnerServiceWorkDays = findViewById(R.id.spinnerServiceWorkDays);
+        spinnerStartTime = findViewById(R.id.spinnerStartTime);
+        spinnerEndTime = findViewById(R.id.spinnerEndTime);
 
+        checkBoxWorkingDay = findViewById(R.id.checkBoxWorkingDay);
 
-        String[] serviceCategories = {"Category 1", "Category 2", "Category 3"}; // Sample categories
+        String[] serviceCategories = {"Category 1", "Category 2", "Category 3"};
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceCategories);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerServiceCategories.setAdapter(categoryAdapter);
 
-        String[] serviceEvents = {"Event 1", "Event 2", "Event 3"}; // Sample events
+        String[] serviceEvents = {"Event 1", "Event 2", "Event 3"};
         ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceEvents);
         eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerServiceEvents.setAdapter(eventAdapter);
 
-        String[] serviceWorkDays = {"Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"}; // All days
+        String[] serviceWorkDays = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
         ArrayAdapter<String> workDaysAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceWorkDays);
         workDaysAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerServiceWorkDays.setAdapter(workDaysAdapter);
+
+        String[] timeSlots = {"08:00", "09:00", "10:00", "11:00", "12:00", "13:00", "14:00", "15:00", "16:00", "17:00", "18:00", "19:00", "20:00", "21:00", "22:00"};
+        ArrayAdapter<String> startTimeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeSlots);
+        startTimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStartTime.setAdapter(startTimeAdapter);
+        ArrayAdapter<String> endTimeAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, timeSlots);
+        endTimeAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerEndTime.setAdapter(endTimeAdapter);
+
+        checkBoxWorkingDay.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if (isChecked) {
+                    findViewById(R.id.timeSlotsLayout).setVisibility(View.VISIBLE);
+                } else {
+                    findViewById(R.id.timeSlotsLayout).setVisibility(View.GONE);
+                }
+            }
+        });
+
+        buttonServiceWorkDayAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addWorkingDay();
+            }
+        });
 
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -77,6 +121,18 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+    }
+
+    private void addWorkingDay() {
+        String selectedDay = spinnerServiceWorkDays.getSelectedItem().toString();
+        String startTime = spinnerStartTime.getSelectedItem().toString();
+        String endTime = spinnerEndTime.getSelectedItem().toString();
+        LocalTime start = LocalTime.parse(startTime);
+        LocalTime end = LocalTime.parse(endTime);
+        WorkHours workHours = new WorkHours(start, end);
+        WorkingDays workingDay = new WorkingDays(WorkDays.valueOf(selectedDay.toUpperCase()), workHours);
+        workingDaysList.add(workingDay);
+        Toast.makeText(this, "Added " + selectedDay + " with start time: " + startTime + " and end time: " + endTime, Toast.LENGTH_SHORT).show();
     }
 
     private void registerUser() {
