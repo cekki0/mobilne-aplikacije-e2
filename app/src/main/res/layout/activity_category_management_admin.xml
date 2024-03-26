@@ -38,7 +38,6 @@
         app:srcCompat="@android:drawable/ic_input_add"
         android:onClick="onAddCategoryBtnClick"/>
 
-
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 
