@@ -44,9 +44,8 @@ public class EventActivity extends AppCompatActivity {
         service = new HashMap<>();
         services = new ArrayList<>();
         selectedService = new HashMap<>();
-        // Populate the serviceSubtypeMap with data
+
         populateServiceSubtypeMap();
-        // Populate the Spinners with data
         populateSpinners();
 
         Button buttonAddSpinners = findViewById(R.id.buttonAddSpinners);
@@ -75,13 +74,9 @@ public class EventActivity extends AppCompatActivity {
     private void populateEventType() {
         // Define event types
         String[] eventTypes = {"Type 1", "Type 2", "Type 3", "Other"};
-        // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventTypes);
-        // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Get reference to the spinner
         Spinner spinnerEventType = findViewById(R.id.spinnerEventType);
-        // Set the adapter to the spinner
         spinnerEventType.setAdapter(adapter);
     }
 
@@ -98,8 +93,6 @@ public class EventActivity extends AppCompatActivity {
         subtypeList2.add("Subtype B2");
         subtypeList2.add("Subtype B3");
         service.put("Service Type B", subtypeList2);
-
-        // Add more mappings as needed...
     }
 
     private void populateSpinners() {
