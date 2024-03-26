@@ -8,14 +8,20 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
-import androidx.appcompat.app.AppCompatActivity;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fijiapp.adapters.WorkingDaysAdapter;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
-import com.example.fijiapp.model.WorkingDays;
+import com.example.fijiapp.model.WorkingDay;
 
 import java.time.LocalTime;
 import java.util.ArrayList;
@@ -23,24 +29,27 @@ import java.util.List;
 
 public class ServiceProviderRegistrationActivity extends AppCompatActivity {
 
-    private List<WorkingDays> workingDaysList;
+    private List<WorkingDay> workingDayList;
     private EditText editTextEmail, editTextPassword, editTextConfirmPassword, editTextFirstName,
             editTextLastName, editTextAddress, editTextPhoneNumber,
             editTextCompanyEmail, editTextCompanyName, editTextCompanyAddress,
             editTextCompanyPhoneNumber, editTextCompanyAbout;
 
-    private Spinner spinnerServiceCategories, spinnerServiceEvents, spinnerServiceWorkDays,spinnerStartTime,spinnerEndTime;
+    private Spinner spinnerServiceCategories, spinnerServiceEvents, spinnerServiceWorkDays, spinnerStartTime, spinnerEndTime;
     private Button buttonRegister, buttonUploadProfilePicture, buttonUploadCompanyPictures,
             buttonServiceCategoryAdd, buttonServiceEventAdd, buttonServiceWorkDayAdd;
 
     private CheckBox checkBoxWorkingDay;
 
+    private RecyclerView recyclerViewWorkingDays;
+    private Boolean isBoxChecked = true;
+    private WorkingDaysAdapter workingDaysAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_service_provider_registration);
-
-        workingDaysList = new ArrayList<>();
+        workingDayList = new ArrayList<>();
 
         //Personal info
         editTextEmail = findViewById(R.id.editTextEmail);
@@ -74,6 +83,12 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
 
         checkBoxWorkingDay = findViewById(R.id.checkBoxWorkingDay);
 
+        recyclerViewWorkingDays = findViewById(R.id.recyclerViewWorkingDays);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerViewWorkingDays.setLayoutManager(layoutManager);
+        workingDaysAdapter = new WorkingDaysAdapter(workingDayList);
+        recyclerViewWorkingDays.setAdapter(workingDaysAdapter);
+
         String[] serviceCategories = {"Category 1", "Category 2", "Category 3"};
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceCategories);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
@@ -101,8 +116,10 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
+                    isBoxChecked = true;
                     findViewById(R.id.timeSlotsLayout).setVisibility(View.VISIBLE);
                 } else {
+                    isBoxChecked = false;
                     findViewById(R.id.timeSlotsLayout).setVisibility(View.GONE);
                 }
             }
@@ -127,13 +144,42 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         String selectedDay = spinnerServiceWorkDays.getSelectedItem().toString();
         String startTime = spinnerStartTime.getSelectedItem().toString();
         String endTime = spinnerEndTime.getSelectedItem().toString();
-        LocalTime start = LocalTime.parse(startTime);
-        LocalTime end = LocalTime.parse(endTime);
-        WorkHours workHours = new WorkHours(start, end);
-        WorkingDays workingDay = new WorkingDays(WorkDays.valueOf(selectedDay.toUpperCase()), workHours);
-        workingDaysList.add(workingDay);
-        Toast.makeText(this, "Added " + selectedDay + " with start time: " + startTime + " and end time: " + endTime, Toast.LENGTH_SHORT).show();
+
+        boolean dayExists = false;
+        for (WorkingDay day : workingDayList) {
+            if (day.workDay.toString().equalsIgnoreCase(selectedDay)) {
+                dayExists = true;
+                break;
+            }
+        }
+
+        if (!dayExists) {
+            try {
+                WorkingDay workingDay;
+                if (isBoxChecked) {
+                    LocalTime start = LocalTime.parse(startTime);
+                    LocalTime end = LocalTime.parse(endTime);
+                    WorkHours workHours = new WorkHours(start, end);
+                    workingDay = new WorkingDay(WorkDays.valueOf(selectedDay.toUpperCase()), workHours);
+                } else {
+                    workingDay = new WorkingDay(WorkDays.valueOf(selectedDay.toUpperCase()), null);
+                }
+                workingDayList.add(workingDay);
+                if (isBoxChecked)
+                    Toast.makeText(this, "Added " + selectedDay + " with start time: " + startTime + " and end time: " + endTime, Toast.LENGTH_SHORT).show();
+                else
+                    Toast.makeText(this, "Added " + selectedDay + " as non-working day ", Toast.LENGTH_SHORT).show();
+
+                workingDaysAdapter.notifyDataSetChanged();
+            } catch (IllegalArgumentException e) {
+                Toast.makeText(this, "Invalid time range: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, selectedDay + " has already been added", Toast.LENGTH_SHORT).show();
+        }
     }
+
+
 
     private void registerUser() {
         String email = editTextEmail.getText().toString().trim();

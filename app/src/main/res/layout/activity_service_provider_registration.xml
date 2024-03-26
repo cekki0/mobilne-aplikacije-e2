@@ -213,47 +213,12 @@
                         android:layout_marginVertical="8dp" />
                 </LinearLayout>
 
-
-                <LinearLayout
-                    android:id="@+id/tableLayoutWorkHours"
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/recyclerViewWorkingDays"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical"
                     android:paddingTop="8dp"
-                    android:background="?attr/colorPrimary">
-
-                    <!-- Table Header -->
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="horizontal"
-                        android:padding="8dp">
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Day"
-                            android:textColor="@android:color/white"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="Start Time"
-                            android:textColor="@android:color/white"
-                            android:textStyle="bold" />
-
-                        <TextView
-                            android:layout_width="0dp"
-                            android:layout_height="wrap_content"
-                            android:layout_weight="1"
-                            android:text="End Time"
-                            android:textColor="@android:color/white"
-                            android:textStyle="bold" />
-                    </LinearLayout>
-                </LinearLayout>
+                    android:background="?attr/colorPrimary" />
 
             </LinearLayout>
 
