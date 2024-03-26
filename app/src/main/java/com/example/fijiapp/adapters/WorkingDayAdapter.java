@@ -13,11 +13,11 @@ import com.example.fijiapp.model.WorkingDay;
 
 import java.util.List;
 
-public class WorkingDaysAdapter extends RecyclerView.Adapter<WorkingDaysAdapter.ViewHolder> {
+public class WorkingDayAdapter extends RecyclerView.Adapter<WorkingDayAdapter.ViewHolder> {
 
     private List<WorkingDay> workingDays;
 
-    public WorkingDaysAdapter(List<WorkingDay> workingDays) {
+    public WorkingDayAdapter(List<WorkingDay> workingDays) {
         this.workingDays = workingDays;
     }
 

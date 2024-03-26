@@ -8,9 +8,7 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
-import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
 
@@ -18,7 +16,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fijiapp.adapters.WorkingDaysAdapter;
+import com.example.fijiapp.adapters.WorkingDayAdapter;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
 import com.example.fijiapp.model.WorkingDay;
@@ -43,7 +41,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
 
     private RecyclerView recyclerViewWorkingDays;
     private Boolean isBoxChecked = true;
-    private WorkingDaysAdapter workingDaysAdapter;
+    private WorkingDayAdapter workingDayAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -86,8 +84,8 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         recyclerViewWorkingDays = findViewById(R.id.recyclerViewWorkingDays);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerViewWorkingDays.setLayoutManager(layoutManager);
-        workingDaysAdapter = new WorkingDaysAdapter(workingDayList);
-        recyclerViewWorkingDays.setAdapter(workingDaysAdapter);
+        workingDayAdapter = new WorkingDayAdapter(workingDayList);
+        recyclerViewWorkingDays.setAdapter(workingDayAdapter);
 
         String[] serviceCategories = {"Category 1", "Category 2", "Category 3"};
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceCategories);
@@ -170,7 +168,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                 else
                     Toast.makeText(this, "Added " + selectedDay + " as non-working day ", Toast.LENGTH_SHORT).show();
 
-                workingDaysAdapter.notifyDataSetChanged();
+                workingDayAdapter.notifyDataSetChanged();
             } catch (IllegalArgumentException e) {
                 Toast.makeText(this, "Invalid time range: " + e.getMessage(), Toast.LENGTH_SHORT).show();
             }
