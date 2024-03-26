@@ -69,45 +69,11 @@
                 android:hint="Time Constraint (e.g., Date, Time)"
                 android:layout_marginTop="16dp"/>
 
-            <!-- Spinner Layout -->
-            <LinearLayout
-                android:id="@+id/spinnerLayout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:layout_marginTop="16dp">
-
-                <!-- Service Type Spinner -->
-                <Spinner
-                    android:id="@+id/spinnerServiceType"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"/>
-
-                <!-- Service Subtype Spinner -->
-                <Spinner
-                    android:id="@+id/spinnerServiceSubtype"
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:layout_marginStart="8dp"/>
-            </LinearLayout>
-
             <Button
-                android:id="@+id/buttonAddSpinners"
+                android:id="@+id/buttonManageServices"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Add Spinners"
-                android:layout_marginTop="16dp"
-                app:layout_constraintTop_toBottomOf="@id/spinnerEventType"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-
-            <ListView
-                android:id="@+id/listView"
-                android:layout_width="match_parent"
-                android:layout_height="100dp"
+                android:text="Manage services"
                 android:layout_marginTop="16dp"/>
 
             <!-- PrivateRules -->
