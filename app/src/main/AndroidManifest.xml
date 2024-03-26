@@ -15,6 +15,9 @@
         android:theme="@style/Theme.FijiApp"
         tools:targetApi="31">
         <activity
+            android:name=".CategoryManagementAdmin"
+            android:exported="false" />
+        <activity
             android:name=".StaffCalendarActivity"
             android:exported="false" />
         <activity
@@ -30,8 +33,7 @@
         <activity
             android:name=".OwnerActivity"
             android:exported="true"
-            android:theme="@style/Theme.FijiApp">
-        </activity>
+            android:theme="@style/Theme.FijiApp"></activity>
         <activity
             android:name=".ServiceProviderRegistrationActivity"
             android:exported="false"
@@ -45,7 +47,7 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".CategoryManagementAdmin"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>
