@@ -1,8 +1,11 @@
 package com.example.fijiapp;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -11,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 
@@ -44,12 +48,108 @@ public class ServiceDialog extends Dialog {
 
         Button buttonAddSpinners = findViewById(R.id.buttonAddSpinners);
         ListView listView = findViewById(R.id.listView);
-        final EditText price = findViewById(R.id.editTextPrice);
-        final TextView textViewMaxPrice = findViewById(R.id.textViewMaxPrice);
         final ArrayAdapter<String> adapter = new ArrayAdapter<>(getContext(), android.R.layout.simple_list_item_1, services);
+        final TextView textViewMaxPrice = findViewById(R.id.textViewMaxPrice);
         // Set the adapter to the ListView
         listView.setAdapter(adapter);
 
+        addService(buttonAddSpinners, adapter, textViewMaxPrice);
+        deleteService(listView, adapter, textViewMaxPrice);
+        editPrice(listView, adapter, textViewMaxPrice);
+    }
+
+    private void editPrice(ListView listView, ArrayAdapter<String> adapter, TextView textViewMaxPrice) {
+        // Add click listener to ListView items for editing price
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+                // Get the selected service string
+                String serviceString = services.get(position);
+
+                // Extract the price part from the service string
+                String priceString = serviceString.substring(serviceString.lastIndexOf(":") + 1, serviceString.lastIndexOf("din")).trim();
+
+                // Convert the price string to integer
+                int oldPrice = Integer.parseInt(priceString);
+
+                // Create a dialog to edit the price
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setTitle("Edit Price");
+                final EditText editTextPrice = new EditText(getContext());
+                editTextPrice.setText(String.valueOf(oldPrice));
+                builder.setView(editTextPrice);
+
+                builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        // Get the new price entered by the user
+                        String newPriceString = editTextPrice.getText().toString().trim();
+                        int newPrice = Integer.parseInt(newPriceString);
+
+                        // Calculate the difference between the old price and the new price
+                        int priceDifference = newPrice - oldPrice;
+
+                        // Update the maxPrice
+                        maxPrice += priceDifference;
+
+                        // Update the TextView displaying the maxPrice
+                        textViewMaxPrice.setText("Max Price: $" + maxPrice);
+
+                        // Update the price in the services list
+                        String updatedService = serviceString.substring(0, serviceString.lastIndexOf(":") + 1) + " " + newPriceString + " din";
+                        services.set(position, updatedService);
+
+                        // Notify the adapter that the data set has changed
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+                builder.setNegativeButton("Cancel", null);
+                builder.show();
+            }
+        });
+    }
+
+    private void deleteService(ListView listView, final ArrayAdapter<String> adapter, final TextView textViewMaxPrice){
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                // Get the service string
+                String serviceString = services.get(position);
+
+                // Extract the price part from the service string
+                String priceString = serviceString.substring(serviceString.lastIndexOf(":") + 1, serviceString.lastIndexOf("din")).trim();
+
+                // Get the price of the item to be deleted
+                int deletedPrice = Integer.parseInt(priceString);
+
+                // Show a confirmation dialog
+                new AlertDialog.Builder(getContext())
+                        .setMessage("Are you sure you want to delete this item?")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // Remove the item from the list and update the adapter
+                                services.remove(position);
+                                adapter.notifyDataSetChanged();
+
+                                // Update the maxPrice by subtracting the price of the deleted item
+                                maxPrice -= deletedPrice;
+                                textViewMaxPrice.setText("Max Price: $" + maxPrice);
+
+                                Toast.makeText(getContext(), "Item deleted", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .setNegativeButton("No", null)
+                        .show();
+
+                // Return true to consume the long click event
+                return true;
+            }
+        });
+    }
+
+    private void addService(Button buttonAddSpinners, ArrayAdapter<String> adapter, TextView textViewMaxPrice){
+        final EditText price = findViewById(R.id.editTextPrice);
         buttonAddSpinners.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +162,7 @@ public class ServiceDialog extends Dialog {
                 services.add(formattedService); // Add a copy of the selectedService
                 selectedService.clear();
 
-                textViewMaxPrice.setText("Max Price: $" + maxPrice);
+                textViewMaxPrice.setText("Max Price: " + maxPrice + "din");
                 // Notify the adapter that the data set has changed
                 adapter.notifyDataSetChanged();
             }
