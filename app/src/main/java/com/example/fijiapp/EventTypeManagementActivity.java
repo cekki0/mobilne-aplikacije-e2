@@ -31,7 +31,7 @@ public class EventTypeManagementActivity extends AppCompatActivity {
 
         initData();
 
-        eventTypeAdapter = new EventTypeAdapter(eventTypeList);
+        eventTypeAdapter = new EventTypeAdapter(eventTypeList, this);
         eventTypeRecyclerView.setAdapter(eventTypeAdapter);
     }
 

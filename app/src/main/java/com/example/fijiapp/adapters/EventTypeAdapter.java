@@ -1,13 +1,17 @@
 package com.example.fijiapp.adapters;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fijiapp.EventTypeEditActivity;
 import com.example.fijiapp.R;
 import com.example.fijiapp.model.EventType;
 import com.example.fijiapp.model.SubCategory;
@@ -15,10 +19,13 @@ import com.example.fijiapp.model.SubCategory;
 import java.util.List;
 
 public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.EventTypeViewHolder> {
-    private List<EventType> eventTypeList;
 
-    public EventTypeAdapter(List<EventType> eventTypeList) {
-        this.eventTypeList = eventTypeList;
+    private List<EventType> eventTypes;
+    private Context context;
+
+    public EventTypeAdapter(List<EventType> eventTypes, Context context) {
+        this.eventTypes = eventTypes;
+        this.context = context;
     }
 
     @NonNull
@@ -30,42 +37,45 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.Even
 
     @Override
     public void onBindViewHolder(@NonNull EventTypeViewHolder holder, int position) {
-        EventType eventType = eventTypeList.get(position);
-        holder.bind(eventType);
+        EventType eventType = eventTypes.get(position);
+
+        holder.eventTypeNameTextView.setText(eventType.name);
+        holder.eventTypeDescriptionTextView.setText(eventType.description);
+
+        holder.editEventTypeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, EventTypeEditActivity.class);
+                intent.putExtra("eventType", eventType);
+                context.startActivity(intent);
+            }
+        });
+
+        holder.deactivateEventTypeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return eventTypeList.size();
+        return eventTypes.size();
     }
 
     public static class EventTypeViewHolder extends RecyclerView.ViewHolder {
-        private TextView eventTypeNameTextView;
-        private TextView eventTypeDescriptionTextView;
-        private TextView eventTypeSubCategoriesTextView;
+        TextView eventTypeNameTextView;
+        TextView eventTypeDescriptionTextView;
+        Button editEventTypeButton;
+        Button deactivateEventTypeButton;
 
         public EventTypeViewHolder(@NonNull View itemView) {
             super(itemView);
             eventTypeNameTextView = itemView.findViewById(R.id.eventTypeNameTextView);
             eventTypeDescriptionTextView = itemView.findViewById(R.id.eventTypeDescriptionTextView);
-            eventTypeSubCategoriesTextView = itemView.findViewById(R.id.eventTypeSubCategoriesTextView);
-        }
-
-        public void bind(EventType eventType) {
-            eventTypeNameTextView.setText(eventType.name);
-            eventTypeDescriptionTextView.setText(eventType.description);
-            eventTypeSubCategoriesTextView.setText(formatSubCategories(eventType.suggestedSubCategories));
-        }
-
-        private String formatSubCategories(List<SubCategory> subCategories) {
-            StringBuilder stringBuilder = new StringBuilder();
-            for (SubCategory subCategory : subCategories) {
-                stringBuilder.append(subCategory.Name).append(", ");
-            }
-            if (stringBuilder.length() > 0) {
-                stringBuilder.setLength(stringBuilder.length() - 2);
-            }
-            return stringBuilder.toString();
+            editEventTypeButton = itemView.findViewById(R.id.editEventTypeButton);
+            deactivateEventTypeButton = itemView.findViewById(R.id.deactivateEventTypeButton);
         }
     }
 }

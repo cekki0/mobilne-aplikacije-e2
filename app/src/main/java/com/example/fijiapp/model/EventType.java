@@ -7,8 +7,8 @@ public class EventType implements Serializable {
     public String name;
     public String description;
     public List<SubCategory> suggestedSubCategories;
+    public Boolean isActive;
 
-    // Constructor
     public EventType(String name, String description, List<SubCategory> suggestedSubCategories) {
         this.name = name;
         this.description = description;
