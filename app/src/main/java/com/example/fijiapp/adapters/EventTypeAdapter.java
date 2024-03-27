@@ -63,7 +63,7 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.Even
                 stringBuilder.append(subCategory.Name).append(", ");
             }
             if (stringBuilder.length() > 0) {
-                stringBuilder.setLength(stringBuilder.length() - 2); // Remove trailing comma and space
+                stringBuilder.setLength(stringBuilder.length() - 2);
             }
             return stringBuilder.toString();
         }

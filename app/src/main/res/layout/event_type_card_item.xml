@@ -34,7 +34,30 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textSize="14sp"
-            android:textColor="?android:textColorSecondary"/>
+            android:textColor="?android:textColorSecondary"
+            android:layout_marginBottom="8dp"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/editEventTypeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Edit"
+                android:layout_weight="1"/>
+
+            <Button
+                android:id="@+id/deactivateEventTypeButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Deactivate"
+                android:layout_weight="1"
+                android:layout_marginStart="8dp"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

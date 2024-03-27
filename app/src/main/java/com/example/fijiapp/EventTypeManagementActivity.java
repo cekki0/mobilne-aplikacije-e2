@@ -1,5 +1,6 @@
 package com.example.fijiapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -50,5 +51,8 @@ public class EventTypeManagementActivity extends AppCompatActivity {
     }
 
     public void onAddEventTypeBtnClick(View view) {
+        Intent intent = new Intent(this, EventTypeAddActivity.class);
+        startActivity(intent);
     }
+
 }
