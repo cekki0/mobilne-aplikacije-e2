@@ -20,7 +20,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="Add Category"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/colorPrimary"
         android:textSize="28sp" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -59,7 +59,7 @@
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
         android:text="Add SubCategory"
-        android:textColor="@android:color/black"
+        android:textColor="?attr/colorPrimary"
         android:textSize="28sp" />
 
     <com.google.android.material.textfield.TextInputLayout
@@ -111,7 +111,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="8dp"
-        android:background="?attr/colorPrimary" />
+        android:background="?attr/colorPrimaryContainer" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAddCategory"
