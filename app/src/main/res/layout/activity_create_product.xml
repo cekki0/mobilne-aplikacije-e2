@@ -1,0 +1,86 @@
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <EditText
+            android:id="@+id/categoryEditText"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:hint="Category" />
+
+        <EditText
+            android:id="@+id/subCategoryEditText"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:hint="Subcategory" />
+
+        <EditText
+            android:id="@+id/titleEditText"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:hint="Title" />
+
+        <EditText
+            android:id="@+id/descriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:hint="Description" />
+
+
+        <EditText
+            android:id="@+id/selectImagesButton"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:hint="Input url of image" />
+
+
+        <EditText
+            android:id="@+id/eventTypesEditText"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:enabled="false"
+            android:focusable="false"
+            android:hint="Event Types" />
+
+
+        <EditText
+            android:id="@+id/priceEditText"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:hint="Price"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/discountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="200px"
+            android:hint="Discount"
+            android:inputType="numberDecimal" />
+
+        <CheckBox
+            android:id="@+id/visibleCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Visible" />
+
+        <CheckBox
+            android:id="@+id/availableCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Available" />
+
+
+        <Button
+            android:id="@+id/createProductButton"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Create Product" />
+    </LinearLayout>
+</ScrollView>

@@ -21,6 +21,8 @@
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
+        <activity android:name=".CreateProductActivity" />
+
         <activity
             android:name=".ProductsActivity"
             android:exported="true"

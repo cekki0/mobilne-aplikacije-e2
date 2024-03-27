@@ -1,5 +1,6 @@
 package com.example.fijiapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.SearchView;
@@ -11,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.adapters.ProductAdapter;
 import com.example.fijiapp.model.Product;
-
+import android.view.View;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -135,6 +136,12 @@ public ProductsActivity()
         }
         adapter.filterList(filteredList);
     }
+
+    public void createProductPage(View view){
+    Intent intent = new Intent(this,CreateProductActivity.class);
+    startActivity(intent);
+    }
+
 
 
 }
