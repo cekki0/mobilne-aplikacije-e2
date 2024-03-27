@@ -64,7 +64,7 @@
             android:id="@+id/textViewMaxPrice"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Max Price: $0"
+            android:text="Max Price: 0din"
             android:textAlignment="center"
             android:textSize="16sp"
             android:layout_marginTop="16dp"/>

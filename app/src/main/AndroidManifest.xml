@@ -65,7 +65,7 @@
             android:theme="@style/Theme.FijiApp" />
         <activity
             android:name=".CategoryManagementAdminActivity"
-            android:exported="true"
+            android:exported="false"
             android:theme="@style/Theme.FijiApp">
         </activity>
     </application>

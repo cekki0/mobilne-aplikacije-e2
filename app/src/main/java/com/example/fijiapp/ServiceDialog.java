@@ -93,7 +93,7 @@ public class ServiceDialog extends Dialog {
                         maxPrice += priceDifference;
 
                         // Update the TextView displaying the maxPrice
-                        textViewMaxPrice.setText("Max Price: $" + maxPrice);
+                        textViewMaxPrice.setText("Max Price: " + maxPrice + "din");
 
                         // Update the price in the services list
                         String updatedService = serviceString.substring(0, serviceString.lastIndexOf(":") + 1) + " " + newPriceString + " din";
