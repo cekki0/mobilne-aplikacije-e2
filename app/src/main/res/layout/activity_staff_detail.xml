@@ -85,6 +85,8 @@
         android:gravity="center"
         android:layout_gravity="center_horizontal"/>
 
+
+
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonEditWorkHours"
         android:layout_width="wrap_content"
@@ -101,10 +103,24 @@
         />
 
     <com.google.android.material.button.MaterialButton
+        android:id="@+id/buttonAddEvent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Event"
+        android:layout_marginTop="16dp"
+        android:layout_gravity="center_horizontal"
+        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+        app:cornerRadius="8dp"
+        app:icon="@android:drawable/ic_menu_agenda"
+        app:iconGravity="textStart"
+        app:iconPadding="8dp"
+        android:onClick="onAddEventButtonClick"/>
+
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonShowCalendar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Calendar"
+        android:text="Show Calendar"
         android:layout_marginTop="16dp"
         android:layout_gravity="center_horizontal"
         style="@style/Widget.MaterialComponents.Button.OutlinedButton"
@@ -114,6 +130,8 @@
         app:iconPadding="8dp"
         android:onClick="onCalendarButtonClick"
         />
+
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonBlockUser"

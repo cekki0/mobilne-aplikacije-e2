@@ -10,8 +10,15 @@ public class WorkHours implements Parcelable {
     public LocalTime EndTime;
 
     public WorkHours(LocalTime startTime, LocalTime endTime) {
+        Validate(startTime,endTime);
         StartTime = startTime;
         EndTime = endTime;
+    }
+
+    private void Validate(LocalTime startTime, LocalTime endTime) {
+        if (!startTime.isBefore(endTime)) {
+            throw new IllegalArgumentException("Start time must be before end time");
+        }
     }
 
     protected WorkHours(Parcel in) {

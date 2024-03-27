@@ -1,7 +1,9 @@
 package com.example.fijiapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.SearchView;
 import android.widget.Spinner;
 
@@ -72,5 +74,9 @@ public class OwnerActivity extends AppCompatActivity {
         // Get reference to the Spinners
         Spinner spinnerServiceType = findViewById(R.id.spinnerServiceType);
         Spinner spinnerServiceSubtype = findViewById(R.id.spinnerServiceSubtype);
+    }
+    public void onAddStaffBtnClick(View view) {
+        Intent intent = new Intent(OwnerActivity.this, StaffRegistrationActivity.class);
+        startActivity(intent);
     }
 }

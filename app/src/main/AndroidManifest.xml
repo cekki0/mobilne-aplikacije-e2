@@ -23,6 +23,24 @@
             </intent-filter>
         </activity>
         <activity
+            android:name=".SubCategoryAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".SubCategoryEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoryEditActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CategoryAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StaffCalendarActivity"
+            android:exported="false" />
+        <activity
+            android:name=".StaffRegistrationActivity"
+            android:exported="false" />
+        <activity
             android:name=".StaffDetailActivity"
             android:exported="false" />
         <activity
@@ -32,6 +50,22 @@
         <activity
             android:name=".OwnerActivity"
             android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".ServiceProviderRegistrationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".EventOrganizerRegistrationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".RegisterActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".CategoryManagementAdminActivity"
+            android:exported="true"
             android:theme="@style/Theme.FijiApp">
         </activity>
     </application>
