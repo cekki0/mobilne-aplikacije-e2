@@ -18,6 +18,9 @@
             android:name=".EventTypeAddActivity"
             android:exported="false" />
         <activity
+            android:name=".EventTypeEditActivity"
+            android:exported="false" />
+        <activity
             android:name=".SubCategoryEditActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
@@ -55,7 +58,7 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".EventTypeManagementActivity"
+            android:name=".LoginActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
@@ -63,7 +66,7 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".EventTypeManagementActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>
