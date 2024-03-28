@@ -15,12 +15,18 @@
         android:theme="@style/Theme.FijiApp"
         tools:targetApi="31">
         <activity
-            android:name=".EventActivity"
+            android:name=".utils.LandingPageActivity"
             android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".EventActivity"
+            android:exported="true">
         </activity>
         <activity
             android:name=".SubCategoryAddActivity"
@@ -48,8 +54,8 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity android:name=".CreateProductActivity" />
-        <activity android:name=".ProductsActivity"/>
-        <activity android:name=".ServiceActivity"/>
+        <activity android:name=".ProductsActivity" />
+        <activity android:name=".ServiceActivity" />
         <activity
             android:name=".OwnerActivity"
             android:exported="false"
@@ -69,11 +75,11 @@
         <activity
             android:name=".CategoryManagementAdminActivity"
             android:exported="false"
-            android:theme="@style/Theme.FijiApp"/>
+            android:theme="@style/Theme.FijiApp" />
         <activity
             android:name=".PackageActivity"
             android:exported="true"
-            android:theme="@style/Theme.FijiApp"/>
+            android:theme="@style/Theme.FijiApp" />
     </application>
 
 </manifest>

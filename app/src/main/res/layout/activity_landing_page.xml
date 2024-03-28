@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".utils.LandingPageActivity">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <RadioGroup
+            android:id="@+id/radioGroup"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/showProductsRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Products"
+                android:checked="true"/>
+
+            <RadioButton
+                android:id="@+id/showServicesRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Services"/>
+
+            <RadioButton
+                android:id="@+id/showPackagesRadioButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Packages" />
+        </RadioGroup>
+
+        <!-- Filter EditText fields -->
+        <EditText
+            android:id="@+id/titleFilterEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Filter by Title"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/categoryFilterEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/titleFilterEditText"
+            android:hint="Filter by Category"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/subcategoryFilterEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/categoryFilterEditText"
+            android:hint="Filter by Subcategory"
+            android:inputType="text" />
+
+        <EditText
+            android:id="@+id/minPriceFilterEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/subcategoryFilterEditText"
+            android:hint="Min Price"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/maxPriceFilterEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/minPriceFilterEditText"
+            android:hint="Max Price"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/locationFilterEditText"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/maxPriceFilterEditText"
+            android:hint="Filter by Location"
+            android:inputType="text" />
+
+        <!-- Add RecyclerView to display product cards -->
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewProducts"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="8dp" />
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerViewServices"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:padding="8dp" />
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

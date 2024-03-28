@@ -83,4 +83,22 @@ public class Product implements Parcelable {
         dest.writeString(Available);
         dest.writeString(Visible);
     }
+
+    public String getTitle() {
+        return Title;
+    }
+
+    public String getCategory() {
+        return Category;
+    }
+
+    // Getter method for Price
+    public int getPrice() {
+        return Price;
+    }
+
+    // Getter method for SubCategory
+    public String getSubCategory() {
+        return SubCategory;
+    }
 }

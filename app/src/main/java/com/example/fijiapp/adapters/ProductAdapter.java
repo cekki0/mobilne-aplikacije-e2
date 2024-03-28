@@ -39,6 +39,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.priceTextView.setText("Price: " + product.Price);
         holder.discountTextView.setText("Discount: " + product.Discount);
         holder.newPriceTextView.setText("New Price: " + product.NewPrice);
+        holder.categoryTextView.setText("Category: " + product.Category);
+        holder.subcategoryTextView.setText("Subcategory: " + product.SubCategory);
         holder.eventTextView.setText("Event: " + product.Event);
         holder.availableTextView.setText("Available: " + product.Available);
         holder.visibleTextView.setText("Visible: " + product.Visible);
@@ -71,6 +73,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView priceTextView;
         TextView discountTextView;
         TextView newPriceTextView;
+        TextView categoryTextView;
+        TextView subcategoryTextView;
         TextView pictureListTextView;
         TextView eventTextView;
         TextView availableTextView;
@@ -83,6 +87,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             priceTextView = itemView.findViewById(R.id.priceTextView);
             discountTextView = itemView.findViewById(R.id.discountTextView);
             newPriceTextView = itemView.findViewById(R.id.newPriceTextView);
+            categoryTextView = itemView.findViewById(R.id.categoryTextView);
+            subcategoryTextView = itemView.findViewById(R.id.subcategoryTextView);
             pictureListTextView = itemView.findViewById(R.id.pictureListTextView);
             eventTextView = itemView.findViewById(R.id.eventTextView);
             availableTextView = itemView.findViewById(R.id.availableTextView);
