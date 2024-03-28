@@ -24,10 +24,11 @@
         <activity android:name=".CreateProductActivity" />
 
         <activity android:name=".ProductsActivity"/>
+        <activity android:name=".ServiceActivity"/>
 
 
         <activity
-            android:name=".ServiceActivity"
+            android:name=".PackageActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>
