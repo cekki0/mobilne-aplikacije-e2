@@ -1,0 +1,119 @@
+package com.example.fijiapp.adapters;
+
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.ViewGroup;
+
+import androidx.annotation.NonNull;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.fijiapp.R;
+import com.example.fijiapp.model.Service;
+
+import android.view.View;
+
+import android.view.ViewGroup;
+import android.widget.TextView;
+
+import java.util.List;
+
+public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
+
+   private List<Service> services;
+   private Context context;
+
+    public ServiceAdapter(List<Service> services, Context context) {
+        this.services = services;
+        this.context = context;
+    }
+    public void filterList(List<Service> filteredList){
+        services = filteredList;
+        notifyDataSetChanged();
+    }
+
+
+    @NonNull
+    @Override
+    public ServiceAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_card,parent,false);
+    return new ServiceAdapter.ViewHolder(view);
+    }
+
+    @Override
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Service service = services.get(position);
+        holder.categoryTextView.setText("Category: " + service.getCategory());
+        holder.subCategoryTextView.setText("Subcategory: " + service.getSubCategory());
+        holder.nameTextView.setText("Name: " + service.getName());
+        holder.descriptionTextView.setText("Description: " + service.getDescription());
+        holder.galleryTextView.setText("Gallery: " + service.getGallery());
+        holder.specificsTextView.setText("Specifics: " + service.getSpecifics());
+        holder.pricePerHourTextView.setText("Price per Hour: " + service.getPricePerHour());
+        holder.totalPriceTextView.setText("Total Price: " + service.getTotalPrice());
+        holder.durationHoursTextView.setText("Duration Hours: " + service.getDurationHours());
+        holder.locationTextView.setText("Location: " + service.getLocation());
+        holder.discountTextView.setText("Discount: " + service.getDiscount());
+        holder.serviceProvidersTextView.setText("Service Providers: " + service.getServiceProviders());
+        holder.eventTypesTextView.setText("Event Types: " + service.getEventTypes());
+        holder.bookingDeadlineTextView.setText("Booking Deadline: " + service.getBookingDeadline());
+        holder.cancellationDeadlineTextView.setText("Cancellation Deadline: " + service.getCancellationDeadline());
+        holder.acceptanceModeTextView.setText("Acceptance Mode: " + service.getAcceptanceMode());
+        holder.availableTextView.setText("Available: " + service.getAvailable());
+        holder.visibleTextView.setText("Visible: " + service.getVisible());
+
+    }
+
+
+
+    @Override
+    public int getItemCount() {
+        return services.size();
+    }
+
+
+    public static class  ViewHolder extends  RecyclerView.ViewHolder{
+
+        TextView categoryTextView;
+        TextView subCategoryTextView;
+        TextView nameTextView;
+        TextView descriptionTextView;
+        TextView galleryTextView;
+        TextView specificsTextView;
+        TextView pricePerHourTextView;
+        TextView totalPriceTextView;
+        TextView durationHoursTextView;
+        TextView locationTextView;
+        TextView discountTextView;
+        TextView serviceProvidersTextView;
+        TextView eventTypesTextView;
+        TextView bookingDeadlineTextView;
+        TextView cancellationDeadlineTextView;
+        TextView acceptanceModeTextView;
+        TextView availableTextView;
+        TextView visibleTextView;
+
+        public ViewHolder(@NonNull View itemView) {
+            super(itemView);
+
+            categoryTextView = itemView.findViewById(R.id.categoryTextView);
+            subCategoryTextView = itemView.findViewById(R.id.subCategoryTextView);
+            nameTextView = itemView.findViewById(R.id.nameTextView);
+            descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
+            galleryTextView = itemView.findViewById(R.id.galleryTextView);
+            specificsTextView = itemView.findViewById(R.id.specificsTextView);
+            pricePerHourTextView = itemView.findViewById(R.id.pricePerHourTextView);
+            totalPriceTextView = itemView.findViewById(R.id.totalPriceTextView);
+            durationHoursTextView = itemView.findViewById(R.id.durationHoursTextView);
+            locationTextView = itemView.findViewById(R.id.locationTextView);
+            discountTextView = itemView.findViewById(R.id.discountTextView);
+            serviceProvidersTextView = itemView.findViewById(R.id.serviceProvidersTextView);
+            eventTypesTextView = itemView.findViewById(R.id.eventTypesTextView);
+            bookingDeadlineTextView = itemView.findViewById(R.id.bookingDeadlineTextView);
+            cancellationDeadlineTextView = itemView.findViewById(R.id.cancellationDeadlineTextView);
+            acceptanceModeTextView = itemView.findViewById(R.id.acceptanceModeTextView);
+            availableTextView = itemView.findViewById(R.id.availableTextView);
+            visibleTextView = itemView.findViewById(R.id.visibleTextView);
+
+        }
+    }
+}

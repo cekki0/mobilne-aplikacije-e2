@@ -47,6 +47,9 @@
             android:name=".MainActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
+        <activity android:name=".CreateProductActivity" />
+        <activity android:name=".ProductsActivity"/>
+        <activity android:name=".ServiceActivity"/>
         <activity
             android:name=".OwnerActivity"
             android:exported="false"
@@ -66,8 +69,11 @@
         <activity
             android:name=".CategoryManagementAdminActivity"
             android:exported="false"
-            android:theme="@style/Theme.FijiApp">
-        </activity>
+            android:theme="@style/Theme.FijiApp"/>
+        <activity
+            android:name=".PackageActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FijiApp"/>
     </application>
 
 </manifest>
