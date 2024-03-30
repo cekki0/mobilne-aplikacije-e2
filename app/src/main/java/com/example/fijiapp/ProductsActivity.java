@@ -3,6 +3,8 @@ package com.example.fijiapp;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
@@ -44,9 +46,9 @@ public ProductsActivity()
                 50,
                 1450,
                 new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
-                "SVADBA",
+                "SVADBA,KRSTENJE",
                 "Yes",
-                "Yes"
+                "No"
         );
 
         Product product2 = new Product(
@@ -102,6 +104,8 @@ public ProductsActivity()
                 return true;
             }
         });
+
+
     }
 
     private void filter(String query) {
@@ -141,6 +145,7 @@ public ProductsActivity()
     Intent intent = new Intent(this,CreateProductActivity.class);
     startActivity(intent);
     }
+
 
 
 

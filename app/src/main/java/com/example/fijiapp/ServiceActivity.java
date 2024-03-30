@@ -1,7 +1,9 @@
 package com.example.fijiapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
@@ -170,7 +172,10 @@ public class ServiceActivity extends AppCompatActivity {
     }
 
 
-
+    public void createServicePage(View view){
+        Intent intent =  new Intent(this,CreateServiceActivity.class);
+        startActivity(intent);
+    }
 
 
 }

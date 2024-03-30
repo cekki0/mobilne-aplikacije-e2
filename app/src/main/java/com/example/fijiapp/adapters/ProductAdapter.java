@@ -5,14 +5,17 @@ import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.UpdateProductActivity;
 import com.example.fijiapp.model.Product;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
@@ -43,16 +46,25 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.availableTextView.setText("Available: " + product.Available);
         holder.visibleTextView.setText("Visible: " + product.Visible);
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ProductDetailActivity.class);
-//                intent.putExtra("PRODUCT_ID", product.Id); // Salje Id i na osnovu njega prikazuje detalje na drugoj stranici
-//                context.startActivity(intent);
-//            }
-//        });
+
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Product selectedProduct = products.get(holder.getAdapterPosition()); // uzme podatke sa date pozicije sto je gore iz holdera
+                Intent intent = new Intent(context, UpdateProductActivity.class);
+
+
+                intent.putExtra("product", selectedProduct);
+
+
+                context.startActivity(intent);
+            }
+        });
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -75,6 +87,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView eventTextView;
         TextView availableTextView;
         TextView visibleTextView;
+        ImageButton editButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -87,6 +100,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             eventTextView = itemView.findViewById(R.id.eventTextView);
             availableTextView = itemView.findViewById(R.id.availableTextView);
             visibleTextView = itemView.findViewById(R.id.visibleTextView);
+            editButton = itemView.findViewById(R.id.editButton);
         }
     }
 

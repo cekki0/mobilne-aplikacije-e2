@@ -42,4 +42,7 @@
         libero vel nunc consequat, quis tincidunt nisl eleifend. Cras bibendum enim a justo luctus
         vestibulum. Fusce dictum libero quis erat maximus, vitae volutpat diam dignissim.
     </string>
+    <string name="edit_button_description">Edit product</string>
+    <string name="delete_button_description">Delete product</string>
+
 </resources>

@@ -22,13 +22,15 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity android:name=".CreateProductActivity" />
+        <activity android:name=".CreateServiceActivity"/>
 
-        <activity android:name=".ProductsActivity"/>
         <activity android:name=".ServiceActivity"/>
+        <activity android:name=".UpdateProductActivity"/>
+        <activity android:name=".PackageActivity"/>
 
 
         <activity
-            android:name=".PackageActivity"
+            android:name=".ProductsActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>
