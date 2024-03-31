@@ -2,10 +2,14 @@ package com.example.fijiapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -46,6 +50,22 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.availableTextView.setText("Available: " + product.Available);
         holder.visibleTextView.setText("Visible: " + product.Visible);
 
+        holder.categoryTextView.setText("Category: " + product.Category);
+        holder.subCategoryTextView.setText("Subcategory: " + product.SubCategory);
+
+
+//        ArrayAdapter<String> categoryAdapter = (ArrayAdapter<String>) holder.categorySpinner.getAdapter();
+//        if (categoryAdapter != null) {
+//            int categoryPosition = categoryAdapter.getPosition(product.Category);
+//            if (categoryPosition != -1) {
+//                holder.categorySpinner.setSelection(categoryPosition);
+//            } else {
+//                Log.d("DEBUG", "nema kategorije " );
+//            }
+//        }
+
+
+
 
 
         holder.editButton.setOnClickListener(new View.OnClickListener() {
@@ -79,6 +99,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
+        Spinner categorySpinner;
         TextView descriptionTextView;
         TextView priceTextView;
         TextView discountTextView;
@@ -88,6 +109,8 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView availableTextView;
         TextView visibleTextView;
         ImageButton editButton;
+        TextView categoryTextView;
+        TextView subCategoryTextView; //
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -101,6 +124,10 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             availableTextView = itemView.findViewById(R.id.availableTextView);
             visibleTextView = itemView.findViewById(R.id.visibleTextView);
             editButton = itemView.findViewById(R.id.editButton);
+            categorySpinner = itemView.findViewById(R.id.categorySpinner);
+            categoryTextView = itemView.findViewById(R.id.categoryTextView);
+            subCategoryTextView = itemView.findViewById(R.id.subCategoryTextView);
+
         }
     }
 

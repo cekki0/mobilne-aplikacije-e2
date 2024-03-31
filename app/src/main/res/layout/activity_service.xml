@@ -10,14 +10,16 @@
     <SearchView
         android:id="@+id/searchView"
         android:layout_width="match_parent"
-        android:layout_height="250px"
-        android:layout_above="@+id/productRecyclerView"/>
+        android:layout_height="wrap_content"
+        android:layout_marginTop="90px"
+       />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@id/button2" />
+        android:layout_above="@id/button2"
+        android:layout_marginTop="190px"/>
 
     <Button
         android:id="@+id/button2"

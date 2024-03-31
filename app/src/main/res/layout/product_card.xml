@@ -67,6 +67,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Visible" />
+        <TextView
+            android:id="@+id/subCategoryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Visible" />
+        <TextView
+            android:id="@+id/categoryTextView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Visible" />
 
         <LinearLayout
             android:layout_width="match_parent"
