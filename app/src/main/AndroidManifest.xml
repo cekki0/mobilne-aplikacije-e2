@@ -19,7 +19,7 @@
             android:name=".StaffDetailActivity"
             android:exported="false" />
         <activity
-            android:name=".MainActivity"
+            android:name=".ServiceActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity android:name=".CreateProductActivity" />
@@ -32,7 +32,7 @@
 
 
         <activity
-            android:name=".ServiceActivity"
+            android:name=".MainActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>

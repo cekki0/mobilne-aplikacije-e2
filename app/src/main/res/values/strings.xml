@@ -44,5 +44,7 @@
     </string>
     <string name="edit_button_description">Edit product</string>
     <string name="delete_button_description">Delete product</string>
+    <string name="navigation_drawer_open">Otvori navigaciju</string>
+    <string name="navigation_drawer_close">Zatvori navigaciju</string>
 
 </resources>
