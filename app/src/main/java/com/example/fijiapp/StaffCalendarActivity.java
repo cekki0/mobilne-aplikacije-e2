@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.adapters.EventAdapter;
 import com.example.fijiapp.model.Event;
-import com.example.fijiapp.model.EventType;
+import com.example.fijiapp.model.EventTypes;
 import com.example.fijiapp.utils.EventDecorator;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
@@ -35,8 +35,8 @@ public class StaffCalendarActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_staff_calendar);
 
-        events.add(new Event("Meeting", new Date(124, 0, 1), LocalTime.of(10, 0), LocalTime.of(12, 0), EventType.OCCUPIED));
-        events.add(new Event("Birthday Bash", new Date(124, 3, 15), LocalTime.of(19, 0), LocalTime.of(22, 0), EventType.RESERVED));
+        events.add(new Event("Meeting", new Date(124, 0, 1), LocalTime.of(10, 0), LocalTime.of(12, 0), EventTypes.OCCUPIED));
+        events.add(new Event("Birthday Bash", new Date(124, 3, 15), LocalTime.of(19, 0), LocalTime.of(22, 0), EventTypes.RESERVED));
 
         RecyclerView recyclerView = findViewById(R.id.eventRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));

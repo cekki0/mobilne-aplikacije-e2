@@ -30,17 +30,23 @@
             android:exported="true">
         </activity>
         <activity
-            android:name=".SubCategoryAddActivity"
+            android:name=".EventTypeAddActivity"
+            android:exported="false" />
+        <activity
+            android:name=".EventTypeEditActivity"
             android:exported="false" />
         <activity
             android:name=".SubCategoryEditActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
         <activity
             android:name=".CategoryEditActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
         <activity
             android:name=".CategoryAddActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
         <activity
             android:name=".StaffCalendarActivity"
             android:exported="false" />
@@ -51,6 +57,7 @@
             android:name=".StaffDetailActivity"
             android:exported="false" />
         <activity
+
             android:name=".ServiceActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
@@ -72,11 +79,24 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
+            android:name=".LoginActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
             android:name=".CategoryManagementAdminActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
+
         <activity android:name=".CreateServiceActivity"/>
 
+        <activity
+            android:name=".EventTypeManagementActivity"
+            android:exported="true"
+            android:theme="@style/Theme.FijiApp">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+            </intent-filter>
+        </activity>
         <activity android:name=".PackageActivity"/>
         <activity android:name=".UpdateProductActivity"/>
         <activity android:name=".UpdateServiceActivity"/>

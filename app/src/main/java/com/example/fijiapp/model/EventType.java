@@ -1,6 +1,17 @@
 package com.example.fijiapp.model;
 
-public enum EventType {
-    RESERVED,
-    OCCUPIED
+import java.io.Serializable;
+import java.util.List;
+
+public class EventType implements Serializable {
+    public String name;
+    public String description;
+    public List<SubCategory> suggestedSubCategories;
+    public Boolean isActive = true;
+
+    public EventType(String name, String description, List<SubCategory> suggestedSubCategories) {
+        this.name = name;
+        this.description = description;
+        this.suggestedSubCategories = suggestedSubCategories;
+    }
 }

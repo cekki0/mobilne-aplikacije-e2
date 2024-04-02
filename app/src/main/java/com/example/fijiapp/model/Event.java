@@ -8,9 +8,9 @@ public class Event {
     public Date Date;
     public LocalTime StartTime;
     public LocalTime EndTime;
-    public EventType Type;
+    public EventTypes Type;
 
-    public Event(String eventName, Date date, LocalTime startTime, LocalTime endTime, EventType type) {
+    public Event(String eventName, Date date, LocalTime startTime, LocalTime endTime, EventTypes type) {
         this.EventName = eventName;
         this.Date = date;
         this.StartTime = startTime;
