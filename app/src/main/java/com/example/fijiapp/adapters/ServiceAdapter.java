@@ -13,11 +13,14 @@ import com.example.fijiapp.UpdateProductActivity;
 import com.example.fijiapp.UpdateServiceActivity;
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
+import com.squareup.picasso.Picasso;
 
 import android.view.View;
 
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
@@ -52,7 +55,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         holder.subCategoryTextView.setText("Subcategory: " + service.getSubCategory());
         holder.nameTextView.setText("Name: " + service.getName());
         holder.descriptionTextView.setText("Description: " + service.getDescription());
-        holder.galleryTextView.setText("Gallery: " + service.getGallery());
+//        holder.galleryTextView.setText("Gallery: " + service.getGallery());
         holder.specificsTextView.setText("Specifics: " + service.getSpecifics());
         holder.pricePerHourTextView.setText("Price per Hour: " + service.getPricePerHour());
         holder.totalPriceTextView.setText("Total Price: " + service.getTotalPrice());
@@ -80,7 +83,38 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             }
         });
 
-// PROBAJ DA IMAS REDOVE CHECKBOXOVA I DA SU TU OTKACENI I NEOTKACENI SERVISI I PRODUCT
+
+
+
+
+        List<String> pictureList = service.getGallery();
+        if (pictureList != null && !pictureList.isEmpty()) {
+
+            holder.imageViewContainer.removeAllViews();
+
+
+            for (String imageUrl : pictureList) {
+                ImageView imageView = new ImageView(context);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+                imageView.setLayoutParams(layoutParams);
+
+
+                Picasso.get().load(imageUrl)
+                        .resize(300, 300)
+                        .centerCrop()
+                        .into(imageView);
+
+
+                holder.imageViewContainer.addView(imageView);
+            }
+        } else {
+            holder.imageViewContainer.setVisibility(View.GONE);
+        }
+
+
 
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -128,7 +162,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         TextView visibleTextView;
         ImageButton editButton;
         ImageButton deleteButton;
-
+        LinearLayout imageViewContainer;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -136,7 +170,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             subCategoryTextView = itemView.findViewById(R.id.subCategoryTextView);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
-            galleryTextView = itemView.findViewById(R.id.galleryTextView);
+            //galleryTextView = itemView.findViewById(R.id.galleryTextView);
             specificsTextView = itemView.findViewById(R.id.specificsTextView);
             pricePerHourTextView = itemView.findViewById(R.id.pricePerHourTextView);
             totalPriceTextView = itemView.findViewById(R.id.totalPriceTextView);
@@ -152,6 +186,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             visibleTextView = itemView.findViewById(R.id.visibleTextView);
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
+            imageViewContainer = itemView.findViewById(R.id.imageViewContainer);
 
         }
     }

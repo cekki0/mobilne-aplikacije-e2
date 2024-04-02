@@ -38,11 +38,7 @@
             android:layout_height="wrap_content"
             android:text="Description" />
 
-        <TextView
-            android:id="@+id/galleryTextView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Gallery" />
+
 
         <TextView
             android:id="@+id/specificsTextView"
@@ -122,6 +118,13 @@
             android:layout_height="wrap_content"
             android:text="Visible" />
 
+        <LinearLayout
+            android:id="@+id/imageViewContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

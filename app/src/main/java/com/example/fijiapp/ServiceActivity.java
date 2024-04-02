@@ -50,7 +50,7 @@ public class ServiceActivity extends AppCompatActivity implements ServiceAdapter
                 "Snimanje dronom",
                 "Snimanje dronom",
                 "Ovo je snimanje iz vazduha sa dronom",
-                Arrays.asList("Slika 1", "Slika 2", "Slika 3"),
+                new ArrayList<>(Arrays.asList("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg", "https://static.toiimg.com/thumb/msid-53891743,width-748,height-499,resizemode=4,imgsize-152022/.jpg","https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/2/h/0/medium-beautifull-nature-wall-picture-photographic-paper-14x20-original-imag6jtayz9vphgx.jpeg?q=90&crop=false")),
                 "Ne radimo praznicima",
                 3000,
                 6000,
@@ -71,7 +71,7 @@ public class ServiceActivity extends AppCompatActivity implements ServiceAdapter
                 "Videografija",
                 "Snimanje kamerom 4k",
                 "Ovo je snimanje u 4k rezoluciji",
-                Arrays.asList("Slika 1", "Slika 2", "Slika 3"),
+                new ArrayList<>(Arrays.asList("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg", "https://static.toiimg.com/thumb/msid-53891743,width-748,height-499,resizemode=4,imgsize-152022/.jpg","https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/2/h/0/medium-beautifull-nature-wall-picture-photographic-paper-14x20-original-imag6jtayz9vphgx.jpeg?q=90&crop=false")),
                 "",
                 5000,
                 0, //racun u odn na trajanje
