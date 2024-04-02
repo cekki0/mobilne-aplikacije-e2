@@ -28,11 +28,13 @@
         <activity android:name=".ProductsActivity"/>
         <activity android:name=".UpdateProductActivity"/>
         <activity android:name=".UpdateServiceActivity"/>
-        <activity android:name=".PackageActivity"/>
+
+        <activity android:name=".UpdatePackageActivity"/>
+        <activity android:name=".MainActivity"/>
 
 
         <activity
-            android:name=".MainActivity"
+            android:name=".PackageActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>

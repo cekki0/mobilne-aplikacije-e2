@@ -20,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class ServiceActivity extends AppCompatActivity {
+public class ServiceActivity extends AppCompatActivity implements ServiceAdapter.OnItemClickListener{
     private List<Service> services = new ArrayList<>();
     private ServiceAdapter adapter;
 
@@ -95,7 +95,7 @@ public class ServiceActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.productRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ServiceAdapter(services, this);
+        adapter = new ServiceAdapter(services, this,this);
         recyclerView.setAdapter(adapter);
 
         SearchView searchView = findViewById(R.id.searchView);
@@ -178,5 +178,8 @@ public class ServiceActivity extends AppCompatActivity {
     }
 
 
+    @Override
+    public void onItemClick(Service service) {
 
+    }
 }

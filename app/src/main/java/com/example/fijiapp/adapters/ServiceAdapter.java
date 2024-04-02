@@ -26,10 +26,11 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
    private List<Service> services;
    private Context context;
-
-    public ServiceAdapter(List<Service> services, Context context) {
+    private OnItemClickListener listener;
+    public ServiceAdapter(List<Service> services, Context context, OnItemClickListener listener) {
         this.services = services;
         this.context = context;
+        this.listener = listener;
     }
     public void filterList(List<Service> filteredList){
         services = filteredList;
@@ -67,6 +68,20 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         holder.visibleTextView.setText("Visible: " + service.getVisible());
 
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    int position = holder.getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(services.get(position));
+                    }
+                }
+            }
+        });
+
+// PROBAJ DA IMAS REDOVE CHECKBOXOVA I DA SU TU OTKACENI I NEOTKACENI SERVISI I PRODUCT
+
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -78,7 +93,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         });
 
     }
-
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
 
 
 
@@ -137,5 +154,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             deleteButton = itemView.findViewById(R.id.deleteButton);
 
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Service service);
     }
 }

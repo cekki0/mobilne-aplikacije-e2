@@ -1,6 +1,7 @@
 package com.example.fijiapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,11 +9,14 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.UpdatePackageActivity;
+import com.example.fijiapp.UpdateProductActivity;
 import com.example.fijiapp.model.Package;
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
 
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +26,8 @@ import java.util.zip.Inflater;
 public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder> {
     private List<Package> packages = new ArrayList<>();
     private Context context;
+
+
 
     public PackageAdapter(){}
     public PackageAdapter(List<Package> packages, Context context) {
@@ -56,6 +62,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         holder.cancellationDeadlineTextView.setText("Cancellation Deadline: " + pack.getCancellationDeadline());
         holder.imagesTextView.setText(("Galerry: " + pack.getImages()));
 
+
         List<Product> productList = pack.getProducts();
         StringBuilder productText = new StringBuilder("Products: ");
         for (Product product : productList) {
@@ -64,14 +71,37 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         holder.productsTextView.setText(productText.toString());
 
 
-        List<Service> serviceList = pack.getServices();
-        StringBuilder serviceText = new StringBuilder("Services: ");
+        List<Service> serviceList = pack.getServices();//svi servisi
+        StringBuilder serviceText = new StringBuilder();
         for (Service service : serviceList) {
             serviceText.append(service.getName()).append(", ");
         }
         holder.servicesTextView.setText(serviceText.toString());
 
+        //Koji nisu u paketu
+        List<Service> serviceNotInPackageList =new ArrayList<>();
+        List<Service> notInPackageList = new ArrayList<>();
+        for(Service service : serviceList){
+            if(!serviceList.contains(service.getName())){
+                notInPackageList.add(service);
+            }
+        }
 
+
+
+
+
+
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Package selectedPackage = packages.get(holder.getAdapterPosition());
+                Intent intent = new Intent(context, UpdatePackageActivity.class);
+                intent.putExtra("package", selectedPackage);
+                context.startActivity(intent);
+            }
+        });
 
 
     }
@@ -80,8 +110,6 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
     public int getItemCount() {
         return packages.size();
     }
-
-
 
     public static  class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
@@ -97,6 +125,9 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         private TextView imagesTextView;
         private TextView productsTextView;
         private TextView servicesTextView;
+        private ImageButton editButton;
+        private ImageButton deleteButton;
+        private TextView servicesEditText;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -114,6 +145,14 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
             imagesTextView = itemView.findViewById(R.id.imagesTextView);
             productsTextView = itemView.findViewById(R.id.productsTextView);
             servicesTextView = itemView.findViewById(R.id.servicesTextView);
+            editButton = itemView.findViewById(R.id.editButton);
+            servicesEditText = itemView.findViewById(R.id.servicesTextView);
         }
+
+
     }
+
+
+
+
 }

@@ -48,7 +48,7 @@ public class UpdateProductActivity extends AppCompatActivity {
 
 
         Product product = getIntent().getParcelableExtra("product");
-        if (product != null) {
+        if (product!=null) {
             // punjenje polja iz intent product
             titleEditText.setText(product.Title);
             descriptionEditText.setText(product.Description);
