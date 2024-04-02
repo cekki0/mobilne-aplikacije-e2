@@ -25,7 +25,7 @@
         <activity android:name=".CreateProductActivity" />
         <activity android:name=".CreateServiceActivity"/>
 
-        <activity android:name=".ProductsActivity"/>
+        <activity android:name=".PackageActivity"/>
         <activity android:name=".UpdateProductActivity"/>
         <activity android:name=".UpdateServiceActivity"/>
 
@@ -34,7 +34,7 @@
 
 
         <activity
-            android:name=".PackageActivity"
+            android:name=".ProductsActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>
