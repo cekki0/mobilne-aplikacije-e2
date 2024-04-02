@@ -18,11 +18,6 @@
         <activity
             android:name=".LandingPageActivity"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
@@ -93,16 +88,20 @@
             android:name=".EventTypeManagementActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
         </activity>
         <activity android:name=".PackageActivity"/>
         <activity android:name=".UpdateProductActivity"/>
         <activity android:name=".UpdateServiceActivity"/>
 
         <activity android:name=".UpdatePackageActivity"/>
-        <activity android:name=".MainActivity"/>
+        <activity android:name=".MainActivity"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".ProductsActivity"
             android:exported="true"

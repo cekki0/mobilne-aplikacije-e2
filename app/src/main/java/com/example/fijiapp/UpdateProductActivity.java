@@ -1,7 +1,6 @@
 package com.example.fijiapp;
 
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
@@ -10,6 +9,8 @@ import android.widget.Spinner;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.model.Product;

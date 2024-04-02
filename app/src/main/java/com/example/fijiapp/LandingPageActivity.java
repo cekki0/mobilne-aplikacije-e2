@@ -121,7 +121,7 @@ public class LandingPageActivity extends AppCompatActivity {
         serviceList = getDummyServiceList();
 
         // Initialize Adapter
-        serviceAdapter = new ServiceAdapter(serviceList, this);
+        serviceAdapter = new ServiceAdapter(serviceList, this, null);
         recyclerView.setAdapter(serviceAdapter);
 
         // Initialize filter fields for services

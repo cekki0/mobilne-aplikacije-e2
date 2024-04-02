@@ -8,13 +8,19 @@
             android:id="@+id/nav_second"
             android:title="Krle" />
         <item
-            android:id="@+id/nav_third"
-            android:title="Ceki" />
+            android:id="@+id/categories_management"
+            android:title="CategoriesManagement" />
         <item
-            android:id="@+id/nav_fourth"
-            android:title="Sima" />
+            android:id="@+id/event_type_management"
+            android:title="Event management" />
         <item
-            android:id="@+id/nav_fivth"
-            android:title="Dragisha" />
+            android:id="@+id/owner"
+            android:title="Owner" />
+        <item
+            android:id="@+id/create_event"
+            android:title="Create event" />
+        <item
+            android:id="@+id/landing_page"
+            android:title="Landing page" />
     </group>
 </menu>

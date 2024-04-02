@@ -18,8 +18,8 @@ public class MainActivity extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Button btnOpenDrawer;
 
-
-    public MainActivity(){}
+    public MainActivity() {
+    }
     public MainActivity(DrawerLayout drawerLayout, NavigationView navigationView, ActionBarDrawerToggle actionBarDrawerToggle, Button btnOpenDrawer) {
         this.drawerLayout = drawerLayout;
         this.navigationView = navigationView;
@@ -50,25 +50,20 @@ public class MainActivity extends AppCompatActivity {
 
         navigationView.setNavigationItemSelectedListener(item -> {
             int id = item.getItemId();
-            if (id  ==   R.id.nav_home) {
-
+            if (id == R.id.nav_home) {
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
             } else if (id == R.id.nav_second) {
-
-
                 startActivity(new Intent(MainActivity.this, UpdateProductActivity.class));
-
-            } else if (id == R.id.nav_third) {
-                startActivity(new Intent(MainActivity.this, ServiceActivity.class));
-            } else if (id == R.id.nav_fourth) {
-
-
-                startActivity(new Intent(MainActivity.this, ProductsActivity.class));
-            }
-            else if (id == R.id.nav_fivth) {
-
-
-                startActivity(new Intent(MainActivity.this, PackageActivity.class));
+            } else if (id == R.id.categories_management) {
+                startActivity(new Intent(MainActivity.this, CategoryManagementAdminActivity.class));
+            } else if (id == R.id.event_type_management){
+                startActivity(new Intent(MainActivity.this, EventTypeManagementActivity.class));
+            } else if (id == R.id.owner) {
+                startActivity(new Intent(MainActivity.this, OwnerActivity.class));
+            } else if (id == R.id.create_event) {
+                startActivity(new Intent(MainActivity.this, EventActivity.class));
+            } else if (id == R.id.landing_page) {
+                startActivity(new Intent(MainActivity.this, LandingPageActivity.class));
             }
             drawerLayout.closeDrawers();
             return true;
