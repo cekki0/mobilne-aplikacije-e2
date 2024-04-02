@@ -56,7 +56,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.categoryTextView.setText("Category: " + product.Category);
         holder.subCategoryTextView.setText("Subcategory: " + product.SubCategory);
 
-        
+
 
         List<String> pictureList = product.PictureList;
         if (pictureList != null && !pictureList.isEmpty()) {
@@ -82,7 +82,6 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
                 holder.imageViewContainer.addView(imageView);
             }
         } else {
-            // Ako nema dostupnih slika, skrivamo kontejner za slike
             holder.imageViewContainer.setVisibility(View.GONE);
         }
 
