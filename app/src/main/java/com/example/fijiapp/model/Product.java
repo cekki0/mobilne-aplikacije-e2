@@ -2,9 +2,11 @@ package com.example.fijiapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 public class Product implements Parcelable {
@@ -24,6 +26,7 @@ public class Product implements Parcelable {
     public String Event;
     public String Available;
     public String Visible;
+    public ImageButton editButton;
 
     public Product(String category, String subCategory, String title, String description, int price, int discount, int newPrice, ArrayList<String> pictureList, String event, String available, String visible) {
         Category = category;
@@ -50,6 +53,7 @@ public class Product implements Parcelable {
         PictureList = in.createStringArrayList();
         Available = in.readString();
         Visible = in.readString();
+        Event =  in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -79,9 +83,11 @@ public class Product implements Parcelable {
         dest.writeInt(Discount);
         dest.writeInt(NewPrice);
         dest.writeStringList(PictureList);
-        dest.writeString(String.valueOf(Event));
+
         dest.writeString(Available);
         dest.writeString(Visible);
+        dest.writeString(Event);
+
     }
 
     public String getTitle() {

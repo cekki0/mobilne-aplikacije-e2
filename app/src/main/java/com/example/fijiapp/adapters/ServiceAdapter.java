@@ -1,6 +1,7 @@
 package com.example.fijiapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
 
@@ -8,11 +9,15 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.UpdateProductActivity;
+import com.example.fijiapp.UpdateServiceActivity;
+import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
 
 import android.view.View;
 
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import java.util.List;
@@ -21,10 +26,11 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
 
    private List<Service> services;
    private Context context;
-
-    public ServiceAdapter(List<Service> services, Context context) {
+    private OnItemClickListener listener;
+    public ServiceAdapter(List<Service> services, Context context, OnItemClickListener listener) {
         this.services = services;
         this.context = context;
+        this.listener = listener;
     }
     public void filterList(List<Service> filteredList){
         services = filteredList;
@@ -61,7 +67,36 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         holder.availableTextView.setText("Available: " + service.getAvailable());
         holder.visibleTextView.setText("Visible: " + service.getVisible());
 
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    int position = holder.getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClick(services.get(position));
+                    }
+                }
+            }
+        });
+
+// PROBAJ DA IMAS REDOVE CHECKBOXOVA I DA SU TU OTKACENI I NEOTKACENI SERVISI I PRODUCT
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Service selectedService = services.get(holder.getAdapterPosition());
+                Intent intent = new Intent(context, UpdateServiceActivity.class);
+                intent.putExtra("service", selectedService);
+                context.startActivity(intent);
+            }
+        });
+
     }
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
+    }
+
 
 
 
@@ -91,6 +126,8 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         TextView acceptanceModeTextView;
         TextView availableTextView;
         TextView visibleTextView;
+        ImageButton editButton;
+        ImageButton deleteButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -113,7 +150,13 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             acceptanceModeTextView = itemView.findViewById(R.id.acceptanceModeTextView);
             availableTextView = itemView.findViewById(R.id.availableTextView);
             visibleTextView = itemView.findViewById(R.id.visibleTextView);
+            editButton = itemView.findViewById(R.id.editButton);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
 
         }
+    }
+
+    public interface OnItemClickListener {
+        void onItemClick(Service service);
     }
 }

@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="30dp">
+
+        <Spinner
+            android:id="@+id/categorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Category" />
+
+        <Spinner
+            android:id="@+id/subcategorySpinner"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Subcategory" />
+
+        <EditText
+            android:id="@+id/customSubcategoryEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Custom subcategory" />
+
+        <EditText
+            android:id="@+id/nameEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Name" />
+
+        <EditText
+            android:id="@+id/descriptionEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Description" />
+
+        <EditText
+            android:id="@+id/galleryEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Gallery (comma separated URLs)" />
+
+        <EditText
+            android:id="@+id/specificsEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Specifics" />
+
+        <EditText
+            android:id="@+id/pricePerHourEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Price per hour"
+            android:inputType="numberDecimal" />
+
+
+        <EditText
+            android:id="@+id/durationHoursEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Duration "
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/locationEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Location" />
+
+        <EditText
+            android:id="@+id/discountEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Discount"
+            android:inputType="number" />
+
+        <EditText
+            android:id="@+id/serviceProvidersEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Service providers (comma separated names)" />
+
+        <EditText
+            android:id="@+id/eventTypesEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Event types (comma separated)" />
+
+        <EditText
+            android:id="@+id/bookingDeadlineEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Booking deadline" />
+
+        <EditText
+            android:id="@+id/cancellationDeadlineEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Cancellation deadline" />
+
+        <EditText
+            android:id="@+id/acceptanceModeEditText"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:hint="Acceptance mode" />
+
+        <CheckBox
+            android:id="@+id/availableCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="140px"
+            android:text="Available" />
+
+        <CheckBox
+            android:id="@+id/visibleCheckBox"
+            android:layout_width="wrap_content"
+            android:layout_height="140px"
+            android:text="Visible" />
+
+        <Button
+            android:id="@+id/createServiceButton"
+            android:layout_width="match_parent"
+            android:layout_height="140px"
+            android:text="Create Service" />
+    </LinearLayout>
+</ScrollView>

@@ -2,17 +2,27 @@ package com.example.fijiapp.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.UpdateProductActivity;
 import com.example.fijiapp.model.Product;
+import com.squareup.picasso.Picasso;
 
+import java.io.Serializable;
 import java.util.List;
 
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
@@ -45,16 +55,62 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         holder.availableTextView.setText("Available: " + product.Available);
         holder.visibleTextView.setText("Visible: " + product.Visible);
 
-//        holder.itemView.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(context, ProductDetailActivity.class);
-//                intent.putExtra("PRODUCT_ID", product.Id); // Salje Id i na osnovu njega prikazuje detalje na drugoj stranici
-//                context.startActivity(intent);
-//            }
-//        });
+        holder.categoryTextView.setText("Category: " + product.Category);
+        holder.subCategoryTextView.setText("Subcategory: " + product.SubCategory);
+
+        
+
+        List<String> pictureList = product.PictureList;
+        if (pictureList != null && !pictureList.isEmpty()) {
+
+            holder.imageViewContainer.removeAllViews();
+
+
+            for (String imageUrl : pictureList) {
+                ImageView imageView = new ImageView(context);
+                LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(
+                        ViewGroup.LayoutParams.WRAP_CONTENT,
+                        ViewGroup.LayoutParams.WRAP_CONTENT
+                );
+                imageView.setLayoutParams(layoutParams);
+
+
+                Picasso.get().load(imageUrl)
+                        .resize(300, 300)
+                        .centerCrop()
+                        .into(imageView);
+
+
+                holder.imageViewContainer.addView(imageView);
+            }
+        } else {
+            // Ako nema dostupnih slika, skrivamo kontejner za slike
+            holder.imageViewContainer.setVisibility(View.GONE);
+        }
+
+
+
+
+
+
+
+        holder.editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Product selectedProduct = products.get(holder.getAdapterPosition()); // uzme podatke sa date pozicije sto je gore iz holdera
+                Intent intent = new Intent(context, UpdateProductActivity.class);
+
+
+                intent.putExtra("product", selectedProduct);
+
+
+                context.startActivity(intent);
+            }
+        });
 
     }
+
 
     @Override
     public int getItemCount() {
@@ -69,6 +125,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView titleTextView;
+        Spinner categorySpinner;
         TextView descriptionTextView;
         TextView priceTextView;
         TextView discountTextView;
@@ -79,6 +136,11 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView eventTextView;
         TextView availableTextView;
         TextView visibleTextView;
+        ImageButton editButton;
+        TextView subCategoryTextView;
+        ImageView imageView;
+        LinearLayout imageViewContainer;
+
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -90,11 +152,20 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             categoryTextView = itemView.findViewById(R.id.categoryTextView);
             subcategoryTextView = itemView.findViewById(R.id.subcategoryTextView);
             pictureListTextView = itemView.findViewById(R.id.pictureListTextView);
+            //pictureListTextView = itemView.findViewById(R.id.pictureListTextView);
             eventTextView = itemView.findViewById(R.id.eventTextView);
             availableTextView = itemView.findViewById(R.id.availableTextView);
             visibleTextView = itemView.findViewById(R.id.visibleTextView);
+            editButton = itemView.findViewById(R.id.editButton);
+            categorySpinner = itemView.findViewById(R.id.categorySpinner);
+            categoryTextView = itemView.findViewById(R.id.categoryTextView);
+            subCategoryTextView = itemView.findViewById(R.id.subCategoryTextView);
+            //imageView = itemView.findViewById(R.id.imageView);
+            imageViewContainer = itemView.findViewById(R.id.imageViewContainer);
         }
     }
+
+
 
 }
 

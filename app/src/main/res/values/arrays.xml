@@ -1,6 +1,13 @@
+
 <resources>
     <string-array name="subcategory_types_array">
         <item>SERVICE</item>
         <item>PRODUCT</item>
     </string-array>
+<?xml version="1.0" encoding="utf-8"?>
+<string-array name="category_array">
+    <item>Foto i Video</item>
+    <item>Dragoslav</item>
+    <item>Dragisha </item>
+</string-array>
 </resources>

@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context=".UpdateServiceActivity">
+
+    <EditText
+        android:id="@+id/nameEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="24dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Name"
+        android:inputType="text" />
+    <EditText
+        android:id="@+id/descriptionEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Description"
+        android:inputType="text"
+       />
+    <EditText
+        android:id="@+id/categoryEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Category"
+        android:inputType="text"
+        />
+
+    <EditText
+        android:id="@+id/priceEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Price"
+        android:inputType="numberDecimal"
+        />
+
+    <EditText
+        android:id="@+id/durationEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Duration (Hours)"
+        android:inputType="number"
+        />
+    <EditText
+        android:id="@+id/locationEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Location"
+        android:inputType="text"
+       />
+    <EditText
+        android:id="@+id/discountEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Discount"
+        android:inputType="numberDecimal"
+        />
+    <EditText
+        android:id="@+id/specificsEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Specifics"
+        android:inputType="text"
+        />
+    <EditText
+        android:id="@+id/bookingDeadlineEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Booking Deadline"
+        android:inputType="text"
+        />
+    <EditText
+        android:id="@+id/cancellationDeadlineEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Cancellation Deadline"
+        android:inputType="text"
+        />
+    <EditText
+        android:id="@+id/acceptanceModeEditText"
+        android:layout_width="3000px"
+        android:layout_height="50dp"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+        android:hint="Acceptance Mode"
+        android:inputType="text"
+       />
+    <CheckBox
+        android:id="@+id/availableCheckBox"
+        android:layout_width="580px"
+        android:layout_height="50dp"
+        android:hint="Available"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp" />
+
+    <CheckBox
+        android:id="@+id/visibleCheckBox"
+        android:layout_width="580px"
+        android:layout_height="50dp"
+        android:hint="Visible"
+        android:layout_marginStart="24dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="24dp"
+      />
+
+
+    <Button
+        android:id="@+id/saveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_marginTop="24dp"
+        android:text="Save"/>
+
+
+
+</LinearLayout>

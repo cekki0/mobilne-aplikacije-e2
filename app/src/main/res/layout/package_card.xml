@@ -21,12 +21,13 @@
         <TextView
             android:id="@+id/descriptionTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="130px" />
 
         <TextView
             android:id="@+id/discountTextView"
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+            android:layout_height="wrap_content"
+            android:hint="polje:"/>
 
         <TextView
             android:id="@+id/visibleTextView"
@@ -81,6 +82,36 @@
             android:id="@+id/cancellationDeadlineTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:padding="10dp">
+
+
+            <ImageButton
+                android:id="@+id/editButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+
+                android:layout_weight="1"
+                android:contentDescription="@string/edit_button_description"
+                android:scaleType="fitCenter"
+                android:src="@drawable/edit"
+                />
+
+            <ImageButton
+                android:id="@+id/deleteButton"
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:contentDescription="@string/delete_button_description"
+                android:scaleType="fitCenter"
+                android:src="@drawable/delete" />
+
+
+        </LinearLayout>
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

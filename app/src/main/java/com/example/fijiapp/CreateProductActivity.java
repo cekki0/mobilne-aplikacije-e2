@@ -113,11 +113,12 @@ public class CreateProductActivity extends AppCompatActivity {
 
                 List<String> subcategories = categorySubcategoryMap.get(selectedCategory);
                 ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(CreateProductActivity.this, android.R.layout.simple_spinner_item, subcategories);
+
                 subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 subCategory.setAdapter(subcategoryAdapter);
 
 
-                String selectedSubcategory = parent.getItemAtPosition(position).toString();
+                String selectedSubcategory = subCategory.getSelectedItem().toString();
 
 
                 Log.d("Selected subcategory", selectedSubcategory);

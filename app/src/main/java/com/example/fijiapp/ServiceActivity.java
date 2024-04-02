@@ -1,7 +1,9 @@
 package com.example.fijiapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
@@ -18,7 +20,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
-public class ServiceActivity extends AppCompatActivity {
+public class ServiceActivity extends AppCompatActivity implements ServiceAdapter.OnItemClickListener{
     private List<Service> services = new ArrayList<>();
     private ServiceAdapter adapter;
 
@@ -93,7 +95,7 @@ public class ServiceActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.productRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new ServiceAdapter(services, this);
+        adapter = new ServiceAdapter(services, this,this);
         recyclerView.setAdapter(adapter);
 
         SearchView searchView = findViewById(R.id.searchView);
@@ -170,7 +172,14 @@ public class ServiceActivity extends AppCompatActivity {
     }
 
 
+    public void createServicePage(View view){
+        Intent intent =  new Intent(this,CreateServiceActivity.class);
+        startActivity(intent);
+    }
 
 
+    @Override
+    public void onItemClick(Service service) {
 
+    }
 }
