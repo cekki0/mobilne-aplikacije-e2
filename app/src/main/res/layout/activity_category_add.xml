@@ -110,8 +110,9 @@
         android:id="@+id/recyclerViewWorkingDays"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:paddingTop="8dp"
-        android:background="?attr/colorPrimaryContainer" />
+        android:paddingTop="8dp"/>
+<!--        android:background="?attr/colorPrimaryContainer" -->
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAddCategory"
