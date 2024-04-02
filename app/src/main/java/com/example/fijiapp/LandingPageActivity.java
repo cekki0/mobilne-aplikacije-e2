@@ -1,4 +1,4 @@
-package com.example.fijiapp.utils;
+package com.example.fijiapp;
 
 import android.os.Bundle;
 import android.text.Editable;
