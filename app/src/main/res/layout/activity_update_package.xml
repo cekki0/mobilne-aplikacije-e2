@@ -120,16 +120,16 @@
     <Button
         android:id="@+id/buttonAddService"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="75dp"
         android:text="Add Service"
-        android:visibility="invisible"/>
+        android:visibility="invisible" />
 
     <Button
         android:id="@+id/buttonSaveChanges"
-        android:layout_width="wrap_content"
+        android:layout_width="365dp"
         android:layout_height="wrap_content"
         android:text="Save Changes"
-        android:visibility="visible"/>
+        android:visibility="visible" />
 
 
 </LinearLayout>

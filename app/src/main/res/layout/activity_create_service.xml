@@ -13,7 +13,8 @@
             android:id="@+id/categorySpinner"
             android:layout_width="match_parent"
             android:layout_height="140px"
-            android:hint="Category" />
+            android:hint="Category"
+            android:visibility="invisible"/>
 
         <Spinner
             android:id="@+id/subcategorySpinner"
@@ -126,5 +127,6 @@
             android:layout_width="match_parent"
             android:layout_height="140px"
             android:text="Create Service" />
+
     </LinearLayout>
 </ScrollView>

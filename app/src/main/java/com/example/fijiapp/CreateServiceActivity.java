@@ -1,6 +1,9 @@
 package com.example.fijiapp;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -35,13 +38,14 @@ public class CreateServiceActivity extends AppCompatActivity {
     private EditText acceptanceMode;
     private CheckBox available;
     private CheckBox visible;
+    private EditText customSubcategoryEditText;
     Map<String, List<String>> categorySubcategoryMap = new HashMap<>();
 
 
 
     public CreateServiceActivity(){}
 
-    public CreateServiceActivity(Spinner category, Spinner subCategory, EditText name, EditText description, EditText gallery, EditText specifics, EditText pricePerHour, EditText durationHours, EditText location, EditText discount, EditText serviceProviders, EditText eventTypes, EditText bookingDeadline, EditText cancellationDeadline, EditText acceptanceMode, CheckBox available, CheckBox visible) {
+    public CreateServiceActivity(Spinner category, Spinner subCategory, EditText name, EditText description, EditText gallery, EditText specifics, EditText pricePerHour, EditText durationHours, EditText location, EditText discount, EditText serviceProviders, EditText eventTypes, EditText bookingDeadline, EditText cancellationDeadline, EditText acceptanceMode, CheckBox available, CheckBox visible, EditText customSubcategoryEditText) {
         this.category = category;
         this.subCategory = subCategory;
         this.name = name;
@@ -59,9 +63,10 @@ public class CreateServiceActivity extends AppCompatActivity {
         this.acceptanceMode = acceptanceMode;
         this.available = available;
         this.visible = visible;
+        this.customSubcategoryEditText = customSubcategoryEditText;
     }
 
-    public CreateServiceActivity(int contentLayoutId, Spinner category, Spinner subCategory, EditText name, EditText description, EditText gallery, EditText specifics, EditText pricePerHour, EditText durationHours, EditText location, EditText discount, EditText serviceProviders, EditText eventTypes, EditText bookingDeadline, EditText cancellationDeadline, EditText acceptanceMode, CheckBox available, CheckBox visible) {
+    public CreateServiceActivity(int contentLayoutId, Spinner category, Spinner subCategory, EditText name, EditText description, EditText gallery, EditText specifics, EditText pricePerHour, EditText durationHours, EditText location, EditText discount, EditText serviceProviders, EditText eventTypes, EditText bookingDeadline, EditText cancellationDeadline, EditText acceptanceMode, CheckBox available, CheckBox visible, EditText customSubcategoryEditText) {
         super(contentLayoutId);
         this.category = category;
         this.subCategory = subCategory;
@@ -80,6 +85,8 @@ public class CreateServiceActivity extends AppCompatActivity {
         this.acceptanceMode = acceptanceMode;
         this.available = available;
         this.visible = visible;
+
+        this.customSubcategoryEditText = customSubcategoryEditText;
     }
 
     @Override
@@ -112,10 +119,62 @@ public class CreateServiceActivity extends AppCompatActivity {
         acceptanceMode = findViewById(R.id.acceptanceModeEditText);
         available = findViewById(R.id.availableCheckBox);
         visible = findViewById(R.id.visibleCheckBox);
+        customSubcategoryEditText = findViewById(R.id.customSubcategoryEditText);
 
 
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(categorySubcategoryMap.keySet()));
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         category.setAdapter(categoryAdapter);
+
+
+        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedCategory = parent.getItemAtPosition(position).toString();
+                Log.d("KATEGORIJA", "Selektovana kategorija: ");
+
+                List<String> subcategories = categorySubcategoryMap.get(selectedCategory);
+                ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(CreateServiceActivity.this, android.R.layout.simple_spinner_item, subcategories);
+
+                subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                subCategory.setAdapter(subcategoryAdapter);
+
+
+                String selectedSubcategory = subCategory.getSelectedItem().toString();
+
+
+                Log.d("Selected subcategory", selectedSubcategory);
+                if (selectedSubcategory.equals("Custom") ) {
+                    customSubcategoryEditText.setVisibility(View.VISIBLE);
+                } else {
+                    customSubcategoryEditText.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        subCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSubcategory = parent.getItemAtPosition(position).toString();
+
+                if (selectedSubcategory.equals("Custom")) {
+                    customSubcategoryEditText.setVisibility(View.VISIBLE);
+                } else {
+                    customSubcategoryEditText.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
     }
+
+
 }

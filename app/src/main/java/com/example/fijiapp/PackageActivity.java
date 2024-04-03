@@ -1,7 +1,9 @@
 package com.example.fijiapp;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.View;
 import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
@@ -19,6 +21,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import android.view.View;
+
+import android.view.View;
 public class PackageActivity extends AppCompatActivity {
     List<Package> packageList = new ArrayList<>();
     PackageAdapter adapter;
@@ -192,5 +197,10 @@ public class PackageActivity extends AppCompatActivity {
             adapter.filterList(filteredList);
         }
 
+
+    }
+    public void createPackagePage(View view){
+        Intent intent = new Intent(this,CreatePackageActivity.class);
+        startActivity(intent);
     }
 }

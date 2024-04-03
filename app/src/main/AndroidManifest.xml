@@ -106,6 +106,7 @@
         <activity android:name=".PackageActivity"/>
         <activity android:name=".UpdateProductActivity"/>
         <activity android:name=".UpdateServiceActivity"/>
+        <activity android:name=".CreatePackageActivity"/>
 
         <activity android:name=".UpdatePackageActivity"/>
         <activity android:name=".MainActivity">

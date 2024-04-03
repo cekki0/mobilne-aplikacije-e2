@@ -52,9 +52,14 @@ public class MainActivity extends AppCompatActivity {
             int id = item.getItemId();
             if (id == R.id.nav_home) {
                 startActivity(new Intent(MainActivity.this, MainActivity.class));
-            } else if (id == R.id.nav_second) {
-                startActivity(new Intent(MainActivity.this, UpdateProductActivity.class));
-            } else if (id == R.id.categories_management) {
+            } else if (id == R.id.product) {
+                startActivity(new Intent(MainActivity.this, ProductsActivity.class));
+            }
+            else if (id == R.id.service) {
+                startActivity(new Intent(MainActivity.this, ServiceActivity.class));
+            }else if (id == R.id.packages) {
+                startActivity(new Intent(MainActivity.this, PackageActivity.class));
+            }else if (id == R.id.categories_management) {
                 startActivity(new Intent(MainActivity.this, CategoryManagementAdminActivity.class));
             } else if (id == R.id.event_type_management){
                 startActivity(new Intent(MainActivity.this, EventTypeManagementActivity.class));

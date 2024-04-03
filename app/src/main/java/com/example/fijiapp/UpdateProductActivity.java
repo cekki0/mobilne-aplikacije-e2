@@ -19,7 +19,7 @@ public class UpdateProductActivity extends AppCompatActivity {
     private EditText titleEditText;
 
     private EditText descriptionEditText;
-    private EditText categorySpinner;
+    private EditText subcategorySpinner;
     private EditText priceEditText;
     private EditText discountEditText;
     private EditText newPriceEditText;
@@ -44,7 +44,7 @@ public class UpdateProductActivity extends AppCompatActivity {
         eventEditText = findViewById(R.id.eventEditText);
         availableEditText = findViewById(R.id.availableEditText);
         visibleEditText = findViewById(R.id.visibleEditText);
-        categorySpinner = findViewById(R.id.categorySpinner);
+        subcategorySpinner = findViewById(R.id.subcategorySpinner);
 
 
 
@@ -63,7 +63,7 @@ public class UpdateProductActivity extends AppCompatActivity {
             visibleEditText.setChecked(product.Visible.equals("Yes"));
             Log.d("DEBUG", "Available: " + product.Available);
             Log.d("DEBUG", "Visible: " + product.Visible);
-            categorySpinner.setText(String.valueOf(product.Category));
+            subcategorySpinner.setText(String.valueOf(product.getSubCategory()));
 
         }
 

@@ -104,6 +104,23 @@ public class CreateProductActivity extends AppCompatActivity {
 
 
 
+        subCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String selectedSubcategory = parent.getItemAtPosition(position).toString();
+
+                if (selectedSubcategory.equals("Custom")) {
+                    customSubcategoryEditText.setVisibility(View.VISIBLE);
+                } else {
+                    customSubcategoryEditText.setVisibility(View.INVISIBLE);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                // Implementacija ako nije ništa odabrano (opcionalno)
+            }
+        });
 
         category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override

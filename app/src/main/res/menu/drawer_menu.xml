@@ -5,8 +5,14 @@
             android:id="@+id/nav_home"
             android:title="Home" />
         <item
-            android:id="@+id/nav_second"
-            android:title="Krle" />
+            android:id="@+id/product"
+            android:title="Products" />
+        <item
+            android:id="@+id/service"
+            android:title="Services" />
+        <item
+            android:id="@+id/packages"
+            android:title="Packages" />
         <item
             android:id="@+id/categories_management"
             android:title="CategoriesManagement" />

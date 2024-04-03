@@ -25,8 +25,8 @@ public class UpdateServiceActivity extends AppCompatActivity {
 
         nameEditText = findViewById(R.id.nameEditText);
         descriptionEditText = findViewById(R.id.descriptionEditText);
-        categoryEditText = findViewById(R.id.categoryEditText);
-        //subCategoryEditText = findViewById(R.id.subCategoryEditText);
+       // categoryEditText = findViewById(R.id.categoryEditText);
+        subCategoryEditText = findViewById(R.id.subCategoryEditText);
         priceEditText = findViewById(R.id.priceEditText);
         //totalPriceEditText = findViewById(R.id.totalPriceEditText);
         durationEditText = findViewById(R.id.durationEditText);
@@ -43,7 +43,7 @@ public class UpdateServiceActivity extends AppCompatActivity {
         Service service = getIntent().getParcelableExtra("service");
         nameEditText.setText(service.getName());
         descriptionEditText.setText(service.getDescription());
-        categoryEditText.setText(service.getCategory());
+        subCategoryEditText.setText(service.getSubCategory());
         priceEditText.setText(String.valueOf(service.getPricePerHour()));
         durationEditText.setText(String.valueOf(service.getDurationHours()));
 

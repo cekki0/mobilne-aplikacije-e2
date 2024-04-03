@@ -8,19 +8,19 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 public class Package implements Parcelable {
-    private String name;//
-    private String description;//
-    private int discount;//
-    private String visible;//
-    private String available;//
+    private String name;
+    private String description;
+    private int discount;
+    private String visible;
+    private String available;
     private String category;
-    private List<Product> products;//
-    private List<Service> services;//
-    private String eventType;//
-    private int price;//
+    private List<Product> products;
+    private List<Service> services;
+    private String eventType;
+    private int price;
     private List<String> images;
-    private String bookingDeadline;//
-    private String cancellationDeadline;//
+    private String bookingDeadline;
+    private String cancellationDeadline;
 
     public Package(){}
     public Package(String name, String description, int discount, String visible, String available, String category, List<Product> products, List<Service> services, String eventType, int price, List<String> images, String bookingDeadline, String cancellationDeadline) {
