@@ -50,8 +50,6 @@
             android:id="@+id/eventTypesEditText"
             android:layout_width="match_parent"
             android:layout_height="200px"
-            android:enabled="false"
-            android:focusable="false"
             android:hint="Event Types" />
 
 
