@@ -1,5 +1,8 @@
 package com.example.fijiapp.activity;
 
+import static com.example.fijiapp.model.UserRole.EVENT_ORGANIZER;
+import static com.example.fijiapp.model.UserRole.SERVICE_PROVIDER;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -18,6 +21,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
 import com.example.fijiapp.adapters.WorkingDayAdapter;
+import com.example.fijiapp.model.Company;
+import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
 import com.example.fijiapp.model.WorkingDay;
@@ -268,13 +273,25 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Enter information about the company!", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (workingDayList.size() < 7) {
+            Toast.makeText(getApplicationContext(), "Enter all working days!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        User user = new User(email,password,firstName,lastName,address,phoneNumber,"slika.jpg",SERVICE_PROVIDER);
+        Company company = new Company(companyEmail,companyName,companyAddress,companyPhoneNumber,companyAbout,user.Id,workingDayList);
+
+        if(user!=null && company!=null) {
+            Toast.makeText(getApplicationContext(), "User successfully registered", Toast.LENGTH_SHORT).show();
+            navigateToLoginPage();
+        }
     }
 
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public void navigateToLoginPage(View view) {
+    public void navigateToLoginPage() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }

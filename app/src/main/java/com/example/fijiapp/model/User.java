@@ -10,6 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User implements Parcelable {
+    public Integer Id;
     public String Email;
     public String Password;
     public String FirstName;
@@ -18,7 +19,6 @@ public class User implements Parcelable {
     public String PhoneNumber;
     public String ProfileImage;
     public Map<WorkDays, WorkHours> WorkHours = new HashMap<>();
-
     public UserRole Role;
 
     public User(String email, String password, String firstName, String lastName, String address, String phoneNumber, String profileImage, UserRole role) {
@@ -35,7 +35,6 @@ public class User implements Parcelable {
         WorkHours.put(WorkDays.WED, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
         WorkHours.put(WorkDays.THU, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
         WorkHours.put(WorkDays.FRI, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
-
     }
 
     public User(String email, String password, String firstName, String lastName, String address, String phoneNumber, UserRole role) {
@@ -64,6 +63,21 @@ public class User implements Parcelable {
             WorkHours workHours = in.readParcelable(WorkHours.class.getClassLoader());
             WorkHours.put(workDay, workHours);
         }
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "Email='" + Email + '\'' +
+                ", Password='" + Password + '\'' +
+                ", FirstName='" + FirstName + '\'' +
+                ", LastName='" + LastName + '\'' +
+                ", Address='" + Address + '\'' +
+                ", PhoneNumber='" + PhoneNumber + '\'' +
+                ", ProfileImage='" + ProfileImage + '\'' +
+                ", WorkHours=" + WorkHours +
+                ", Role=" + Role +
+                '}';
     }
 
     public String getFullName(){

@@ -1,5 +1,7 @@
 package com.example.fijiapp.activity;
 
+import static com.example.fijiapp.model.UserRole.EVENT_ORGANIZER;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +13,8 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.model.Company;
+import com.example.fijiapp.model.User;
 
 public class EventOrganizerRegistrationActivity extends AppCompatActivity {
 
@@ -92,13 +96,20 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Enter phone number!", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        User user = new User(email,password,firstName,lastName,address,phoneNumber,"slika.jpg",EVENT_ORGANIZER);
+
+        if(user!=null) {
+            Toast.makeText(getApplicationContext(), "User successfully registered",Toast.LENGTH_SHORT).show();
+            navigateToLoginPage();
+        }
     }
 
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public void navigateToLoginPage(View view) {
+    public void navigateToLoginPage() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
     }
