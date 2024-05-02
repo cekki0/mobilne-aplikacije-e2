@@ -17,6 +17,4 @@ public class Event {
         this.EndTime = endTime;
         this.Type = type;
     }
-
-
 }

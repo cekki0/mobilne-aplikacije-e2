@@ -5,6 +5,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -19,6 +20,15 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.model.SubCategory;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,6 +37,11 @@ import java.util.Map;
 
 public class ServiceDialog extends Dialog {
 
+    interface OnSaveListener {
+        void onSave(List<String> services);
+    }
+    private final OnSaveListener onSaveListener;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Map<String, List<String>> service = new HashMap<>();
     private List<String> services = new ArrayList<>();
     private Map<String, String> selectedService = new HashMap<>();
@@ -36,8 +51,9 @@ public class ServiceDialog extends Dialog {
     String selectedServiceType;
     Integer maxPrice = 0;
 
-    public ServiceDialog(@NonNull Context context) {
+    public ServiceDialog(@NonNull Context context, OnSaveListener onSaveListener) {
         super(context);
+        this.onSaveListener = onSaveListener;
     }
 
     @Override
@@ -58,6 +74,15 @@ public class ServiceDialog extends Dialog {
         addService(buttonAddSpinners, adapter, textViewMaxPrice);
         deleteService(listView, adapter, textViewMaxPrice);
         editPrice(listView, adapter, textViewMaxPrice);
+
+        Button buttonSave = findViewById(R.id.buttonSave);
+        buttonSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onSaveListener.onSave(services);
+                dismiss();
+            }
+        });
     }
 
     private void editPrice(ListView listView, ArrayAdapter<String> adapter, TextView textViewMaxPrice) {
@@ -172,18 +197,42 @@ public class ServiceDialog extends Dialog {
     }
 
     private void populateServiceSubtypeMap() {
-        // For example purposes, let's populate the HashMap with some sample data
-        List<String> subtypeList1 = new ArrayList<>();
-        subtypeList1.add("Subtype A1");
-        subtypeList1.add("Subtype A2");
-        subtypeList1.add("Subtype A3");
-        service.put("Service Type A", subtypeList1);
-
-        List<String> subtypeList2 = new ArrayList<>();
-        subtypeList2.add("Subtype B1");
-        subtypeList2.add("Subtype B2");
-        subtypeList2.add("Subtype B3");
-        service.put("Service Type B", subtypeList2);
+        db.collection("category")
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            for (QueryDocumentSnapshot document : task.getResult()) {
+                                String categoryName = document.getString("Name");
+                                List<String> subtypeNames = new ArrayList<>();
+                                // Assuming "SubCategories" is a field in your document containing a list of subcategories
+                                List<DocumentReference> subcategoryReferences = (List<DocumentReference>) document.get("SubCategories");
+                                if (subcategoryReferences != null) {
+                                    for (DocumentReference subcategoryRef : subcategoryReferences) {
+                                        subcategoryRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                            @Override
+                                            public void onSuccess(DocumentSnapshot subcategoryDoc) {
+                                                if (subcategoryDoc.exists()) {
+                                                    SubCategory subcategory = subcategoryDoc.toObject(SubCategory.class);
+                                                    if (subcategory != null) {
+                                                        String subcategoryName = subcategory.Name;
+                                                        subtypeNames.add(subcategoryName);
+                                                    }
+                                                }
+                                            }
+                                        });
+                                    }
+                                }
+                                service.put(categoryName, subtypeNames);
+                            }
+                            // Populate Spinners after data is fetched
+                            populateSpinners();
+                        } else {
+                            // Handle errors
+                        }
+                    }
+                });
     }
 
     private void populateSpinners() {
