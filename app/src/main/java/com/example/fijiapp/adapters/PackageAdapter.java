@@ -9,8 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.UpdatePackageActivity;
-import com.example.fijiapp.UpdateProductActivity;
+import com.example.fijiapp.activity.UpdatePackageActivity;
 import com.example.fijiapp.model.Package;
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
@@ -21,7 +20,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.zip.Inflater;
 
 public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder> {
     private List<Package> packages = new ArrayList<>();

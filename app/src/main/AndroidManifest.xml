@@ -16,71 +16,71 @@
         tools:targetApi="33"
         android:enableOnBackInvokedCallback="true">
         <activity
-            android:name=".LandingPageActivity"
+            android:name=".activity.LandingPageActivity"
             android:exported="true">
         </activity>
 
         <activity
-            android:name=".EventActivity"
+            android:name=".activity.EventActivity"
             android:exported="true">
         </activity>
         <activity
-            android:name=".EventTypeAddActivity"
+            android:name=".activity.EventTypeAddActivity"
             android:exported="false" />
         <activity
-            android:name=".EventTypeEditActivity"
+            android:name=".activity.EventTypeEditActivity"
             android:exported="false" />
         <activity
-            android:name=".SubCategoryEditActivity"
+            android:name=".activity.SubCategoryEditActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".CategoryEditActivity"
+            android:name=".activity.CategoryEditActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".CategoryAddActivity"
+            android:name=".activity.CategoryAddActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".StaffCalendarActivity"
+            android:name=".activity.StaffCalendarActivity"
             android:exported="false" />
         <activity
-            android:name=".StaffRegistrationActivity"
+            android:name=".activity.StaffRegistrationActivity"
             android:exported="false" />
         <activity
-            android:name=".StaffDetailActivity"
+            android:name=".activity.StaffDetailActivity"
             android:exported="false" />
         <activity
 
 
-            android:name=".ServiceActivity" />
+            android:name=".activity.ServiceActivity" />
         <activity
 
-            android:name=".ProductsActivity"
+            android:name=".activity.ProductsActivity"
 
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
-        <activity android:name=".CreateProductActivity" />
+        <activity android:name=".activity.CreateProductActivity" />
         <activity
 
-            android:name=".OwnerActivity"
+            android:name=".activity.OwnerActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".ServiceProviderRegistrationActivity"
+            android:name=".activity.ServiceProviderRegistrationActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".EventOrganizerRegistrationActivity"
+            android:name=".activity.EventOrganizerRegistrationActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".RegisterActivity"
+            android:name=".activity.RegisterActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".LoginActivity"
+            android:name=".activity.LoginActivity"
 
 
 
@@ -93,23 +93,23 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".CategoryManagementAdminActivity"
+            android:name=".activity.CategoryManagementAdminActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
 
-        <activity android:name=".CreateServiceActivity"/>
+        <activity android:name=".activity.CreateServiceActivity"/>
         <activity
-            android:name=".EventTypeManagementActivity"
+            android:name=".activity.EventTypeManagementActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
         </activity>
-        <activity android:name=".PackageActivity"/>
-        <activity android:name=".UpdateProductActivity"/>
-        <activity android:name=".UpdateServiceActivity"/>
-        <activity android:name=".CreatePackageActivity"/>
+        <activity android:name=".activity.PackageActivity"/>
+        <activity android:name=".activity.UpdateProductActivity"/>
+        <activity android:name=".activity.UpdateServiceActivity"/>
+        <activity android:name=".activity.CreatePackageActivity"/>
 
-        <activity android:name=".UpdatePackageActivity"/>
-        <activity android:name=".MainActivity">
+        <activity android:name=".activity.UpdatePackageActivity"/>
+        <activity android:name=".activity.MainActivity">
         </activity>
 
     </application>

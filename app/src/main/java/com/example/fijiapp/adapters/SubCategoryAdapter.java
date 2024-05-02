@@ -13,7 +13,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.SubCategoryEditActivity;
+import com.example.fijiapp.activity.SubCategoryEditActivity;
 import com.example.fijiapp.model.SubCategory;
 
 import java.util.List;

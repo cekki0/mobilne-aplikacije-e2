@@ -1,4 +1,4 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fijiapp.R;
 import com.example.fijiapp.adapters.PackageAdapter;
 import com.example.fijiapp.adapters.ProductAdapter;
 import com.example.fijiapp.adapters.ProductCheckBoxAdapter;

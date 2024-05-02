@@ -10,9 +10,15 @@ public class WorkHours implements Parcelable {
     public LocalTime EndTime;
 
     public WorkHours(LocalTime startTime, LocalTime endTime) {
-        Validate(startTime,endTime);
+        Validate(startTime, endTime);
         StartTime = startTime;
         EndTime = endTime;
+    }
+
+    public WorkHours(String startTime, String endTime) {
+        Validate(LocalTime.parse(startTime), LocalTime.parse(endTime));
+        StartTime = LocalTime.parse(startTime);
+        EndTime = LocalTime.parse(endTime);
     }
 
     private void Validate(LocalTime startTime, LocalTime endTime) {

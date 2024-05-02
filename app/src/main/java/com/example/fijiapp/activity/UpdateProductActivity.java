@@ -1,4 +1,4 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -13,6 +13,7 @@ import java.util.Arrays;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.fijiapp.R;
 import com.example.fijiapp.model.Product;
 
 public class UpdateProductActivity extends AppCompatActivity {

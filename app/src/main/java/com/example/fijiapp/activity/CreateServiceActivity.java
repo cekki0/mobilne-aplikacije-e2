@@ -1,4 +1,4 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.os.Bundle;
 import android.util.Log;
@@ -11,6 +11,8 @@ import android.widget.Spinner;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.fijiapp.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;

@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "759023423008",
+    "project_id": "fiji-app-c7131",
+    "storage_bucket": "fiji-app-c7131.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:759023423008:android:4498f02a47a67d63c87645",
+        "android_client_info": {
+          "package_name": "com.example.fijiapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCcySqfhe63qndoYI90-XdxPXnFqwnGUpY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

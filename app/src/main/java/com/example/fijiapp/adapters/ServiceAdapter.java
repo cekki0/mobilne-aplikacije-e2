@@ -9,15 +9,12 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.UpdateProductActivity;
-import com.example.fijiapp.UpdateServiceActivity;
-import com.example.fijiapp.model.Product;
+import com.example.fijiapp.activity.UpdateServiceActivity;
 import com.example.fijiapp.model.Service;
 import com.squareup.picasso.Picasso;
 
 import android.view.View;
 
-import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;

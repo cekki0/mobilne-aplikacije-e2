@@ -1,4 +1,4 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,8 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fijiapp.R;
 import com.example.fijiapp.adapters.PackageAdapter;
-import com.example.fijiapp.adapters.ProductAdapter;
 import com.example.fijiapp.model.Package;
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
@@ -21,9 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import android.view.View;
-
-import android.view.View;
 public class PackageActivity extends AppCompatActivity {
     List<Package> packageList = new ArrayList<>();
     PackageAdapter adapter;

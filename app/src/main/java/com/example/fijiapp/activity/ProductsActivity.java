@@ -1,10 +1,8 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.widget.Button;
-import android.widget.ImageButton;
 import android.widget.SearchView;
 
 import androidx.annotation.Nullable;
@@ -12,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fijiapp.R;
 import com.example.fijiapp.adapters.ProductAdapter;
 import com.example.fijiapp.model.Product;
 import android.view.View;

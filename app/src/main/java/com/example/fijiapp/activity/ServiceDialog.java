@@ -1,4 +1,4 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -17,6 +17,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+
+import com.example.fijiapp.R;
 
 import java.util.ArrayList;
 import java.util.HashMap;

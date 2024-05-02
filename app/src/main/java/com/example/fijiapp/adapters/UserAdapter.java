@@ -11,7 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.StaffDetailActivity;
+import com.example.fijiapp.activity.StaffDetailActivity;
 import com.example.fijiapp.model.User;
 
 import java.util.List;

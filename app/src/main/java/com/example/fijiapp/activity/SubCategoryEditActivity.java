@@ -1,4 +1,4 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +14,7 @@ import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
+import com.example.fijiapp.R;
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.SubCategory;
 import com.google.android.material.button.MaterialButton;

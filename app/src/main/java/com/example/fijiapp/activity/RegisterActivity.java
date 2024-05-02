@@ -1,10 +1,12 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.fijiapp.R;
 
 public class RegisterActivity extends AppCompatActivity {
 

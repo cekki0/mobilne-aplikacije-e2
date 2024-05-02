@@ -13,7 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.fijiapp.CategoryEditActivity;
+import com.example.fijiapp.activity.CategoryEditActivity;
 import com.example.fijiapp.R;
 import com.example.fijiapp.model.Category;
 

@@ -1,4 +1,4 @@
-package com.example.fijiapp;
+package com.example.fijiapp.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -8,6 +8,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.fijiapp.R;
 import com.example.fijiapp.adapters.CategoryAdapter;
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.SubCategory;

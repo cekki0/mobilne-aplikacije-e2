@@ -1,7 +1,6 @@
 package com.example.fijiapp.adapters;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,9 +10,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.StaffDetailActivity;
 import com.example.fijiapp.model.Event;
-import com.example.fijiapp.model.User;
 
 import java.util.List;
 
