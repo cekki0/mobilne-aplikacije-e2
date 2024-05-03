@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User implements Parcelable {
-    public Integer Id;
     public String Email;
     public String Password;
     public String FirstName;
@@ -30,11 +29,11 @@ public class User implements Parcelable {
         PhoneNumber = phoneNumber;
         ProfileImage = profileImage;
         Role = role;
-        WorkHours.put(WorkDays.MON, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
-        WorkHours.put(WorkDays.TUE, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
-        WorkHours.put(WorkDays.WED, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
-        WorkHours.put(WorkDays.THU, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
-        WorkHours.put(WorkDays.FRI, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
+//        WorkHours.put(WorkDays.MON, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
+//        WorkHours.put(WorkDays.TUE, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
+//        WorkHours.put(WorkDays.WED, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
+//        WorkHours.put(WorkDays.THU, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
+//        WorkHours.put(WorkDays.FRI, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
     }
 
     public User(String email, String password, String firstName, String lastName, String address, String phoneNumber, UserRole role) {

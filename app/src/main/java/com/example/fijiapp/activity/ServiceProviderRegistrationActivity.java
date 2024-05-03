@@ -15,6 +15,7 @@ import android.widget.Spinner;
 import android.widget.Toast;
 import android.widget.ArrayAdapter;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -26,13 +27,18 @@ import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
 import com.example.fijiapp.model.WorkingDay;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+
 
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ServiceProviderRegistrationActivity extends AppCompatActivity {
-
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<WorkingDay> workingDayList;
     private EditText editTextEmail, editTextPassword, editTextConfirmPassword, editTextFirstName,
             editTextLastName, editTextAddress, editTextPhoneNumber,
@@ -142,6 +148,43 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                 registerUser();
             }
         });
+    }
+
+    private void saveUserToFirestore(User user,Company company) {
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        String userId = documentReference.getId();
+                        company.UserId=userId;
+                        saveCompanyToFirestore(company);
+                        Toast.makeText(ServiceProviderRegistrationActivity.this, "User saved successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+    private void saveCompanyToFirestore(Company company) {
+        db.collection("companies")
+                .add(company)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Company saved successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Error saving company: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
     private void addWorkingDay() {
@@ -279,10 +322,11 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         }
 
         User user = new User(email,password,firstName,lastName,address,phoneNumber,"slika.jpg",SERVICE_PROVIDER);
-        Company company = new Company(companyEmail,companyName,companyAddress,companyPhoneNumber,companyAbout,user.Id,workingDayList);
+        Company company = new Company(companyEmail,companyName,companyAddress,companyPhoneNumber,companyAbout,workingDayList);
 
         if(user!=null && company!=null) {
-            Toast.makeText(getApplicationContext(), "User successfully registered", Toast.LENGTH_SHORT).show();
+
+            saveUserToFirestore(user,company);
             navigateToLoginPage();
         }
     }

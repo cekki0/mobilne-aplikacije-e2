@@ -10,11 +10,16 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
 import com.example.fijiapp.model.Company;
 import com.example.fijiapp.model.User;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class EventOrganizerRegistrationActivity extends AppCompatActivity {
 
@@ -100,7 +105,7 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
         User user = new User(email,password,firstName,lastName,address,phoneNumber,"slika.jpg",EVENT_ORGANIZER);
 
         if(user!=null) {
-            Toast.makeText(getApplicationContext(), "User successfully registered",Toast.LENGTH_SHORT).show();
+            saveUserToFirestore(user);
             navigateToLoginPage();
         }
     }
@@ -112,5 +117,24 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
     public void navigateToLoginPage() {
         Intent intent = new Intent(this, LoginActivity.class);
         startActivity(intent);
+    }
+
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private void saveUserToFirestore(User user) {
+        db.collection("users")
+                .add(user)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(EventOrganizerRegistrationActivity.this, "User saved successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(EventOrganizerRegistrationActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 }
