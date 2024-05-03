@@ -3,6 +3,7 @@ package com.example.fijiapp.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -11,12 +12,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.fijiapp.R;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
     private DrawerLayout drawerLayout;
     private NavigationView navigationView;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Button btnOpenDrawer;
+    private Button btnLogOut;
 
     public MainActivity() {
     }
@@ -43,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout = findViewById(R.id.drawer_layout);
         navigationView = findViewById(R.id.nav_view);
         btnOpenDrawer = findViewById(R.id.btn_open_drawer);
+        btnLogOut = findViewById(R.id.btn_log_out);
 
         actionBarDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawerLayout.addDrawerListener(actionBarDrawerToggle);
@@ -74,6 +78,19 @@ public class MainActivity extends AppCompatActivity {
             return true;
         });
         btnOpenDrawer.setOnClickListener(v -> drawerLayout.openDrawer(navigationView));
+        btnLogOut.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logOut();
+            }
+        });
+    }
+
+    private void logOut() {
+        FirebaseAuth.getInstance().signOut();
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 
     @Override

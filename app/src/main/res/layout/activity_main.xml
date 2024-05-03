@@ -31,6 +31,12 @@
             android:text="Open Drawer"
             android:layout_centerInParent="true"/>
 
+        <Button
+            android:id="@+id/btn_log_out"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Log Out" />
+
     </RelativeLayout>
 
 

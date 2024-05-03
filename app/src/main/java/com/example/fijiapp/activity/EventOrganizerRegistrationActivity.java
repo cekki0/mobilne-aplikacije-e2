@@ -14,10 +14,14 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.model.Company;
 import com.example.fijiapp.model.User;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -25,8 +29,8 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
 
     private EditText editTextEmail, editTextPassword, editTextConfirmPassword, editTextFirstName,
             editTextLastName, editTextAddress, editTextPhoneNumber;
-
     private Button buttonRegister;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,32 +106,46 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        User user = new User(email,password,firstName,lastName,address,phoneNumber,"slika.jpg",EVENT_ORGANIZER);
-
-        if(user!=null) {
-            saveUserToFirestore(user);
-            navigateToLoginPage();
-        }
+        mAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getInstance().getCurrentUser();
+                            if (user != null) {
+                                user.sendEmailVerification()
+                                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                            @Override
+                                            public void onComplete(@NonNull Task<Void> task) {
+                                                if (task.isSuccessful()) {
+                                                    Toast.makeText(EventOrganizerRegistrationActivity.this, "Verification email sent", Toast.LENGTH_SHORT).show();
+                                                } else {
+                                                    Toast.makeText(EventOrganizerRegistrationActivity.this, "Failed to send verification email", Toast.LENGTH_SHORT).show();
+                                                }
+                                            }
+                                        });
+                            }
+                            saveUserToFirestore(new User(email, password, firstName, lastName, address, phoneNumber, "slika.jpg", EVENT_ORGANIZER));
+                        } else {
+                            Toast.makeText(EventOrganizerRegistrationActivity.this, "Error occurred!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private boolean isValidEmail(CharSequence target) {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    public void navigateToLoginPage() {
-        Intent intent = new Intent(this, LoginActivity.class);
-        startActivity(intent);
-    }
-
-    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
-
     private void saveUserToFirestore(User user) {
-        db.collection("users")
+        FirebaseFirestore.getInstance().collection("users")
                 .add(user)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(EventOrganizerRegistrationActivity.this, "User saved successfully", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(EventOrganizerRegistrationActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                        navigateToLoginPage();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -136,5 +154,11 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
                         Toast.makeText(EventOrganizerRegistrationActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+    }
+
+    public void navigateToLoginPage() {
+        Intent intent = new Intent(this, LoginActivity.class);
+        startActivity(intent);
+        finish();
     }
 }
