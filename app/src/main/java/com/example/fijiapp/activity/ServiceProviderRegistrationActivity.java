@@ -3,6 +3,7 @@ package com.example.fijiapp.activity;
 import static com.example.fijiapp.model.UserRole.EVENT_ORGANIZER;
 import static com.example.fijiapp.model.UserRole.SERVICE_PROVIDER;
 
+import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -27,8 +28,13 @@ import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
 import com.example.fijiapp.model.WorkingDay;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
@@ -54,6 +60,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
     private RecyclerView recyclerViewWorkingDays;
     private Boolean isBoxChecked = true;
     private WorkingDayAdapter workingDayAdapter;
+    private FirebaseAuth mAuth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -150,43 +157,6 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         });
     }
 
-    private void saveUserToFirestore(User user,Company company) {
-        db.collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        String userId = documentReference.getId();
-                        company.UserId=userId;
-                        saveCompanyToFirestore(company);
-                        Toast.makeText(ServiceProviderRegistrationActivity.this, "User saved successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
-    private void saveCompanyToFirestore(Company company) {
-        db.collection("companies")
-                .add(company)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Company saved successfully", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Error saving company: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
-    }
-
     private void addWorkingDay() {
         String selectedDay = spinnerServiceWorkDays.getSelectedItem().toString();
         String startTime = spinnerStartTime.getSelectedItem().toString();
@@ -225,8 +195,6 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             Toast.makeText(this, selectedDay + " has already been added", Toast.LENGTH_SHORT).show();
         }
     }
-
-
 
     private void registerUser() {
         String email = editTextEmail.getText().toString().trim();
@@ -321,13 +289,66 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             return;
         }
 
-        User user = new User(email,password,firstName,lastName,address,phoneNumber,"slika.jpg",SERVICE_PROVIDER);
-        Company company = new Company(companyEmail,companyName,companyAddress,companyPhoneNumber,companyAbout,workingDayList);
+        mAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            FirebaseUser user = mAuth.getInstance().getCurrentUser();
+                            saveUserToFirestore(new User(firstName,lastName,address,phoneNumber,SERVICE_PROVIDER),user,new Company(companyEmail,companyName,companyAddress,companyPhoneNumber,companyAbout,workingDayList));
+                        } else {
+                            Toast.makeText(ServiceProviderRegistrationActivity.this, "Error occurred!",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
 
-        if(user!=null && company!=null) {
+    private void saveCompanyToFirestore(Company company) {
+        db.collection("companies")
+                .add(company)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Company saved successfully", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Error saving company: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
 
-            saveUserToFirestore(user,company);
-            navigateToLoginPage();
+    private void saveUserToFirestore(User user, FirebaseUser firebaseUser, Company company) {
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            String email = firebaseUser.getEmail();
+
+            user.Email=email;
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("users")
+                    .document(uid)
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            company.OwnerEmail=email;
+                            saveCompanyToFirestore(company);
+                            Toast.makeText(ServiceProviderRegistrationActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                            navigateToLoginPage();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(ServiceProviderRegistrationActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
         }
     }
 

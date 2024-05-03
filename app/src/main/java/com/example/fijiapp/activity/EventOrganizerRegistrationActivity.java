@@ -125,7 +125,7 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
                                             }
                                         });
                             }
-                            saveUserToFirestore(new User(email, password, firstName, lastName, address, phoneNumber, "slika.jpg", EVENT_ORGANIZER));
+                            saveUserToFirestore(new User(firstName, lastName, address, phoneNumber, EVENT_ORGANIZER),user);
                         } else {
                             Toast.makeText(EventOrganizerRegistrationActivity.this, "Error occurred!",
                                     Toast.LENGTH_SHORT).show();
@@ -138,23 +138,37 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    private void saveUserToFirestore(User user) {
-        FirebaseFirestore.getInstance().collection("users")
-                .add(user)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        Toast.makeText(EventOrganizerRegistrationActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
-                        navigateToLoginPage();
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Toast.makeText(EventOrganizerRegistrationActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
-                    }
-                });
+    private void saveUserToFirestore(User user,FirebaseUser firebaseUser) {
+        if (firebaseUser != null) {
+            String uid = firebaseUser.getUid();
+            String email = firebaseUser.getEmail();
+
+            user.Email=email;
+            user.IsActive = true;
+
+            FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+            db.collection("users")
+                    .document(uid)
+                    .set(user)
+                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void aVoid) {
+                            Toast.makeText(EventOrganizerRegistrationActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
+                            navigateToLoginPage();
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(EventOrganizerRegistrationActivity.this, "Error saving user: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+        } else {
+        }
     }
+
+
 
     public void navigateToLoginPage() {
         Intent intent = new Intent(this, LoginActivity.class);

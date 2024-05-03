@@ -57,13 +57,13 @@ public class StaffDetailActivity extends AppCompatActivity {
             textViewPhoneNumber.setText(String.format(Locale.getDefault(), "Phone Number: %s", user.PhoneNumber));
             textViewAddress.setText(String.format(Locale.getDefault(), "Address: %s", user.Address));
 
-            StringBuilder workHoursText = new StringBuilder();
-            for (Map.Entry<WorkDays, WorkHours> entry : user.WorkHours.entrySet()) {
-                workHoursText.append(entry.getKey()).append(": ")
-                        .append(entry.getValue().StartTime).append(" - ")
-                        .append(entry.getValue().EndTime).append("\n");
-            }
-            textViewWorkHours.setText(workHoursText.toString());
+//            StringBuilder workHoursText = new StringBuilder();
+//            for (Map.Entry<WorkDays, WorkHours> entry : user.WorkHours.entrySet()) {
+//                workHoursText.append(entry.getKey()).append(": ")
+//                        .append(entry.getValue().StartTime).append(" - ")
+//                        .append(entry.getValue().EndTime).append("\n");
+//            }
+//            textViewWorkHours.setText(workHoursText.toString());
         }
     }
 

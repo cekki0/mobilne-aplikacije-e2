@@ -11,18 +11,17 @@ import java.util.Map;
 
 public class User implements Parcelable {
     public String Email;
-    public String Password;
     public String FirstName;
     public String LastName;
     public String Address;
     public String PhoneNumber;
     public String ProfileImage;
-    public Map<WorkDays, WorkHours> WorkHours = new HashMap<>();
+//    public Map<WorkDays, WorkHours> WorkHours = new HashMap<>();
     public UserRole Role;
+    public Boolean IsActive = false;
 
-    public User(String email, String password, String firstName, String lastName, String address, String phoneNumber, String profileImage, UserRole role) {
+    public User(String email,String firstName, String lastName, String address, String phoneNumber, String profileImage, UserRole role) {
         Email = email;
-        Password = password;
         FirstName = firstName;
         LastName = lastName;
         Address = address;
@@ -36,9 +35,7 @@ public class User implements Parcelable {
 //        WorkHours.put(WorkDays.FRI, new WorkHours(LocalTime.parse("08:00"), LocalTime.parse("16:00")));
     }
 
-    public User(String email, String password, String firstName, String lastName, String address, String phoneNumber, UserRole role) {
-        Email = email;
-        Password = password;
+    public User(String firstName, String lastName, String address, String phoneNumber, UserRole role) {
         FirstName = firstName;
         LastName = lastName;
         Address = address;
@@ -46,37 +43,22 @@ public class User implements Parcelable {
         Role= role;
     }
 
-    protected User(Parcel in) {
-        Email = in.readString();
-        Password = in.readString();
-        FirstName = in.readString();
-        LastName = in.readString();
-        Address = in.readString();
-        PhoneNumber = in.readString();
-        ProfileImage = in.readString();
-        Role = UserRole.valueOf(in.readString());
-        WorkHours = new HashMap<>();
-        int size = in.readInt();
-        for (int i = 0; i < size; i++) {
-            WorkDays workDay = WorkDays.valueOf(in.readString());
-            WorkHours workHours = in.readParcelable(WorkHours.class.getClassLoader());
-            WorkHours.put(workDay, workHours);
-        }
-    }
+    public User() {}
 
-    @Override
-    public String toString() {
-        return "User{" +
-                "Email='" + Email + '\'' +
-                ", Password='" + Password + '\'' +
-                ", FirstName='" + FirstName + '\'' +
-                ", LastName='" + LastName + '\'' +
-                ", Address='" + Address + '\'' +
-                ", PhoneNumber='" + PhoneNumber + '\'' +
-                ", ProfileImage='" + ProfileImage + '\'' +
-                ", WorkHours=" + WorkHours +
-                ", Role=" + Role +
-                '}';
+    protected User(Parcel in) {
+//        FirstName = in.readString();
+//        LastName = in.readString();
+//        Address = in.readString();
+//        PhoneNumber = in.readString();
+//        ProfileImage = in.readString();
+//        Role = UserRole.valueOf(in.readString());
+//        WorkHours = new HashMap<>();
+//        int size = in.readInt();
+//        for (int i = 0; i < size; i++) {
+//            WorkDays workDay = WorkDays.valueOf(in.readString());
+//            WorkHours workHours = in.readParcelable(WorkHours.class.getClassLoader());
+//            WorkHours.put(workDay, workHours);
+//        }
     }
 
     public String getFullName(){
@@ -102,19 +84,17 @@ public class User implements Parcelable {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeString(Email);
-        dest.writeString(Password);
-        dest.writeString(FirstName);
-        dest.writeString(LastName);
-        dest.writeString(Address);
-        dest.writeString(PhoneNumber);
-        dest.writeString(ProfileImage);
-        dest.writeString(Role.toString());
-        dest.writeInt(WorkHours.size());
-        for (Map.Entry<WorkDays, WorkHours> entry : WorkHours.entrySet()) {
-            dest.writeString(entry.getKey().name());
-            dest.writeParcelable(entry.getValue(), flags);
-        }
+//        dest.writeString(FirstName);
+//        dest.writeString(LastName);
+//        dest.writeString(Address);
+//        dest.writeString(PhoneNumber);
+//        dest.writeString(ProfileImage);
+//        dest.writeString(Role.toString());
+//        dest.writeInt(WorkHours.size());
+//        for (Map.Entry<WorkDays, WorkHours> entry : WorkHours.entrySet()) {
+//            dest.writeString(entry.getKey().name());
+//            dest.writeParcelable(entry.getValue(), flags);
+//        }
     }
 }
 
