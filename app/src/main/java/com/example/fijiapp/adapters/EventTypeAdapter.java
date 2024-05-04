@@ -11,7 +11,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fijiapp.activity.EventTypeEditActivity;
+import com.example.fijiapp.activity.event.EventTypeEditActivity;
 import com.example.fijiapp.R;
 import com.example.fijiapp.model.EventType;
 

@@ -1,4 +1,4 @@
-package com.example.fijiapp.activity;
+package com.example.fijiapp.activity.category;
 
 import android.content.Intent;
 import android.os.Bundle;

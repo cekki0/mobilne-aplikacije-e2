@@ -1,4 +1,4 @@
-package com.example.fijiapp.activity;
+package com.example.fijiapp.activity.event;
 
 import android.os.Bundle;
 import android.view.View;

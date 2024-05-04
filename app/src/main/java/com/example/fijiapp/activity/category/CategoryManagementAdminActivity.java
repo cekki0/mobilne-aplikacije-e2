@@ -1,4 +1,4 @@
-package com.example.fijiapp.activity;
+package com.example.fijiapp.activity.category;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -11,25 +11,15 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fijiapp.R;
 import com.example.fijiapp.adapters.CategoryAdapter;
 import com.example.fijiapp.model.Category;
-import com.example.fijiapp.model.SubCategory;
-import com.example.fijiapp.model.SubCategoryType;
 
-import java.util.ArrayList;
 import java.util.List;
 
-import android.os.Bundle;
-import android.view.View;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-import com.example.fijiapp.adapters.CategoryAdapter;
-import com.example.fijiapp.model.Category;
+
 import com.example.fijiapp.service.CategoryService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import java.util.List;
 
 public class CategoryManagementAdminActivity extends AppCompatActivity {
 
