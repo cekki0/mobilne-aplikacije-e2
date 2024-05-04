@@ -1,10 +1,9 @@
 package com.example.fijiapp.service;
 
-import android.util.Log;
-
 import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.repository.SubCategoryRepository;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -18,7 +17,7 @@ public class SubCategoryService {
         subCategoryRepository = new SubCategoryRepository();
     }
 
-    public Task<Void> addSubCategory(SubCategory subCategory) {
+    public Task<DocumentReference> addSubCategory(SubCategory subCategory) {
         return subCategoryRepository.addSubCategory(subCategory);
     }
 

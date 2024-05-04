@@ -22,7 +22,6 @@ public class CategoryEditActivity extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextDescription;
     private Category categoryToUpdate;
-    private String oldName;
     private CategoryService categoryService = new CategoryService();
 
     @Override

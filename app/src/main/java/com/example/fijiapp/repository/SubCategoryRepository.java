@@ -1,7 +1,9 @@
 package com.example.fijiapp.repository;
 
+import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.SubCategory;
 import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -15,12 +17,17 @@ public class SubCategoryRepository {
         subCategoryRef = database.collection("subcategories");
     }
 
-    public Task<Void> addSubCategory(SubCategory subCategory) {
-        return subCategoryRef.document(subCategory.Name).set(subCategory);
+    public Task<DocumentReference> addSubCategory(SubCategory subCategory) {
+        return subCategoryRef.add(subCategory);
     }
 
     public Task<Void> updateSubCategory(SubCategory subCategory) {
-        return subCategoryRef.document(subCategory.Name).set(subCategory);
+        String subCategoryId = subCategory.Id;
+        if (subCategoryId == null) {
+            return Tasks.forException(new IllegalArgumentException("SubCategory ID is null"));
+        }
+
+        return subCategoryRef.document(subCategoryId).set(subCategory);
     }
 
     public Task<Void> deleteSubCategory(String subCategoryName) {
