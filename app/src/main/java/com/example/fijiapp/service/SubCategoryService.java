@@ -36,6 +36,7 @@ public class SubCategoryService {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
                             SubCategory subCategory = document.toObject(SubCategory.class);
+                            subCategory.Id = document.getId();
                             return subCategory;
                         } else {
                             return null;
