@@ -39,7 +39,6 @@ public class CategoryEditActivity extends AppCompatActivity {
             categoryToUpdate = (Category) intent.getSerializableExtra(EXTRA_CATEGORY);
             editTextName.setText(categoryToUpdate.Name);
             editTextDescription.setText(categoryToUpdate.Description);
-            oldName = categoryToUpdate.Name;
         }
 
         buttonEditCategory.setOnClickListener(new View.OnClickListener() {
@@ -69,7 +68,6 @@ public class CategoryEditActivity extends AppCompatActivity {
         categoryToUpdate.Name = name;
         categoryToUpdate.Description = description;
 
-        categoryService.deleteCategory(oldName);
         categoryService.updateCategory(categoryToUpdate);
         Toast.makeText(CategoryEditActivity.this, "Category updated!", Toast.LENGTH_SHORT).show();
         navigateToManagementPage();

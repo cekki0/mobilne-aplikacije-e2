@@ -1,26 +1,16 @@
 package com.example.fijiapp.service;
 
-import android.util.Log;
-
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.repository.CategoryRepository;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.ListenerRegistration;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.logging.Logger;
 
 public class CategoryService {
-    private static final String TAG = "CategoryService";
     private CategoryRepository categoryRepository;
     private SubCategoryService subCategoryService;
 
@@ -37,8 +27,8 @@ public class CategoryService {
         categoryRepository.updateCategory(category);
     }
 
-    public void deleteCategory(String categoryName) {
-        categoryRepository.deleteCategory(categoryName);
+    public void deleteCategory(String categoryId) {
+        categoryRepository.deleteCategory(categoryId);
     }
 
     public Task<List<Category>> getAllCategories() {
@@ -49,6 +39,7 @@ public class CategoryService {
                 for (DocumentSnapshot document : task.getResult()) {
                     Category category = document.toObject(Category.class);
                     if (category != null && category.SubCategoryNames != null) {
+                        category.Id = document.getId();
                         List<SubCategory> subCategories = new ArrayList<>();
                         for (String subCategoryName : category.SubCategoryNames) {
                             Task<SubCategory> subCategoryTask = subCategoryService.getSubCategoryByName(subCategoryName);
