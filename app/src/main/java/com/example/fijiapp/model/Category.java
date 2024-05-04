@@ -12,14 +12,14 @@ public class Category implements Serializable {
     public String Id;
     public String Name;
     public String Description;
-    public List<String> SubCategoryNames;
+    public List<String> SubCategoryIds;
     @Exclude
     public List<SubCategory> SubCategories = new ArrayList<>();
 
-    public Category(String name, String description, List<String> subCategoryNames) {
+    public Category(String name, String description, List<String> subCategoryIds) {
         this.Name = name;
         this.Description = description;
-        this.SubCategoryNames = subCategoryNames;
+        this.SubCategoryIds = subCategoryIds;
     }
     public Category() {}
 }

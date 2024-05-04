@@ -29,13 +29,13 @@ public class SubCategoryService {
         return subCategoryRepository.deleteSubCategory(subCategoryName);
     }
 
-    public Task<SubCategory> getSubCategoryByName(String subCategoryName) {
-        return subCategoryRepository.getSubCategoryByName(subCategoryName)
+    public Task<SubCategory> getSubCategoryById(String subCategoryId) {
+        return subCategoryRepository.getSubCategoryById(subCategoryId)
                 .continueWith(task -> {
                     if (task.isSuccessful()) {
-                        QuerySnapshot snapshot = task.getResult();
-                        if (!snapshot.isEmpty()) {
-                            SubCategory subCategory = snapshot.getDocuments().get(0).toObject(SubCategory.class);
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            SubCategory subCategory = document.toObject(SubCategory.class);
                             return subCategory;
                         } else {
                             return null;
@@ -45,6 +45,7 @@ public class SubCategoryService {
                     }
                 });
     }
+
 
     public Task<List<SubCategory>> getAllSubCategories() {
         return subCategoryRepository.getAllSubCategories().continueWith(task -> {

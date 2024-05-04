@@ -38,11 +38,11 @@ public class CategoryService {
                 List<Category> categories = new ArrayList<>();
                 for (DocumentSnapshot document : task.getResult()) {
                     Category category = document.toObject(Category.class);
-                    if (category != null && category.SubCategoryNames != null) {
+                    if (category != null && !category.SubCategoryIds.isEmpty()) {
                         category.Id = document.getId();
                         List<SubCategory> subCategories = new ArrayList<>();
-                        for (String subCategoryName : category.SubCategoryNames) {
-                            Task<SubCategory> subCategoryTask = subCategoryService.getSubCategoryByName(subCategoryName);
+                        for (String subCategoryId : category.SubCategoryIds) {
+                            Task<SubCategory> subCategoryTask = subCategoryService.getSubCategoryById(subCategoryId);
                             subCategoryTasks.add(subCategoryTask.onSuccessTask(subCategory -> {
                                 if (subCategory != null) {
                                     subCategories.add(subCategory);
@@ -60,4 +60,5 @@ public class CategoryService {
             }
         });
     }
+
 }
