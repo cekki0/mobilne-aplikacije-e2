@@ -19,7 +19,10 @@ import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.model.SubCategoryType;
 import com.example.fijiapp.service.CategoryService;
 import com.example.fijiapp.service.SubCategoryService;
+import com.google.android.gms.tasks.Task;
+import com.google.android.gms.tasks.Tasks;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.firestore.DocumentReference;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -82,18 +85,28 @@ public class CategoryAddActivity extends AppCompatActivity {
             return;
         }
 
-        List<String> subCategoryNames = new ArrayList<>();
+        List<String> subCategoryIds = new ArrayList<>();
+        List<Task<DocumentReference>> subCategoryTasks = new ArrayList<>();
         for (SubCategory subCategory : subCategoryList) {
-            subCategoryNames.add(subCategory.Name);
-            subCategoryService.addSubCategory(subCategory);
+            subCategoryTasks.add(subCategoryService.addSubCategory(subCategory));
         }
 
-        Category category = new Category(name, description, subCategoryNames);
-        categoryService.addCategory(category);
-        Toast.makeText(getApplicationContext(), "Category created!", Toast.LENGTH_SHORT).show();
-        navigateToManagementPage();
-    }
+        Tasks.whenAllComplete(subCategoryTasks).addOnCompleteListener(task -> {
+            for (Task<DocumentReference> subCategoryTask : subCategoryTasks) {
+                if (subCategoryTask.isSuccessful()) {
+                    DocumentReference documentReference = subCategoryTask.getResult();
+                    if (documentReference != null && documentReference.getId() != null) {
+                        subCategoryIds.add(documentReference.getId());
+                    }
+                }
+            }
 
+            Category category = new Category(name, description, subCategoryIds);
+            categoryService.addCategory(category);
+            Toast.makeText(getApplicationContext(), "Category created!", Toast.LENGTH_SHORT).show();
+            navigateToManagementPage();
+        });
+    }
 
     private void addSubCategory()
     {
