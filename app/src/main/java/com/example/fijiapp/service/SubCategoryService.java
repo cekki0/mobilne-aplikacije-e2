@@ -1,5 +1,7 @@
 package com.example.fijiapp.service;
 
+import android.util.Log;
+
 import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.repository.SubCategoryRepository;
 import com.google.android.gms.tasks.Task;
@@ -34,7 +36,8 @@ public class SubCategoryService {
                     if (task.isSuccessful()) {
                         QuerySnapshot snapshot = task.getResult();
                         if (!snapshot.isEmpty()) {
-                            return snapshot.getDocuments().get(0).toObject(SubCategory.class);
+                            SubCategory subCategory = snapshot.getDocuments().get(0).toObject(SubCategory.class);
+                            return subCategory;
                         } else {
                             return null;
                         }
