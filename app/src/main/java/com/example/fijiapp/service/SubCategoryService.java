@@ -25,8 +25,8 @@ public class SubCategoryService {
         return subCategoryRepository.updateSubCategory(subCategory);
     }
 
-    public Task<Void> deleteSubCategory(String subCategoryName) {
-        return subCategoryRepository.deleteSubCategory(subCategoryName);
+    public Task<Void> deleteSubCategory(SubCategory subCategory) {
+        return subCategoryRepository.deleteSubCategory(subCategory);
     }
 
     public Task<SubCategory> getSubCategoryById(String subCategoryId) {

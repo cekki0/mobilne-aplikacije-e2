@@ -2,6 +2,7 @@ package com.example.fijiapp.repository;
 
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.SubCategory;
+import com.example.fijiapp.service.SubCategoryService;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
@@ -31,8 +32,9 @@ public class SubCategoryRepository {
         return subCategoryRef.document(subCategoryId).set(subCategory);
     }
 
-    public Task<Void> deleteSubCategory(String subCategoryName) {
-        return subCategoryRef.document(subCategoryName).delete();
+    public Task<Void> deleteSubCategory(SubCategory subCategory) {
+        String subCategoryId = subCategory.Id;
+        return subCategoryRef.document(subCategoryId).delete();
     }
 
     public Task<DocumentSnapshot> getSubCategoryById(String subCategoryId) {

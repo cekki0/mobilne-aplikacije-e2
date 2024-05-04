@@ -29,7 +29,8 @@ public class CategoryRepository {
         return categoryRef.document(categoryId).set(category);
     }
 
-    public Task<Void> deleteCategory(String categoryId) {
+    public Task<Void> deleteCategory(Category category) {
+        String categoryId = category.Id;
         return categoryRef.document(categoryId).delete();
     }
 

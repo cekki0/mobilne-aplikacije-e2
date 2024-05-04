@@ -27,8 +27,8 @@ public class CategoryService {
         categoryRepository.updateCategory(category);
     }
 
-    public void deleteCategory(String categoryId) {
-        categoryRepository.deleteCategory(categoryId);
+    public void deleteCategory(Category category) {
+        categoryRepository.deleteCategory(category);
     }
 
     public Task<List<Category>> getAllCategories() {
