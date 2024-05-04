@@ -68,19 +68,19 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".activity.ServiceProviderRegistrationActivity"
+            android:name=".activity.register.ServiceProviderRegistrationActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".activity.EventOrganizerRegistrationActivity"
+            android:name=".activity.register.EventOrganizerRegistrationActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".activity.RegisterActivity"
+            android:name=".activity.register.RegisterActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".activity.LoginActivity"
+            android:name=".activity.login.LoginActivity"
 
 
 

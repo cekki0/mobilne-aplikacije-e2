@@ -9,7 +9,7 @@
         android:id="@+id/main"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context=".activity.ServiceProviderRegistrationActivity">
+        tools:context=".activity.register.ServiceProviderRegistrationActivity">
 
         <LinearLayout
             android:layout_width="match_parent"

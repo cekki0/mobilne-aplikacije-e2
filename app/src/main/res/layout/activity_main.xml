@@ -35,6 +35,8 @@
             android:id="@+id/btn_log_out"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_below="@id/btn_open_drawer"
+            android:layout_centerHorizontal="true"
             android:text="Log Out" />
 
     </RelativeLayout>

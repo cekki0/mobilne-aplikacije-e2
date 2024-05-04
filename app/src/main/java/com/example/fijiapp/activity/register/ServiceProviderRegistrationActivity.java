@@ -1,9 +1,7 @@
-package com.example.fijiapp.activity;
+package com.example.fijiapp.activity.register;
 
-import static com.example.fijiapp.model.UserRole.EVENT_ORGANIZER;
 import static com.example.fijiapp.model.UserRole.SERVICE_PROVIDER;
 
-import android.content.ComponentName;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -22,6 +20,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.login.LoginActivity;
 import com.example.fijiapp.adapters.WorkingDayAdapter;
 import com.example.fijiapp.model.Company;
 import com.example.fijiapp.model.User;

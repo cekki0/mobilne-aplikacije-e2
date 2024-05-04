@@ -1,4 +1,4 @@
-package com.example.fijiapp.activity;
+package com.example.fijiapp.activity.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.MainActivity;
+import com.example.fijiapp.activity.register.RegisterActivity;
 import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.UserRole;
 import com.google.android.gms.tasks.Continuation;
