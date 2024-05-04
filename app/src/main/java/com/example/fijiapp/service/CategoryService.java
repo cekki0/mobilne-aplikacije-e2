@@ -1,5 +1,7 @@
 package com.example.fijiapp.service;
 
+import android.util.Log;
+
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.repository.CategoryRepository;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 public class CategoryService {
+    private static final String TAG = "CategoryService";
     private CategoryRepository categoryRepository;
 
     public CategoryService() {
@@ -48,5 +51,4 @@ public class CategoryService {
             }
         });
     }
-
 }

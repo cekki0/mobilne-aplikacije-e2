@@ -17,4 +17,5 @@ public class Category implements Serializable {
         this.Description = description;
         this.SubCategoryNames = subCategoryNames;
     }
+    public Category() {}
 }

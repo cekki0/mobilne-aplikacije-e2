@@ -27,6 +27,10 @@ public class SubCategoryRepository {
         return subCategoryRef.document(subCategoryName).delete();
     }
 
+    public Task<QuerySnapshot> getSubCategoryByName(String subCategoryName) {
+        return subCategoryRef.whereEqualTo("Name", subCategoryName).get();
+    }
+
     public Task<QuerySnapshot> getAllSubCategories() {
         return subCategoryRef.get();
     }
