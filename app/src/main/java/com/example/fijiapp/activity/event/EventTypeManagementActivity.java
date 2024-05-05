@@ -30,30 +30,12 @@ public class EventTypeManagementActivity extends AppCompatActivity {
         eventTypeRecyclerView = findViewById(R.id.eventTypeRecyclerView);
         eventTypeRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        initData();
-
         eventTypeAdapter = new EventTypeAdapter(eventTypeList, this);
         eventTypeRecyclerView.setAdapter(eventTypeAdapter);
-    }
-
-    private void initData() {
-        eventTypeList = new ArrayList<>();
-
-        List<SubCategory> suggestedSubCategories1 = new ArrayList<>();
-        suggestedSubCategories1.add(new SubCategory("Catering", "Catering service", SubCategoryType.SERVICE));
-        suggestedSubCategories1.add(new SubCategory("Floral", "Floral arrangement service", SubCategoryType.SERVICE));
-        eventTypeList.add(new EventType("Wedding", "Wedding event type", suggestedSubCategories1));
-
-        List<SubCategory> suggestedSubCategories2 = new ArrayList<>();
-        suggestedSubCategories2.add(new SubCategory("Venue", "Venue service", SubCategoryType.SERVICE));
-        suggestedSubCategories2.add(new SubCategory("Photography", "Photography service", SubCategoryType.SERVICE));
-        eventTypeList.add(new EventType("Birthday", "Birthday event type", suggestedSubCategories2));
-
     }
 
     public void onAddEventTypeBtnClick(View view) {
         Intent intent = new Intent(this, EventTypeAddActivity.class);
         startActivity(intent);
     }
-
 }
