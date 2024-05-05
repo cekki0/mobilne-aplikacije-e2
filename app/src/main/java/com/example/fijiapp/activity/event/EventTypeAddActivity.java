@@ -140,6 +140,9 @@ public class EventTypeAddActivity extends AppCompatActivity {
     }
 
     private void addSubCategoryToList() {
+        if(subCategories.isEmpty()){
+            return;
+        }
         String selectedSubCategory = subcategorySpinner.getSelectedItem().toString();
         recommendedSubcategories.add(selectedSubCategory);
         subcategorySpinner.setSelection(0);
