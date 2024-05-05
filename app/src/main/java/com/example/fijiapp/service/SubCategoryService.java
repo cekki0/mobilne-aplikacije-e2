@@ -54,6 +54,7 @@ public class SubCategoryService {
                 List<SubCategory> subCategories = new ArrayList<>();
                 for (DocumentSnapshot document : task.getResult()) {
                     SubCategory subCategory = document.toObject(SubCategory.class);
+                    subCategory.Id = document.getId();
                     subCategories.add(subCategory);
                 }
                 return subCategories;

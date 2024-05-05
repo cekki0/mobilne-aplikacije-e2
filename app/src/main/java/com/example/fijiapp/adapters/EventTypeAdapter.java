@@ -38,8 +38,8 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.Even
     public void onBindViewHolder(@NonNull EventTypeViewHolder holder, int position) {
         EventType eventType = eventTypes.get(position);
 
-        holder.eventTypeNameTextView.setText(eventType.name);
-        holder.eventTypeDescriptionTextView.setText(eventType.description);
+        holder.eventTypeNameTextView.setText(eventType.Name);
+        holder.eventTypeDescriptionTextView.setText(eventType.Description);
 
         holder.editEventTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,7 +60,9 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.Even
 
     @Override
     public int getItemCount() {
-        return eventTypes.size();
+        if(eventTypes!=null)
+            return eventTypes.size();
+        return 0;
     }
 
     public static class EventTypeViewHolder extends RecyclerView.ViewHolder {
