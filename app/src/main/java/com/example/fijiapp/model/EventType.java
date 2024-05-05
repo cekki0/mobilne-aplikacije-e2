@@ -15,6 +15,8 @@ public class EventType implements Serializable {
     public List<SubCategory> SuggestedSubCategories;
     public Boolean isActive = true;
 
+    public EventType() {}
+
     public EventType(String name, String description, List<String> suggestedSubCategoryIds) {
         this.Name = name;
         this.Description = description;

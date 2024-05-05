@@ -1,5 +1,7 @@
 package com.example.fijiapp.service;
 
+import android.util.Log;
+
 import com.example.fijiapp.model.EventType;
 import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.repository.EventTypeRepository;
@@ -31,7 +33,7 @@ public class EventTypeService {
         eventTypeRepository.deleteEventType(eventType);
     }
 
-    public Task<List<EventType>> getAllCategories() {
+    public Task<List<EventType>> getAllEventTypes() {
         return eventTypeRepository.getAllEventTypes().continueWithTask(task -> {
             if (task.isSuccessful()) {
                 List<Task<Void>> subCategoryTasks = new ArrayList<>();
