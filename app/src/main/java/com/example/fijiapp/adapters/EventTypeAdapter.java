@@ -13,14 +13,17 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.activity.event.EventTypeEditActivity;
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.event.EventTypeManagementActivity;
 import com.example.fijiapp.model.EventType;
+import com.example.fijiapp.service.EventTypeService;
 
 import java.util.List;
 
-public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.EventTypeViewHolder> {
+public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.EventTypeViewHolder>  {
 
     private List<EventType> eventTypes;
     private Context context;
+    private EventTypeService eventTypeService = new EventTypeService();
 
     public EventTypeAdapter(List<EventType> eventTypes, Context context) {
         this.eventTypes = eventTypes;
@@ -41,6 +44,12 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.Even
         holder.eventTypeNameTextView.setText(eventType.Name);
         holder.eventTypeDescriptionTextView.setText(eventType.Description);
 
+        if (eventType.isActive) {
+            holder.deactivateEventTypeButton.setText("Deactivate");
+        } else {
+            holder.deactivateEventTypeButton.setText("Activate");
+        }
+
         holder.editEventTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -53,9 +62,15 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.Even
         holder.deactivateEventTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                eventTypeService.deleteEventType(eventType);
+                refreshPage();
             }
         });
+    }
+
+    public void refreshPage() {
+        Intent intent = new Intent(context, EventTypeManagementActivity.class);
+        context.startActivity(intent);
     }
 
     @Override

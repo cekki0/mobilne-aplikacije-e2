@@ -11,14 +11,8 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.activity.category.CategoryManagementAdminActivity;
-import com.example.fijiapp.adapters.CategoryAdapter;
 import com.example.fijiapp.adapters.EventTypeAdapter;
-import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.EventType;
-import com.example.fijiapp.model.SubCategory;
-import com.example.fijiapp.model.SubCategoryType;
-import com.example.fijiapp.service.CategoryService;
 import com.example.fijiapp.service.EventTypeService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;

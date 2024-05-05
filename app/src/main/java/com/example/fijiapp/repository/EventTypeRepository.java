@@ -29,8 +29,15 @@ public class EventTypeRepository {
     }
 
     public Task<Void> deleteEventType(EventType eventType) {
-        String EventTypeId = eventType.Id;
-        return eventTypeRef.document(EventTypeId).delete();
+        String eventTypeId = eventType.Id;
+        if (eventTypeId == null) {
+            return Tasks.forException(new IllegalArgumentException("EventType ID is null"));
+        }
+        if(eventType.isActive)
+            eventType.isActive = false;
+        else
+            eventType.isActive = true;
+        return eventTypeRef.document(eventTypeId).set(eventType);
     }
 
     public Task<QuerySnapshot> getAllEventTypes() {
