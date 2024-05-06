@@ -9,34 +9,35 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.model.Category;
+import com.example.fijiapp.model.EventType;
+import com.example.fijiapp.model.EventType;
 
 import java.util.List;
 
-public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapter.ViewHolder>{
-    private List<Category> categories;
+public class EventTypeListAdapter extends RecyclerView.Adapter<EventTypeListAdapter.ViewHolder>{
+    private List<EventType> eventTypes;
 
-    public CategoryListAdapter(List<Category> categories) {
-        this.categories = categories;
+    public EventTypeListAdapter(List<EventType> eventTypes) {
+        this.eventTypes = eventTypes;
     }
 
     @NonNull
     @Override
-    public CategoryListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public EventTypeListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.row_category, parent, false);
-        return new CategoryListAdapter.ViewHolder(view);
+        return new EventTypeListAdapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull CategoryListAdapter.ViewHolder holder, int position) {
-        Category category = categories.get(position);
-        holder.bind(category);
+    public void onBindViewHolder(@NonNull EventTypeListAdapter.ViewHolder holder, int position) {
+        EventType eventType = eventTypes.get(position);
+        holder.bind(eventType);
     }
 
     @Override
     public int getItemCount() {
-        if (categories!=null)
-            return categories.size();
+        if (!eventTypes.isEmpty())
+            return eventTypes.size();
         else
             return 0;
     }
@@ -49,9 +50,8 @@ public class CategoryListAdapter extends RecyclerView.Adapter<CategoryListAdapte
             textName = itemView.findViewById(R.id.textName);
         }
 
-        public void bind(Category category) {
-            textName.setText(category.Name);
+        public void bind(EventType eventType) {
+            textName.setText(eventType.Name);
         }
     }
 }
-

@@ -15,13 +15,13 @@ public class Company {
     public String OwnerEmail;
     public List<WorkingDay> WorkingDays = new ArrayList<>();
     public List<String> CategoryIds = new ArrayList<>();
-    public List<String> EventIds = new ArrayList<>();
+    public List<String> EventTypeIds = new ArrayList<>();
     @Exclude
     public List<Category> Categories = new ArrayList<Category>();
     @Exclude
-    public List<Event> Events = new ArrayList<Event>();
+    public List<EventType> EventTypes = new ArrayList<EventType>();
 
-    public Company(String email, String name, String address, String phoneNumber, String about,List<WorkingDay> workingDays,List<String> categoryIds,List<String> eventIds) {
+    public Company(String email, String name, String address, String phoneNumber, String about,List<WorkingDay> workingDays,List<String> categoryIds,List<String> eventTypeIds) {
         Email = email;
         Name = name;
         Address = address;
@@ -29,6 +29,6 @@ public class Company {
         About = about;
         WorkingDays = workingDays;
         CategoryIds = categoryIds;
-        EventIds = eventIds;
+        EventTypeIds = eventTypeIds;
     }
 }

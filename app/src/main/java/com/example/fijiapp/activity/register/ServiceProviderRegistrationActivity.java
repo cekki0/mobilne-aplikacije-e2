@@ -24,6 +24,7 @@ import com.example.fijiapp.R;
 import com.example.fijiapp.activity.event.EventTypeAddActivity;
 import com.example.fijiapp.activity.login.LoginActivity;
 import com.example.fijiapp.adapters.CategoryListAdapter;
+import com.example.fijiapp.adapters.EventTypeListAdapter;
 import com.example.fijiapp.adapters.WorkingDayAdapter;
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.Company;
@@ -55,26 +56,28 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<WorkingDay> workingDayList;
     private List<Category> categoryList;
+    private List<EventType> eventTypeList;
     private EditText editTextEmail, editTextPassword, editTextConfirmPassword, editTextFirstName,
             editTextLastName, editTextAddress, editTextPhoneNumber,
             editTextCompanyEmail, editTextCompanyName, editTextCompanyAddress,
             editTextCompanyPhoneNumber, editTextCompanyAbout;
 
-    private Spinner spinnerServiceCategories, spinnerServiceEvents, spinnerServiceWorkDays, spinnerStartTime, spinnerEndTime;
+    private Spinner spinnerServiceCategories, spinnerServiceEventTypes, spinnerServiceWorkDays, spinnerStartTime, spinnerEndTime;
     private Button buttonRegister, buttonUploadProfilePicture, buttonUploadCompanyPictures,
-            buttonServiceCategoryAdd, buttonServiceEventAdd, buttonServiceWorkDayAdd;
+            buttonServiceCategoryAdd, buttonServiceEventTypeAdd, buttonServiceWorkDayAdd;
 
     private CheckBox checkBoxWorkingDay;
 
-    private RecyclerView recyclerViewWorkingDays,recyclerViewCategories;
+    private RecyclerView recyclerViewWorkingDays,recyclerViewCategories,recyclerViewEventTypes;
     private Boolean isBoxChecked = true;
     private WorkingDayAdapter workingDayAdapter;
     private CategoryListAdapter categoryListAdapter;
+    private EventTypeListAdapter eventTypeListAdapter;
     private FirebaseAuth mAuth;
     private List<Category> categories;
-    private List<Event> events;
+    private List<EventType> eventTypes;
     private List<String> selectedCategories = new ArrayList<>();
-    private List<String> selectedEvents = new ArrayList<>();
+    private List<String> selectedEventTypes = new ArrayList<>();
     private CategoryService categoryService = new CategoryService();
     private EventTypeService eventTypeService = new EventTypeService();
 
@@ -84,6 +87,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service_provider_registration);
         workingDayList = new ArrayList<>();
         categoryList = new ArrayList<>();
+        eventTypeList = new ArrayList<>();
 
         //Personal info
         editTextEmail = findViewById(R.id.editTextEmail);
@@ -106,11 +110,11 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         buttonUploadProfilePicture = findViewById(R.id.buttonUploadProfilePicture);
         buttonUploadCompanyPictures = findViewById(R.id.buttonUploadCompanyPictures);
         buttonServiceCategoryAdd = findViewById(R.id.buttonServiceCategoryAdd);
-        buttonServiceEventAdd = findViewById(R.id.buttonServiceEventAdd);
+        buttonServiceEventTypeAdd = findViewById(R.id.buttonServiceEventTypeAdd);
         buttonServiceWorkDayAdd = findViewById(R.id.buttonServiceWorkDayAdd);
 
         spinnerServiceCategories = findViewById(R.id.spinnerServiceCategories);
-        spinnerServiceEvents = findViewById(R.id.spinnerServiceEvents);
+        spinnerServiceEventTypes = findViewById(R.id.spinnerServiceEventTypes);
         spinnerServiceWorkDays = findViewById(R.id.spinnerServiceWorkDays);
         spinnerStartTime = findViewById(R.id.spinnerStartTime);
         spinnerEndTime = findViewById(R.id.spinnerEndTime);
@@ -129,7 +133,14 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         categoryListAdapter = new CategoryListAdapter(categoryList);
         recyclerViewCategories.setAdapter(categoryListAdapter);
 
+        recyclerViewEventTypes = findViewById(R.id.recyclerViewEventTypes);
+        LinearLayoutManager layoutEventTypesManager = new LinearLayoutManager(this);
+        recyclerViewEventTypes.setLayoutManager(layoutEventTypesManager);
+        eventTypeListAdapter = new EventTypeListAdapter(eventTypeList);
+        recyclerViewEventTypes.setAdapter(eventTypeListAdapter);
+
         fetchCategories();
+        fetchEventTypes();
 
         String[] serviceWorkDays = {"MON", "TUE", "WED", "THU", "FRI", "SAT", "SUN"};
         ArrayAdapter<String> workDaysAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, serviceWorkDays);
@@ -171,6 +182,13 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             }
         });
 
+        buttonServiceEventTypeAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addEventType();
+            }
+        });
+
         buttonRegister.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -190,15 +208,15 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         spinnerServiceCategories.setAdapter(categoryAdapter);
     }
 
-    private void setEventAdapter()
+    private void setEventTypesAdapter()
     {
-        List<String> eventNames = new ArrayList<>();
-        for (Event event : events) {
-            eventNames.add(event.EventName);
+        List<String> eventTypeNames = new ArrayList<>();
+        for (EventType eventType : eventTypes) {
+            eventTypeNames.add(eventType.Name);
         }
-        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventNames);
+        ArrayAdapter<String> eventAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, eventTypeNames);
         eventAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        spinnerServiceEvents.setAdapter(eventAdapter);
+        spinnerServiceEventTypes.setAdapter(eventAdapter);
     }
 
     private void fetchCategories() {
@@ -215,6 +233,51 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    private void fetchEventTypes() {
+        eventTypeService.getAllEventTypes()
+                .addOnCompleteListener(new OnCompleteListener<List<EventType>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<EventType>> task) {
+                        if (task.isSuccessful()) {
+                            eventTypes = task.getResult();
+                            setEventTypesAdapter();
+                        } else {
+                            Toast.makeText(ServiceProviderRegistrationActivity.this,
+                                    "Failed to fetch event types", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void addEventType() {
+        String selectedEventTypeName = spinnerServiceEventTypes.getSelectedItem().toString();
+        boolean nameExists = false;
+        if(!eventTypeList.isEmpty())
+        {
+            for (EventType eventType : eventTypeList) {
+                if (eventType.Name.equalsIgnoreCase(selectedEventTypeName)) {
+                    nameExists = true;
+                    break;
+                }
+            }
+        }
+
+        if (!nameExists) {
+            if (!eventTypes.isEmpty()) {
+                for (EventType et : eventTypes) {
+                    if (selectedEventTypeName.equalsIgnoreCase(et.Name)) {
+                        selectedEventTypes.add(et.Id);
+                        eventTypeList.add(et);
+                    }
+                }
+                Toast.makeText(this, "Added " + selectedEventTypeName, Toast.LENGTH_SHORT).show();
+                eventTypeListAdapter.notifyDataSetChanged();
+            }
+        }
+        else
+            Toast.makeText(this, "Already added " + selectedEventTypeName, Toast.LENGTH_SHORT).show();
     }
 
     private void addCategory() {
@@ -381,6 +444,10 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Enter all working days!", Toast.LENGTH_SHORT).show();
             return;
         }
+        if (selectedCategories.isEmpty()) {
+            Toast.makeText(getApplicationContext(), "Select one or more categories!", Toast.LENGTH_SHORT).show();
+            return;
+        }
 
         mAuth.getInstance().createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -388,7 +455,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getInstance().getCurrentUser();
-                            saveUserToFirestore(new User(firstName,lastName,address,phoneNumber,SERVICE_PROVIDER),user,new Company(companyEmail,companyName,companyAddress,companyPhoneNumber,companyAbout,workingDayList,selectedCategories,selectedEvents));
+                            saveUserToFirestore(new User(firstName,lastName,address,phoneNumber,SERVICE_PROVIDER),user,new Company(companyEmail,companyName,companyAddress,companyPhoneNumber,companyAbout,workingDayList,selectedCategories,selectedEventTypes));
                         } else {
                             Toast.makeText(ServiceProviderRegistrationActivity.this, "Error occurred!",
                                     Toast.LENGTH_SHORT).show();
