@@ -11,6 +11,9 @@ public class SubCategory implements Serializable {
     public String Description;
     public SubCategoryType Type;
 
+    public SubCategory() {
+        // Required empty constructor for Firestore deserialization
+    }
     public SubCategory(String name, String description, SubCategoryType type) {
         this.Name = name;
         this.Description = description;

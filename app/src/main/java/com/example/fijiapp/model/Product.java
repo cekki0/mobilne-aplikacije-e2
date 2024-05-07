@@ -6,6 +6,8 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.PropertyName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -26,8 +28,11 @@ public class Product implements Parcelable {
     public String Event;
     public String Available;
     public String Visible;
-    public ImageButton editButton;
+//    public ImageButton editButton;
 
+    public Product() {
+        // Required empty constructor for Firestore deserialization
+    }
     public Product(String category, String subCategory, String title, String description, int price, int discount, int newPrice, ArrayList<String> pictureList, String event, String available, String visible) {
         Category = category;
         SubCategory = subCategory;
@@ -90,21 +95,21 @@ public class Product implements Parcelable {
 
     }
 
-    public String getTitle() {
-        return Title;
-    }
-
-    public String getCategory() {
-        return Category;
-    }
-
-    // Getter method for Price
-    public int getPrice() {
-        return Price;
-    }
-
-    // Getter method for SubCategory
-    public String getSubCategory() {
-        return SubCategory;
-    }
+//    public String getTitle() {
+//        return Title;
+//    }
+//
+//    public String getCategory() {
+//        return Category;
+//    }
+//
+//    // Getter method for Price
+//    public int getPrice() {
+//        return Price;
+//    }
+//
+//    // Getter method for SubCategory
+//    public String getSubCategory() {
+//        return SubCategory;
+//    }
 }

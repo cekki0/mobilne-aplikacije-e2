@@ -64,7 +64,7 @@ public class UpdateProductActivity extends AppCompatActivity {
             visibleEditText.setChecked(product.Visible.equals("Yes"));
             Log.d("DEBUG", "Available: " + product.Available);
             Log.d("DEBUG", "Visible: " + product.Visible);
-            subcategorySpinner.setText(String.valueOf(product.getSubCategory()));
+            subcategorySpinner.setText(String.valueOf(product.SubCategory));
 
         }
 

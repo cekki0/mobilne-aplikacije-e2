@@ -48,7 +48,7 @@
             android:id="@+id/buttonAddSpinners"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Add Spinners"
+            android:text="Add Service"
             android:layout_marginTop="16dp"
             app:layout_constraintTop_toBottomOf="@id/spinnerEventType"
             app:layout_constraintStart_toStartOf="parent"
@@ -57,7 +57,7 @@
         <ListView
             android:id="@+id/listView"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="150dp"
             android:layout_marginTop="16dp"/>
 
         <TextView
@@ -66,8 +66,14 @@
             android:layout_height="wrap_content"
             android:text="Max Price: 0din"
             android:textAlignment="center"
-            android:textSize="16sp"
-            android:layout_marginTop="16dp"/>
+            android:textSize="16sp"/>
+
+        <Button
+            android:id="@+id/buttonSave"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Save"
+            android:layout_gravity="center_horizontal"/>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
