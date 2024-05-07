@@ -19,8 +19,4 @@ public class SubCategory implements Serializable {
         this.Description = description;
         this.Type = type;
     }
-
-    public SubCategory() {
-
-    }
 }
