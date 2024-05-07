@@ -8,34 +8,49 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
 import com.example.fijiapp.fragment.WorkHoursDialogFragment;
+import com.example.fijiapp.model.Company;
+import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.UserRole;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
+import com.example.fijiapp.model.WorkingDay;
+import com.example.fijiapp.service.OwnerService;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.time.LocalTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class StaffRegistrationActivity extends AppCompatActivity implements WorkHoursDialogFragment.WorkHoursDialogListener {
 
     private TextInputEditText editTextEmail, editTextPassword, editTextConfirmPassword,
             editTextFirstName, editTextLastName, editTextAddress, editTextPhoneNumber, editTextProfileImage;
-    private MaterialButton buttonCreateUser;
     private final FirebaseFirestore db = FirebaseFirestore.getInstance();
 
-    private Map<WorkDays, com.example.fijiapp.model.WorkHours> workHours;
+    private List<WorkingDay> workHours = new ArrayList<>();
+    private User currentUser;
+    private Company currentCompany;
+
+    private OwnerService ownerService = new OwnerService();
 
     @Override
     public void onWorkHoursEntered(LocalTime mondayStartTime, LocalTime mondayEndTime, LocalTime tuesdayStartTime, LocalTime tuesdayEndTime, LocalTime wednesdayStartTime, LocalTime wednesdayEndTime, LocalTime thursdayStartTime, LocalTime thursdayEndTime, LocalTime fridayStartTime, LocalTime fridayEndTime) {
-        workHours.put(WorkDays.MON, new WorkHours(mondayStartTime, mondayEndTime));
-        workHours.put(WorkDays.TUE, new WorkHours(mondayStartTime, mondayEndTime));
-        workHours.put(WorkDays.WED, new WorkHours(mondayStartTime, mondayEndTime));
-        workHours.put(WorkDays.THU, new WorkHours(mondayStartTime, mondayEndTime));
-        workHours.put(WorkDays.FRI, new WorkHours(mondayStartTime, mondayEndTime));
+        workHours = new ArrayList<>();
+        workHours.add(new WorkingDay(WorkDays.MON, new WorkHours(mondayStartTime, mondayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.TUE, new WorkHours(mondayStartTime, mondayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.WED, new WorkHours(mondayStartTime, mondayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.THU, new WorkHours(mondayStartTime, mondayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.FRI, new WorkHours(mondayStartTime, mondayEndTime)));
         Toast.makeText(StaffRegistrationActivity.this, "Saved work hours successfully", Toast.LENGTH_SHORT).show();
     }
 
@@ -53,14 +68,42 @@ public class StaffRegistrationActivity extends AppCompatActivity implements Work
         editTextPhoneNumber = findViewById(R.id.editTextPhoneNumber);
         editTextProfileImage = findViewById(R.id.editTextProfileImage);
 
-        buttonCreateUser = findViewById(R.id.buttonCreateUser);
+        MaterialButton buttonCreateUser = findViewById(R.id.buttonCreateUser);
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
 
-        buttonCreateUser.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                registerStaff();
-            }
-        });
+        FirebaseUser currentUserAuth = mAuth.getCurrentUser();
+        buttonCreateUser.setEnabled(false);
+        buttonCreateUser.setOnClickListener(v -> registerStaff());
+
+        assert currentUserAuth != null;
+        String currentEmail = currentUserAuth.getEmail();
+        ownerService.getUserByEmail(currentEmail)
+                .addOnSuccessListener(extendedUser -> {
+                    if (extendedUser != null) {
+                        currentUser = extendedUser;
+                        ownerService.getCompanyByOwnerEmail(currentUser.Email).addOnSuccessListener(company -> {
+                                    if (company != null) {
+                                        currentCompany = company;
+                                        workHours = currentCompany.WorkingDays;
+                                        buttonCreateUser.setEnabled(true);
+                                    } else {
+                                        Toast.makeText(getApplicationContext(), "Company data not found!", Toast.LENGTH_SHORT).show();
+                                    }
+                                })
+                                .addOnFailureListener(e -> {
+                                    e.printStackTrace();
+                                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                                });
+                    } else {
+                        Toast.makeText(getApplicationContext(), "User data not found!", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    e.printStackTrace();
+                    Toast.makeText(getApplicationContext(), e.getMessage(), Toast.LENGTH_LONG).show();
+                });
+
+
     }
 
     public void onWorkHoursButtonClick(View view) {
@@ -102,27 +145,27 @@ public class StaffRegistrationActivity extends AppCompatActivity implements Work
             return;
         }
 
-
         Map<String, Object> staff = new HashMap<>();
-        staff.put("email", email);
-        staff.put("firstName", firstName);
-        staff.put("lastName", lastName);
-        staff.put("address", address);
-        staff.put("phoneNumber", phoneNumber);
-        staff.put("profileImage", profileImage);
-        staff.put("role", UserRole.STAFF);
-        staff.put("company", 1); // TODO: Add current users company and work hours
-        staff.put("workHours", workHours);
+        staff.put("Email", email);
+        staff.put("FirstName", firstName);
+        staff.put("LastName", lastName);
+        staff.put("Address", address);
+        staff.put("PhoneNumber", phoneNumber);
+        staff.put("ProfileImage", profileImage);
+        staff.put("Role", UserRole.STAFF);
+        staff.put("Company", currentCompany.Email); // TODO: Add current users company and work hours
+        staff.put("WorkingDays", workHours);
 
         db.collection("staff")
-                .document(staff.get("email").toString())
+                .document(staff.get("Email").toString())
                 .set(staff, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(StaffRegistrationActivity.this, "Staff registered successfully", Toast.LENGTH_SHORT).show();
                     finish();
+                    // TODO: Send email
                 })
-                .addOnFailureListener(e -> {
-                    Toast.makeText(StaffRegistrationActivity.this, e.toString(), Toast.LENGTH_SHORT).show();
-                });
+                .addOnFailureListener(e -> Toast.makeText(StaffRegistrationActivity.this, e.toString(), Toast.LENGTH_SHORT).show());
     }
+
+
 }

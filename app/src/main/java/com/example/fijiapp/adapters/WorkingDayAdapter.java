@@ -52,10 +52,10 @@ public class WorkingDayAdapter extends RecyclerView.Adapter<WorkingDayAdapter.Vi
         }
 
         public void bind(WorkingDay workingDay) {
-            textDay.setText(workingDay.workDay.toString());
-            if (workingDay.workHours != null) {
-                textStartTime.setText(workingDay.workHours.StartTime.toString());
-                textEndTime.setText(workingDay.workHours.EndTime.toString());
+            textDay.setText(workingDay.WorkDay.toString());
+            if (workingDay.WorkHours != null) {
+                textStartTime.setText(workingDay.WorkHours.StartTime.toString());
+                textEndTime.setText(workingDay.WorkHours.EndTime.toString());
             } else {
                 textStartTime.setText("Closed");
                 textEndTime.setText("Closed");

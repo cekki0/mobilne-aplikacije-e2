@@ -125,7 +125,7 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
                                             }
                                         });
                             }
-                            saveUserToFirestore(new User(firstName, lastName, address, phoneNumber, EVENT_ORGANIZER),user);
+                            saveUserToFirestore(new User(email, firstName, lastName, address, phoneNumber, EVENT_ORGANIZER), user);
                         } else {
                             Toast.makeText(EventOrganizerRegistrationActivity.this, "Error occurred!",
                                     Toast.LENGTH_SHORT).show();
@@ -138,12 +138,12 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    private void saveUserToFirestore(User user,FirebaseUser firebaseUser) {
+    private void saveUserToFirestore(User user, FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();
             String email = firebaseUser.getEmail();
 
-            user.Email=email;
+            user.Email = email;
             user.IsActive = true;
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -167,7 +167,6 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
         } else {
         }
     }
-
 
 
     public void navigateToLoginPage() {

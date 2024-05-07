@@ -14,6 +14,7 @@ import com.example.fijiapp.fragment.WorkHoursDialogFragment;
 import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
+import com.example.fijiapp.model.WorkingDay;
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
@@ -57,24 +58,26 @@ public class StaffDetailActivity extends AppCompatActivity {
             textViewPhoneNumber.setText(String.format(Locale.getDefault(), "Phone Number: %s", user.PhoneNumber));
             textViewAddress.setText(String.format(Locale.getDefault(), "Address: %s", user.Address));
 
-//            StringBuilder workHoursText = new StringBuilder();
-//            for (Map.Entry<WorkDays, WorkHours> entry : user.WorkHours.entrySet()) {
-//                workHoursText.append(entry.getKey()).append(": ")
-//                        .append(entry.getValue().StartTime).append(" - ")
-//                        .append(entry.getValue().EndTime).append("\n");
-//            }
-//            textViewWorkHours.setText(workHoursText.toString());
+            StringBuilder workHoursText = new StringBuilder();
+            for (WorkingDay wd : user.WorkingDays) {
+                if (wd.WorkHours != null) {
+                    workHoursText.append(wd.WorkDay.name().toString()).append(": ")
+                            .append(wd.WorkHours.StartTime).append(" - ")
+                            .append(wd.WorkHours.EndTime).append("\n");
+                }
+            }
+            textViewWorkHours.setText(workHoursText.toString());
         }
     }
 
     public void onBlockUserButtonClick(View view) {
-        if(!isBlocked){
+        if (!isBlocked) {
             blockBtn.setText("Deactivate Account");
             blockBtn.setIconResource(android.R.drawable.ic_input_add);
             blockBtn.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             blockBtn.setIconTintResource(android.R.color.holo_green_dark);
             isBlocked = true;
-        }else{
+        } else {
             blockBtn.setText("Activate Account");
             blockBtn.setIconResource(android.R.drawable.ic_delete);
             blockBtn.setTextColor(getResources().getColor(android.R.color.holo_red_dark));

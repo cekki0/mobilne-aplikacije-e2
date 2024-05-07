@@ -21,7 +21,7 @@ public class Company {
     @Exclude
     public List<EventType> EventTypes = new ArrayList<EventType>();
 
-    public Company(String email, String name, String address, String phoneNumber, String about,List<WorkingDay> workingDays,List<String> categoryIds,List<String> eventTypeIds) {
+    public Company(String email, String name, String address, String phoneNumber, String about, List<WorkingDay> workingDays, List<String> categoryIds, List<String> eventTypeIds) {
         Email = email;
         Name = name;
         Address = address;
@@ -30,5 +30,8 @@ public class Company {
         WorkingDays = workingDays;
         CategoryIds = categoryIds;
         EventTypeIds = eventTypeIds;
+    }
+
+    public Company() {
     }
 }

@@ -21,16 +21,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.activity.event.EventTypeAddActivity;
 import com.example.fijiapp.activity.login.LoginActivity;
 import com.example.fijiapp.adapters.CategoryListAdapter;
 import com.example.fijiapp.adapters.EventTypeListAdapter;
 import com.example.fijiapp.adapters.WorkingDayAdapter;
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.Company;
-import com.example.fijiapp.model.Event;
 import com.example.fijiapp.model.EventType;
-import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
@@ -68,7 +65,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
 
     private CheckBox checkBoxWorkingDay;
 
-    private RecyclerView recyclerViewWorkingDays,recyclerViewCategories,recyclerViewEventTypes;
+    private RecyclerView recyclerViewWorkingDays, recyclerViewCategories, recyclerViewEventTypes;
     private Boolean isBoxChecked = true;
     private WorkingDayAdapter workingDayAdapter;
     private CategoryListAdapter categoryListAdapter;
@@ -197,8 +194,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         });
     }
 
-    private void setCategoriesAdapter()
-    {
+    private void setCategoriesAdapter() {
         List<String> categoryNames = new ArrayList<>();
         for (Category category : categories) {
             categoryNames.add(category.Name);
@@ -208,8 +204,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         spinnerServiceCategories.setAdapter(categoryAdapter);
     }
 
-    private void setEventTypesAdapter()
-    {
+    private void setEventTypesAdapter() {
         List<String> eventTypeNames = new ArrayList<>();
         for (EventType eventType : eventTypes) {
             eventTypeNames.add(eventType.Name);
@@ -254,8 +249,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
     private void addEventType() {
         String selectedEventTypeName = spinnerServiceEventTypes.getSelectedItem().toString();
         boolean nameExists = false;
-        if(!eventTypeList.isEmpty())
-        {
+        if (!eventTypeList.isEmpty()) {
             for (EventType eventType : eventTypeList) {
                 if (eventType.Name.equalsIgnoreCase(selectedEventTypeName)) {
                     nameExists = true;
@@ -275,16 +269,14 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                 Toast.makeText(this, "Added " + selectedEventTypeName, Toast.LENGTH_SHORT).show();
                 eventTypeListAdapter.notifyDataSetChanged();
             }
-        }
-        else
+        } else
             Toast.makeText(this, "Already added " + selectedEventTypeName, Toast.LENGTH_SHORT).show();
     }
 
     private void addCategory() {
         String selectedCategoryName = spinnerServiceCategories.getSelectedItem().toString();
         boolean nameExists = false;
-        if(!categoryList.isEmpty())
-        {
+        if (!categoryList.isEmpty()) {
             for (Category category : categoryList) {
                 if (category.Name.equalsIgnoreCase(selectedCategoryName)) {
                     nameExists = true;
@@ -297,9 +289,8 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             Category category = new Category();
             if (!categories.isEmpty()) {
                 for (Category c : categories) {
-                    if (selectedCategoryName.equalsIgnoreCase(c.Name))
-                    {
-                        Log.d("CHECK","udje "+c.Id);
+                    if (selectedCategoryName.equalsIgnoreCase(c.Name)) {
+                        Log.d("CHECK", "udje " + c.Id);
                         selectedCategories.add(c.Id);
                         categoryList.add(c);
                         category = c;
@@ -308,8 +299,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                 Toast.makeText(this, "Added " + category.Name, Toast.LENGTH_SHORT).show();
                 categoryListAdapter.notifyDataSetChanged();
             }
-        }
-        else
+        } else
             Toast.makeText(this, "Already added " + selectedCategoryName, Toast.LENGTH_SHORT).show();
     }
 
@@ -320,7 +310,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
 
         boolean dayExists = false;
         for (WorkingDay day : workingDayList) {
-            if (day.workDay.toString().equalsIgnoreCase(selectedDay)) {
+            if (day.WorkDay.toString().equalsIgnoreCase(selectedDay)) {
                 dayExists = true;
                 break;
             }
@@ -455,7 +445,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             FirebaseUser user = mAuth.getInstance().getCurrentUser();
-                            saveUserToFirestore(new User(firstName,lastName,address,phoneNumber,SERVICE_PROVIDER),user,new Company(companyEmail,companyName,companyAddress,companyPhoneNumber,companyAbout,workingDayList,selectedCategories,selectedEventTypes));
+                            saveUserToFirestore(new User(email, firstName, lastName, address, phoneNumber, SERVICE_PROVIDER), user, new Company(companyEmail, companyName, companyAddress, companyPhoneNumber, companyAbout, workingDayList, selectedCategories, selectedEventTypes));
                         } else {
                             Toast.makeText(ServiceProviderRegistrationActivity.this, "Error occurred!",
                                     Toast.LENGTH_SHORT).show();
@@ -486,7 +476,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             String uid = firebaseUser.getUid();
             String email = firebaseUser.getEmail();
 
-            user.Email=email;
+            user.Email = email;
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -496,7 +486,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                         @Override
                         public void onSuccess(Void aVoid) {
-                            company.OwnerEmail=email;
+                            company.OwnerEmail = email;
                             saveCompanyToFirestore(company);
                             Toast.makeText(ServiceProviderRegistrationActivity.this, "User registered successfully", Toast.LENGTH_SHORT).show();
                             navigateToLoginPage();

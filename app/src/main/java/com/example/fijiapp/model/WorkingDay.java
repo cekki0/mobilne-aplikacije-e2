@@ -1,10 +1,14 @@
 package com.example.fijiapp.model;
 
 public class WorkingDay {
-    public WorkDays workDay;
-    public WorkHours workHours;
+    public WorkDays WorkDay;
+    public WorkHours WorkHours;
+
     public WorkingDay(WorkDays workDay, WorkHours workHours) {
-        this.workDay = workDay;
-        this.workHours = workHours;
+        this.WorkDay = workDay;
+        this.WorkHours = workHours;
+    }
+
+    public WorkingDay() {
     }
 }

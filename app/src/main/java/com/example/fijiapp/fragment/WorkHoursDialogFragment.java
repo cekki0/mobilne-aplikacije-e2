@@ -74,7 +74,7 @@ public class WorkHoursDialogFragment extends DialogFragment {
 
                         mListener.onWorkHoursEntered(mondayStartTime, mondayEndTime, tuesdayStartTime, tuesdayEndTime, wednesdayStartTime, wednesdayEndTime, thursdayStartTime, thursdayEndTime, fridayStartTime, fridayEndTime);
                     } catch (Exception e) {
-                        Log.e("Error", e.toString());
+                        e.printStackTrace();
                     }
                 })
                 .setNegativeButton("Cancel", (dialog, which) -> {
