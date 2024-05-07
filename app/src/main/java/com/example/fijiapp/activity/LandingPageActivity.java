@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.widget.EditText;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -19,12 +20,23 @@ import com.example.fijiapp.adapters.ServiceAdapter;
 import com.example.fijiapp.model.Package;
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 // LandingPageActivity.java
 public class LandingPageActivity extends AppCompatActivity {
+    private final FirebaseFirestore db = FirebaseFirestore.getInstance();
+    public interface ProductFetchListener {
+        void onProductFetch(List<Product> productList);
+        void onError(Exception e);
+    }
 
     private RadioGroup radioGroup;
     private RadioButton showProductsRadioButton;
@@ -95,7 +107,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void productFilterInit(){
         // Dummy product list, replace with your actual data
-        productList = getDummyProductList();
+        productList = getProductListFromFirebase();
 
         // Initialize Adapter
         productAdapter = new ProductAdapter(productList, this);
@@ -118,7 +130,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void serviceFilterInit() {
         // Dummy service list, replace with your actual data
-        serviceList = getDummyServiceList();
+        serviceList = getServiceListFromFirebase();
 
         // Initialize Adapter
         serviceAdapter = new ServiceAdapter(serviceList, this, null);
@@ -143,7 +155,7 @@ public class LandingPageActivity extends AppCompatActivity {
 
     private void packageFilterInit() {
         // Dummy package list, replace with your actual data
-        packageList = getDummyPackageList();
+        packageList = getPackageListFromFirebase();
 
         // Initialize Adapter
         packageAdapter = new PackageAdapter(packageList, this);
@@ -164,45 +176,70 @@ public class LandingPageActivity extends AppCompatActivity {
 
 
     // Method to get dummy product list (replace with your actual data source)
-    private List<Product> getDummyProductList() {
+    public List<Product> getProductListFromFirebase() {
         List<Product> productList = new ArrayList<>();
 
-        // Add dummy products
-        productList.add(new Product("Category1", "SubCategory1", "Product1", "Description1", 100, 10, 90, new ArrayList<>(), "Event1", "Available", "Visible"));
-        productList.add(new Product("Category2", "SubCategory2", "Product2", "Description2", 200, 20, 180, new ArrayList<>(), "Event2", "Available", "Visible"));
-        // Add more products...
+        // Access the Firestore database
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference productsRef = db.collection("products");
+
+        // Retrieve data asynchronously
+        productsRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Product product = document.toObject(Product.class);
+                    productList.add(product);
+                }
+            } else {
+
+            }
+        });
 
         return productList;
     }
 
-    private List<Service> getDummyServiceList() {
+
+
+    private List<Service> getServiceListFromFirebase() {
         List<Service> serviceList = new ArrayList<>();
 
-        // Add dummy services
-        serviceList.add(new Service("Category1", "SubCategory1", "Service1", "Description1", new ArrayList<>(), "Specifics1", 50, 100, 2, "Location1", 0, new ArrayList<>(), new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1", "AcceptanceMode1", "Available", "Visible"));
-        serviceList.add(new Service("Category2", "SubCategory2", "Service2", "Description2", new ArrayList<>(), "Specifics2", 80, 150, 3, "Location2", 10, new ArrayList<>(), new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2", "AcceptanceMode2", "Available", "Visible"));
-        // Add more services...
+        // Access the Firestore database
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference productsRef = db.collection("services");
+
+        // Retrieve data asynchronously
+        productsRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Service service = document.toObject(Service.class);
+                    serviceList.add(service);
+                }
+            } else {
+
+            }
+        });
 
         return serviceList;
     }
 
-    private List<Package> getDummyPackageList() {
+    private List<Package> getPackageListFromFirebase() {
         List<Package> packageList = new ArrayList<>();
 
-        // Add dummy packages
-        List<Product> products1 = new ArrayList<>();
-        products1.add(new Product("Category1", "SubCategory1", "Product1", "Description1", 100, 10, 90, new ArrayList<>(), "Event1", "Available", "Visible"));
-        products1.add(new Product("Category2", "SubCategory2", "Product2", "Description2", 200, 20, 180, new ArrayList<>(), "Event2", "Available", "Visible"));
+        // Access the Firestore database
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        CollectionReference productsRef = db.collection("packages");
 
-        List<Service> services1 = new ArrayList<>();
-        services1.add(new Service("Category1", "SubCategory1", "Service1", "Description1", new ArrayList<>(), "Specifics1", 50, 100, 2, "Location1", 0, new ArrayList<>(), new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1", "AcceptanceMode1", "Available", "Visible"));
-        services1.add(new Service("Category2", "SubCategory2", "Service2", "Description2", new ArrayList<>(), "Specifics2", 80, 150, 3, "Location2", 10, new ArrayList<>(), new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2", "AcceptanceMode2", "Available", "Visible"));
+        // Retrieve data asynchronously
+        productsRef.get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : task.getResult()) {
+                    Package p = document.toObject(Package.class);
+                    packageList.add(p);
+                }
+            } else {
 
-        packageList.add(new Package("Package1", "Description1", 10, "Visible", "Available", "Category1", products1, services1, "Event1", 300, new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1"));
-        packageList.add(new Package("Package2", "Description2", 15, "Visible", "Available", "Category2", products1, services1, "Event2", 400, new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2"));
-
-
-        // Add more packages...
+            }
+        });
 
         return packageList;
     }
@@ -235,19 +272,19 @@ public class LandingPageActivity extends AppCompatActivity {
 
         for (Product product : productList) {
             // Filter by title
-            if (!product.getTitle().toLowerCase().contains(titleFilter))
+            if (!product.Title.toLowerCase().contains(titleFilter))
                 continue;
 
             // Filter by category
-            if (!product.getCategory().toLowerCase().contains(categoryFilter))
+            if (!product.Category.toLowerCase().contains(categoryFilter))
                 continue;
 
             // Filter by subcategory
-            if (!product.getSubCategory().toLowerCase().contains(subcategoryFilter))
+            if (!product.SubCategory.toLowerCase().contains(subcategoryFilter))
                 continue;
 
             // Filter by price
-            if (product.getPrice() < minPriceFilter || product.getPrice() > maxPriceFilter)
+            if (product.Price < minPriceFilter || product.Price > maxPriceFilter)
                 continue;
 
             // If all filters pass, add product to filtered list
