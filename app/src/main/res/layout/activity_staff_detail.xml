@@ -1,151 +1,157 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:layout_height="match_parent">
 
-    <!-- Profile Image -->
-    <ImageView
-        android:id="@+id/imageViewProfile"
-        android:layout_width="220dp"
-        android:layout_height="220dp"
-        android:layout_gravity="center_horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/textViewFullName"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:scaleType="fitCenter"
-        android:adjustViewBounds="true"
-        android:padding="16dp" />
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-    <!-- Full Name -->
-    <TextView
-        android:id="@+id/textViewFullName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:text="Full Name"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal" />
+        <!-- Profile Image -->
+        <ImageView
+            android:id="@+id/imageViewProfile"
+            android:layout_width="220dp"
+            android:layout_height="220dp"
+            android:layout_gravity="center_horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintBottom_toTopOf="@+id/textViewFullName"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            android:scaleType="fitCenter"
+            android:adjustViewBounds="true"
+            android:padding="16dp" />
 
-    <!-- Email -->
-    <TextView
-        android:id="@+id/textViewEmail"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Email: example@example.com"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal" />
+        <!-- Full Name -->
+        <TextView
+            android:id="@+id/textViewFullName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="Full Name"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal" />
 
-    <!-- Phone Number -->
-    <TextView
-        android:id="@+id/textViewPhoneNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Phone Number: +123456789"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal" />
+        <!-- Email -->
+        <TextView
+            android:id="@+id/textViewEmail"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Email: example@example.com"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal" />
 
-    <!-- Address -->
-    <TextView
-        android:id="@+id/textViewAddress"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Address: 123 Main St, City, Country"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal" />
+        <!-- Phone Number -->
+        <TextView
+            android:id="@+id/textViewPhoneNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Phone Number: +123456789"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/textViewWorkHoursTitle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="18dp"
-        android:text="Work Hours:"
-        android:textSize="18sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal" />
+        <!-- Address -->
+        <TextView
+            android:id="@+id/textViewAddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Address: 123 Main St, City, Country"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal" />
 
-    <TextView
-        android:id="@+id/textViewWorkHours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:text="Monday: 8:00 - 16:00"
-        android:textSize="16sp"
-        android:gravity="center"
-        android:layout_gravity="center_horizontal" />
+        <TextView
+            android:id="@+id/textViewWorkHoursTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="18dp"
+            android:text="Work Hours:"
+            android:textSize="18sp"
+            android:textStyle="bold"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal" />
 
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonEditWorkHours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Edit"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:cornerRadius="8dp"
-        app:icon="@android:drawable/ic_menu_edit"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        android:onClick="onEditWorkHoursButtonClicked" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonAddEvent"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Event"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:cornerRadius="8dp"
-        app:icon="@android:drawable/ic_menu_agenda"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        android:onClick="onAddEventButtonClick" />
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonShowCalendar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Show Calendar"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:cornerRadius="8dp"
-        app:icon="@android:drawable/ic_menu_agenda"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        android:onClick="onCalendarButtonClick" />
+        <TextView
+            android:id="@+id/textViewWorkHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="Monday: 8:00 - 16:00"
+            android:textSize="16sp"
+            android:gravity="center"
+            android:layout_gravity="center_horizontal" />
 
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonBlockUser"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Deactivate Account"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal"
-        style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-        app:cornerRadius="8dp"
-        app:icon="@android:drawable/ic_delete"
-        app:iconGravity="textStart"
-        app:iconPadding="8dp"
-        android:onClick="onBlockUserButtonClick"
-        android:textColor="@color/design_default_color_error"
-        app:iconTint="@color/design_default_color_error" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonEditWorkHours"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Edit"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:cornerRadius="8dp"
+            app:icon="@android:drawable/ic_menu_edit"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            android:onClick="onEditWorkHoursButtonClicked" />
 
-    <!-- Other Properties -->
-    <!-- Add more TextViews for the other properties like Password, WorkHours, etc. -->
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonAddEvent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Event"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:cornerRadius="8dp"
+            app:icon="@android:drawable/ic_menu_agenda"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            android:onClick="onAddEventButtonClick" />
 
-</LinearLayout>
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonShowCalendar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Show Calendar"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:cornerRadius="8dp"
+            app:icon="@android:drawable/ic_menu_agenda"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            android:onClick="onCalendarButtonClick" />
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/buttonBlockUser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Deactivate Account"
+            android:layout_marginTop="16dp"
+            android:layout_gravity="center_horizontal"
+            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+            app:cornerRadius="8dp"
+            app:icon="@android:drawable/ic_delete"
+            app:iconGravity="textStart"
+            app:iconPadding="8dp"
+            android:onClick="onBlockUserButtonClick"
+            android:textColor="@color/design_default_color_error"
+            app:iconTint="@color/design_default_color_error" />
+
+        <!-- Other Properties -->
+        <!-- Add more TextViews for the other properties like Password, WorkHours, etc. -->
+
+    </LinearLayout>
+</ScrollView>
