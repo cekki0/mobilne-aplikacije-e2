@@ -4,7 +4,9 @@ import android.util.Log;
 
 import com.example.fijiapp.model.Company;
 import com.example.fijiapp.model.User;
+import com.example.fijiapp.model.WorkingDay;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -71,5 +73,23 @@ public class OwnerService {
             }
             throw new Exception("Failed to fetch company");
         });
+    }
+
+    public void deactivateStaffAccount(String email) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("users").document(email);
+        ref.update("IsActive", false);
+    }
+
+    public void activateStaffAccount(String email) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("users").document(email);
+        ref.update("IsActive", true);
+    }
+
+    public void updateWorkHours(String email, List<WorkingDay> wh) {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        DocumentReference ref = db.collection("users").document(email);
+        ref.update("WorkingDays", wh);
     }
 }
