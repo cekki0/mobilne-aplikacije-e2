@@ -20,6 +20,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.prolificinteractive.materialcalendarview.CalendarDay;
 import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -32,8 +33,9 @@ public class StaffCalendarActivity extends AppCompatActivity {
     private List<CalendarDay> busyDates;
     private List<Event> events = new ArrayList<>();
     private EventAdapter adapter;
-    private int filterMonth; // Month to filter
-    // Access the Firestore database
+    private int filterMonth;
+
+    private List<Event> filteredEvents;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -66,13 +68,21 @@ public class StaffCalendarActivity extends AppCompatActivity {
                             busyDates.add(CalendarDay.from(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
                         }
                     }
+
                     filterMonth = Calendar.getInstance().get(Calendar.MONTH);
 
-                    List<Event> filteredEvents = filterEventsByMonth(events, filterMonth);
+                    filteredEvents = filterEventsByMonth(events, filterMonth);
 
-                    adapter = new EventAdapter(filteredEvents, this, filterMonth);
+                    adapter = new EventAdapter(filteredEvents, this);
                     calendarView.addDecorator(new EventDecorator(this, com.google.android.material.R.color.design_default_color_error, busyDates));
                     recyclerView.setAdapter(adapter);
+                    calendarView.setOnMonthChangedListener((widget, date) -> {
+                        filterMonth = date.getMonth() - 1;
+                        filteredEvents = filterEventsByMonth(events, filterMonth);
+                        adapter.setEvents(filteredEvents);
+                        calendarView.removeDecorators();
+                        calendarView.addDecorator(new EventDecorator(this, com.google.android.material.R.color.design_default_color_error, busyDates));
+                    });
 
                 }
             }

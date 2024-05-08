@@ -17,19 +17,22 @@ import java.util.List;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private List<Event> events;
     private Context context;
-    private int filterMonth; // Month to filter by
 
-    public EventAdapter(List<Event> dataSet, Context context, int filterMonth) {
+    public EventAdapter(List<Event> dataSet, Context context) {
         this.events = dataSet;
         this.context = context;
-        this.filterMonth = filterMonth;
     }
 
     @NonNull
     @Override
-    public EventAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType){
+    public EventAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.event_card, parent, false);
         return new EventAdapter.ViewHolder(view);
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+        notifyDataSetChanged();
     }
 
     @Override
