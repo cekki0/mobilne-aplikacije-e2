@@ -84,14 +84,15 @@ public class LoginActivity extends AppCompatActivity {
                                                         Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
                                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                                         finish();
-                                                    }
-                                                    else if (extendedUser.Role == UserRole.EVENT_ORGANIZER && user.isEmailVerified()) {
+                                                    } else if (extendedUser.Role == UserRole.EVENT_ORGANIZER && user.isEmailVerified()) {
                                                         Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
                                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                                         finish();
-                                                    }
-                                                    else
-                                                    {
+                                                    } else if (extendedUser.Role == UserRole.STAFF && user.isEmailVerified() && extendedUser.IsActive) {
+                                                        Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
+                                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                                        finish();
+                                                    } else {
                                                         Toast.makeText(getApplicationContext(), "Account not activated!", Toast.LENGTH_SHORT).show();
                                                     }
                                                 } else {

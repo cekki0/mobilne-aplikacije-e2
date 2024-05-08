@@ -17,10 +17,12 @@ import java.util.List;
 public class EventAdapter extends RecyclerView.Adapter<EventAdapter.ViewHolder> {
     private List<Event> events;
     private Context context;
+    private int filterMonth; // Month to filter by
 
-    public EventAdapter(List<Event> dataSet, Context context) {
+    public EventAdapter(List<Event> dataSet, Context context, int filterMonth) {
         this.events = dataSet;
         this.context = context;
+        this.filterMonth = filterMonth;
     }
 
     @NonNull

@@ -1,7 +1,5 @@
 package com.example.fijiapp.activity;
 
-import static com.example.fijiapp.model.UserRole.SERVICE_PROVIDER;
-
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -10,7 +8,6 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.activity.register.ServiceProviderRegistrationActivity;
 import com.example.fijiapp.fragment.WorkHoursDialogFragment;
 import com.example.fijiapp.model.Company;
 import com.example.fijiapp.model.User;
@@ -25,9 +22,7 @@ import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.SetOptions;
 
 import java.time.LocalTime;
@@ -52,10 +47,10 @@ public class StaffRegistrationActivity extends AppCompatActivity implements Work
     public void onWorkHoursEntered(LocalTime mondayStartTime, LocalTime mondayEndTime, LocalTime tuesdayStartTime, LocalTime tuesdayEndTime, LocalTime wednesdayStartTime, LocalTime wednesdayEndTime, LocalTime thursdayStartTime, LocalTime thursdayEndTime, LocalTime fridayStartTime, LocalTime fridayEndTime) {
         workHours = new ArrayList<>();
         workHours.add(new WorkingDay(WorkDays.MON, new WorkHours(mondayStartTime, mondayEndTime)));
-        workHours.add(new WorkingDay(WorkDays.TUE, new WorkHours(mondayStartTime, mondayEndTime)));
-        workHours.add(new WorkingDay(WorkDays.WED, new WorkHours(mondayStartTime, mondayEndTime)));
-        workHours.add(new WorkingDay(WorkDays.THU, new WorkHours(mondayStartTime, mondayEndTime)));
-        workHours.add(new WorkingDay(WorkDays.FRI, new WorkHours(mondayStartTime, mondayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.TUE, new WorkHours(tuesdayStartTime, tuesdayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.WED, new WorkHours(wednesdayStartTime, wednesdayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.THU, new WorkHours(thursdayStartTime, thursdayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.FRI, new WorkHours(fridayStartTime, fridayEndTime)));
         Toast.makeText(StaffRegistrationActivity.this, "Saved work hours successfully", Toast.LENGTH_SHORT).show();
     }
 
@@ -160,39 +155,38 @@ public class StaffRegistrationActivity extends AppCompatActivity implements Work
         staff.put("Role", UserRole.STAFF);
         staff.put("Company", currentCompany.Email);
         staff.put("WorkingDays", workHours);
+        staff.put("IsActive", true);
 
-        db.collection("users")
-                .document(staff.get("Email").toString())
-                .set(staff, SetOptions.merge())
-                .addOnSuccessListener(aVoid -> {
-                    Toast.makeText(StaffRegistrationActivity.this, "Staff registered successfully", Toast.LENGTH_SHORT).show();
-                    finish();
-                })
-                .addOnFailureListener(e -> Toast.makeText(StaffRegistrationActivity.this, e.toString(), Toast.LENGTH_SHORT).show());
-
-//        mAuth.getInstance().createUserWithEmailAndPassword(email, password)
-//                .addOnCompleteListener(this, task -> {
-//                    if (task.isSuccessful()) {
-//                        FirebaseUser user = task.getResult().getUser();
-//                        if (user != null) {
-//                            user.sendEmailVerification()
-//                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                                        @Override
-//                                        public void onComplete(@NonNull Task<Void> task) {
-//                                            if (task.isSuccessful()) {
-//                                                Toast.makeText(StaffRegistrationActivity.this, "Verification email sent", Toast.LENGTH_SHORT).show();
-//                                            } else {
-//                                                Toast.makeText(StaffRegistrationActivity.this, "Failed to send verification email", Toast.LENGTH_SHORT).show();
-//                                            }
-//                                        }
-//                                    });
-//                        }
-//
-//                    } else {
-//                        Toast.makeText(StaffRegistrationActivity.this, "Error occurred!",
-//                                Toast.LENGTH_SHORT).show();
-//                    }
-//                });
+        mAuth.getInstance().createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = task.getResult().getUser();
+                        if (user != null) {
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(StaffRegistrationActivity.this, "Verification email sent", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(StaffRegistrationActivity.this, "Failed to send verification email", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
+                        }
+                        db.collection("users")
+                                .document(staff.get("Email").toString())
+                                .set(staff, SetOptions.merge())
+                                .addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(StaffRegistrationActivity.this, "Staff registered successfully", Toast.LENGTH_SHORT).show();
+                                    finish();
+                                })
+                                .addOnFailureListener(e -> Toast.makeText(StaffRegistrationActivity.this, e.toString(), Toast.LENGTH_SHORT).show());
+                    } else {
+                        Toast.makeText(StaffRegistrationActivity.this, "Error occurred!",
+                                Toast.LENGTH_SHORT).show();
+                    }
+                });
     }
 
 
