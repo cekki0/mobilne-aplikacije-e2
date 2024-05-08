@@ -1,5 +1,7 @@
 package com.example.fijiapp.service;
 
+import android.util.Log;
+
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
 import com.example.fijiapp.model.SubCategoryProposal;
@@ -44,23 +46,27 @@ public class SubCategoryProposalService {
                 List<SubCategoryProposal> proposals = new ArrayList<>();
                 for (DocumentSnapshot document : task.getResult()) {
                     SubCategoryProposal proposal = document.toObject(SubCategoryProposal.class);
-                    if (proposal != null) {
+                    if (proposal != null && !proposal.IsResolved) {
                         proposal.Id = document.getId();
                         if (proposal.SubCategoryType == SubCategoryType.PRODUCT) {
                             Task<Product> productTask = productService.getProductById(proposal.ProductOrServiceId);
                             subCategoryTasks.add(productTask.onSuccessTask(product -> {
-                                proposal.Product = product;
+                                if (product != null) {
+                                    proposal.Product = product;
+                                }
                                 return null;
                             }));
                         } else if (proposal.SubCategoryType == SubCategoryType.SERVICE) {
                             Task<Service> serviceTask = serviceService.getServiceById(proposal.ProductOrServiceId);
                             subCategoryTasks.add(serviceTask.onSuccessTask(service -> {
-                                proposal.Service = service;
+                                if (service != null) {
+                                    proposal.Service = service;
+                                }
                                 return null;
                             }));
                         }
+                        proposals.add(proposal);
                     }
-                    proposals.add(proposal);
                 }
                 return Tasks.whenAll(subCategoryTasks).continueWith(ignored -> proposals);
             } else {
