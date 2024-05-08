@@ -17,7 +17,7 @@ public class User implements Parcelable {
     public String ProfileImage;
     public List<WorkingDay> WorkingDays = new ArrayList<>();
     public UserRole Role;
-    public Boolean IsActive = false;
+    public Boolean IsActive = true;
 
     public User(String email, String firstName, String lastName, String address, String phoneNumber, String profileImage, UserRole role, List<WorkingDay> workingDays) {
         Email = email;
