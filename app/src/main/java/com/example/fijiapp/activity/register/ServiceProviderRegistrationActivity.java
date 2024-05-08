@@ -440,16 +440,26 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
         }
 
         mAuth.getInstance().createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            FirebaseUser user = mAuth.getInstance().getCurrentUser();
-                            saveUserToFirestore(new User(email, firstName, lastName, address, phoneNumber, SERVICE_PROVIDER), user, new Company(companyEmail, companyName, companyAddress, companyPhoneNumber, companyAbout, workingDayList, selectedCategories, selectedEventTypes));
-                        } else {
-                            Toast.makeText(ServiceProviderRegistrationActivity.this, "Error occurred!",
-                                    Toast.LENGTH_SHORT).show();
+                .addOnCompleteListener(this, task -> {
+                    if (task.isSuccessful()) {
+                        FirebaseUser user = task.getResult().getUser();
+                        if (user != null) {
+                            user.sendEmailVerification()
+                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<Void> task) {
+                                            if (task.isSuccessful()) {
+                                                Toast.makeText(ServiceProviderRegistrationActivity.this, "Verification email sent", Toast.LENGTH_SHORT).show();
+                                            } else {
+                                                Toast.makeText(ServiceProviderRegistrationActivity.this, "Failed to send verification email", Toast.LENGTH_SHORT).show();
+                                            }
+                                        }
+                                    });
                         }
+                        saveUserToFirestore(new User(email, firstName, lastName, address, phoneNumber, SERVICE_PROVIDER), user, new Company(companyEmail, companyName, companyAddress, companyPhoneNumber, companyAbout, workingDayList, selectedCategories, selectedEventTypes));
+                    } else {
+                        Toast.makeText(ServiceProviderRegistrationActivity.this, "Error occurred!",
+                                Toast.LENGTH_SHORT).show();
                     }
                 });
     }

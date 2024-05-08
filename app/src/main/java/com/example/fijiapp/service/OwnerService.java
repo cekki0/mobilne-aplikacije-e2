@@ -51,7 +51,7 @@ public class OwnerService {
             Company company = companyTask.getResult();
             if (company != null) {
                 FirebaseFirestore db = FirebaseFirestore.getInstance();
-                return db.collection("staff").whereEqualTo("Company", company.Email).get()
+                return db.collection("users").whereEqualTo("Company", company.Email).get()
                         .continueWith(task -> {
                             List<User> userList = new ArrayList<>();
                             if (task.isSuccessful()) {

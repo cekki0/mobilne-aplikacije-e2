@@ -1,12 +1,16 @@
 package com.example.fijiapp.activity;
 
+import static com.example.fijiapp.model.UserRole.SERVICE_PROVIDER;
+
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.register.ServiceProviderRegistrationActivity;
 import com.example.fijiapp.fragment.WorkHoursDialogFragment;
 import com.example.fijiapp.model.Company;
 import com.example.fijiapp.model.User;
@@ -15,6 +19,7 @@ import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
 import com.example.fijiapp.model.WorkingDay;
 import com.example.fijiapp.service.OwnerService;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputEditText;
@@ -40,7 +45,7 @@ public class StaffRegistrationActivity extends AppCompatActivity implements Work
     private List<WorkingDay> workHours = new ArrayList<>();
     private User currentUser;
     private Company currentCompany;
-
+    private FirebaseAuth mAuth;
     private OwnerService ownerService = new OwnerService();
 
     @Override
@@ -153,18 +158,41 @@ public class StaffRegistrationActivity extends AppCompatActivity implements Work
         staff.put("PhoneNumber", phoneNumber);
         staff.put("ProfileImage", profileImage);
         staff.put("Role", UserRole.STAFF);
-        staff.put("Company", currentCompany.Email); // TODO: Add current users company and work hours
+        staff.put("Company", currentCompany.Email);
         staff.put("WorkingDays", workHours);
 
-        db.collection("staff")
+        db.collection("users")
                 .document(staff.get("Email").toString())
                 .set(staff, SetOptions.merge())
                 .addOnSuccessListener(aVoid -> {
                     Toast.makeText(StaffRegistrationActivity.this, "Staff registered successfully", Toast.LENGTH_SHORT).show();
                     finish();
-                    // TODO: Send email
                 })
                 .addOnFailureListener(e -> Toast.makeText(StaffRegistrationActivity.this, e.toString(), Toast.LENGTH_SHORT).show());
+
+//        mAuth.getInstance().createUserWithEmailAndPassword(email, password)
+//                .addOnCompleteListener(this, task -> {
+//                    if (task.isSuccessful()) {
+//                        FirebaseUser user = task.getResult().getUser();
+//                        if (user != null) {
+//                            user.sendEmailVerification()
+//                                    .addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                        @Override
+//                                        public void onComplete(@NonNull Task<Void> task) {
+//                                            if (task.isSuccessful()) {
+//                                                Toast.makeText(StaffRegistrationActivity.this, "Verification email sent", Toast.LENGTH_SHORT).show();
+//                                            } else {
+//                                                Toast.makeText(StaffRegistrationActivity.this, "Failed to send verification email", Toast.LENGTH_SHORT).show();
+//                                            }
+//                                        }
+//                                    });
+//                        }
+//
+//                    } else {
+//                        Toast.makeText(StaffRegistrationActivity.this, "Error occurred!",
+//                                Toast.LENGTH_SHORT).show();
+//                    }
+//                });
     }
 
 
