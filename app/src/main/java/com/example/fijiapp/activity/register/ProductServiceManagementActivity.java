@@ -87,6 +87,8 @@ public class ProductServiceManagementActivity extends AppCompatActivity {
             return new ViewHolder(view);
         }
 
+
+
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             SubCategoryProposal proposal = proposalList.get(position);
@@ -106,12 +108,14 @@ public class ProductServiceManagementActivity extends AppCompatActivity {
                     proposal.Product.SubCategory= proposal.SubCategoryName;
                     subCategoryProposalService.updateSubCategoryProposal(proposal);
                     productService.updateProduct(proposal.Product,proposal.ProductOrServiceId);
+                    recreate();
                 }
                 else
                 {
                     proposal.Service.setSubCategory(proposal.SubCategoryName);
                     subCategoryProposalService.updateSubCategoryProposal(proposal);
                     serviceService.updateService(proposal.Service,proposal.ProductOrServiceId);
+                    recreate();
                 }
 
                 Toast.makeText(ProductServiceManagementActivity.this, "Proposal Approved", Toast.LENGTH_SHORT).show();
