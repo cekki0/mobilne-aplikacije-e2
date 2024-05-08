@@ -1,6 +1,7 @@
 package com.example.fijiapp.activity.register;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,10 +18,14 @@ import com.example.fijiapp.R;
 import com.example.fijiapp.activity.category.CategoryManagementAdminActivity;
 import com.example.fijiapp.adapters.CategoryAdapter;
 import com.example.fijiapp.model.Category;
+import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.model.SubCategoryProposal;
 import com.example.fijiapp.model.SubCategoryType;
 import com.example.fijiapp.service.CategoryService;
+import com.example.fijiapp.service.ProductService;
+import com.example.fijiapp.service.ServiceService;
 import com.example.fijiapp.service.SubCategoryProposalService;
+import com.example.fijiapp.service.SubCategoryService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 
@@ -33,6 +38,9 @@ public class ProductServiceManagementActivity extends AppCompatActivity {
     private ProposalAdapter proposalAdapter;
     private List<SubCategoryProposal> proposalList= new ArrayList<>();
     private SubCategoryProposalService subCategoryProposalService = new SubCategoryProposalService();
+    private SubCategoryService subCategoryService = new SubCategoryService();
+    private ProductService productService = new ProductService();
+    private ServiceService serviceService = new ServiceService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,16 +90,36 @@ public class ProductServiceManagementActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
             SubCategoryProposal proposal = proposalList.get(position);
-            holder.productOrServiceName.setText(proposal.ProductOrServiceName);
+            if(proposal.SubCategoryType == SubCategoryType.PRODUCT)
+                holder.productOrServiceName.setText(proposal.Product.Title);
+            else
+                holder.productOrServiceName.setText(proposal.Service.getName());
             holder.subCategoryName.setText(proposal.SubCategoryName);
             holder.subCategoryDescription.setText(proposal.SubCategoryDescription);
             holder.subCategoryType.setText(proposal.SubCategoryType.toString());
 
             holder.approveButton.setOnClickListener(v -> {
+                proposal.IsResolved = true;
+                subCategoryService.addSubCategory(new SubCategory(proposal.SubCategoryName,proposal.SubCategoryDescription,proposal.SubCategoryType));
+                if(proposal.SubCategoryType == SubCategoryType.PRODUCT)
+                {
+                    proposal.Product.SubCategory= proposal.SubCategoryName;
+                    subCategoryProposalService.updateSubCategoryProposal(proposal);
+                    productService.updateProduct(proposal.Product,proposal.ProductOrServiceId);
+                }
+                else
+                {
+                    proposal.Service.setSubCategory(proposal.SubCategoryName);
+                    subCategoryProposalService.updateSubCategoryProposal(proposal);
+                    serviceService.updateService(proposal.Service,proposal.ProductOrServiceId);
+                }
+
                 Toast.makeText(ProductServiceManagementActivity.this, "Proposal Approved", Toast.LENGTH_SHORT).show();
             });
 
             holder.denyButton.setOnClickListener(v -> {
+                proposal.IsResolved = true;
+                subCategoryProposalService.updateSubCategoryProposal(proposal);
                 Toast.makeText(ProductServiceManagementActivity.this, "Proposal Denied", Toast.LENGTH_SHORT).show();
             });
         }
