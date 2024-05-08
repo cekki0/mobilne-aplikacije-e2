@@ -2,6 +2,7 @@ package com.example.fijiapp.activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
@@ -21,6 +22,7 @@ import com.prolificinteractive.materialcalendarview.MaterialCalendarView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 public class StaffCalendarActivity extends AppCompatActivity {
@@ -42,40 +44,10 @@ public class StaffCalendarActivity extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.eventRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        loadEvents(recyclerView);
-
         calendarView = findViewById(R.id.calendarView);
         buttonMarkBusy = findViewById(R.id.buttonMarkBusy);
 
-        busyDates = new ArrayList<>();
-
-        Calendar calendar = Calendar.getInstance();
-        CalendarDay today = CalendarDay.today();
-
-        calendar.set(today.getYear(), today.getMonth(), today.getDay());
-
-        calendar.add(Calendar.DAY_OF_MONTH, 1);
-        int yearTomorrow = calendar.get(Calendar.YEAR);
-        int monthTomorrow = calendar.get(Calendar.MONTH);
-        int dayOfMonthTomorrow = calendar.get(Calendar.DAY_OF_MONTH);
-
-        CalendarDay tomorrow = CalendarDay.from(yearTomorrow, monthTomorrow, dayOfMonthTomorrow);
-
-        busyDates.add(today);
-        busyDates.add(tomorrow);
-        calendarView.addDecorator(new EventDecorator(this, com.google.android.material.R.color.design_default_color_error, busyDates));
-
-        Context context = this;
-        buttonMarkBusy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CalendarDay selectedDate = calendarView.getSelectedDate();
-                if (selectedDate != null && !busyDates.contains(selectedDate)) {
-                    busyDates.add(selectedDate);
-                    calendarView.addDecorator(new EventDecorator(context,com.google.android.material.R.color.design_default_color_error, busyDates));
-                }
-            }
-        });
+        loadEvents(recyclerView);
     }
 
     private void loadEvents(RecyclerView recyclerView) {
@@ -83,19 +55,25 @@ public class StaffCalendarActivity extends AppCompatActivity {
             if (task.isSuccessful()) {
                 QuerySnapshot qs = task.getResult();
                 if (qs != null && !qs.isEmpty()) {
+
+                    busyDates = new ArrayList<>();
                     for (DocumentSnapshot d : qs.getDocuments()) {
                         Event e = d.toObject(Event.class);
                         if (e != null) {
                             events.add(e);
+                            Calendar calendar = new GregorianCalendar();
+                            calendar.setTime(e.Date);
+                            busyDates.add(CalendarDay.from(calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH) + 1, calendar.get(Calendar.DAY_OF_MONTH)));
                         }
                     }
                     filterMonth = Calendar.getInstance().get(Calendar.MONTH);
 
-                    // Filter events by month
                     List<Event> filteredEvents = filterEventsByMonth(events, filterMonth);
 
                     adapter = new EventAdapter(filteredEvents, this, filterMonth);
+                    calendarView.addDecorator(new EventDecorator(this, com.google.android.material.R.color.design_default_color_error, busyDates));
                     recyclerView.setAdapter(adapter);
+
                 }
             }
             throw new Exception("Failed to fetch");
