@@ -13,8 +13,7 @@
             android:id="@+id/categorySpinner"
             android:layout_width="match_parent"
             android:layout_height="140px"
-            android:hint="Category"
-            android:visibility="invisible"/>
+            android:hint="Category" />
 
         <Spinner
             android:id="@+id/subcategorySpinner"

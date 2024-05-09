@@ -147,10 +147,12 @@ public class CreateServiceActivity extends AppCompatActivity {
         double totalPriceDouble = pricePerHour * durationHours * (1 - discount / 100.0);
         int totalPrice = (int) Math.round(totalPriceDouble);
         String status;
-        if(customSubcategory!=null){
+        if (!customSubcategory.isEmpty()) {
             status = "PENDING";
-        }else status = "APPROVAL";
-        Service service = new Service(category, subcategory, name, description, pictureList, specifics, pricePerHour, totalPrice, durationHours, location, discount, serviceProviders, eventTypes, bookingDeadline, cancellationDeadline, acceptanceMode, availableText, visibleText,status);
+        } else {
+            status = "APPROVAL";
+        }
+        Service service = new Service(category, subcategory, name, description, pictureList, specifics, pricePerHour, totalPrice, durationHours, location, discount, serviceProviders, eventTypes, bookingDeadline, cancellationDeadline, acceptanceMode, availableText, visibleText, status);
 
         db.collection("services")
                 .add(service)
@@ -158,14 +160,14 @@ public class CreateServiceActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d("CreateServiceActivity", "Service added with ID: " + documentReference.getId());
-                        // Clear input fields if needed
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.e("CreateServiceActivity", "Error adding service", e);
-                        // Handle failure
+
                     }
                 });
     }

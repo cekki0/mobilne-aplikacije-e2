@@ -69,7 +69,6 @@ public class CreateProductActivity extends AppCompatActivity {
         eventTypesEditText = findViewById(R.id.eventTypesEditText);
         customSubcategoryEditText = findViewById(R.id.customSubcategoryEditText);
 
-
         ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryList);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
@@ -77,7 +76,6 @@ public class CreateProductActivity extends AppCompatActivity {
         ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subcategoryList);
         subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         subcategorySpinner.setAdapter(subcategoryAdapter);
-
 
         db.collection("category")
                 .get()
@@ -92,7 +90,6 @@ public class CreateProductActivity extends AppCompatActivity {
                         Log.w("CreateProductActivity", "Error getting documents.", task.getException());
                     }
                 });
-
 
         db.collection("subcategories")
                 .get()
@@ -111,7 +108,6 @@ public class CreateProductActivity extends AppCompatActivity {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 String selectedCategory = categorySpinner.getSelectedItem().toString();
                 String selectedSubCategory = subcategorySpinner.getSelectedItem().toString();
                 String titleText = titleEditText.getText().toString();
@@ -120,36 +116,51 @@ public class CreateProductActivity extends AppCompatActivity {
                 int discountValue = Integer.parseInt(discountEditText.getText().toString());
                 String eventTypeText = eventTypesEditText.getText().toString();
                 String selectedImagesText = selectedImagesEditText.getText().toString();
-
+                String customSubcategory = customSubcategoryEditText.getText().toString();
 
                 String[] picturePaths = selectedImagesText.split(",");
-
-
                 ArrayList<String> pictureList = new ArrayList<>(Arrays.asList(picturePaths));
                 String availableText = availableCheckBox.isChecked() ? "Da" : "Ne";
                 String visibleText = visibleCheckBox.isChecked() ? "Da" : "Ne";
                 String status;
-                if(selectedSubCategory!=null){
+                if (!customSubcategory.isEmpty()) {
                     status = "PENDING";
-                }else status = "APPROVAL";
+                } else {
+                    status = "APPROVAL";
+                }
 
-                Product product = new Product(selectedCategory, selectedSubCategory, titleText, descriptionText, priceValue, discountValue, priceValue - priceValue * discountValue / 100, pictureList, eventTypeText, visibleText, availableText,status);
+                Product product = new Product(selectedCategory, selectedSubCategory, titleText, descriptionText, priceValue, discountValue, priceValue - priceValue * discountValue / 100, pictureList, eventTypeText, visibleText, availableText, status);
 
-                // Spremanje podataka u Firestore
+
                 db.collection("products").add(product)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                             @Override
                             public void onSuccess(DocumentReference documentReference) {
                                 Log.d("CreateProductActivity", "DocumentSnapshot added with ID: " + documentReference.getId());
-                                }
+
+                                clearInputFields();
+                            }
                         })
                         .addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
                                 Log.w("CreateProductActivity", "Error adding document", e);
-                                  }
+                               
+                            }
                         });
             }
         });
+    }
+
+    private void clearInputFields() {
+        titleEditText.setText("");
+        descriptionEditText.setText("");
+        priceEditText.setText("");
+        discountEditText.setText("");
+        eventTypesEditText.setText("");
+        selectedImagesEditText.setText("");
+        customSubcategoryEditText.setText("");
+        availableCheckBox.setChecked(false);
+        visibleCheckBox.setChecked(false);
     }
 }
