@@ -57,10 +57,10 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         holder.visibleTextView.setText("Visible: " + pack.getVisible());
         holder.availableTextView.setText("Available: " + pack.getAvailable());
         holder.categoryTextView.setText("Category: " + pack.getCategory());
-        holder.eventTypeTextView.setText("Event Type: " + pack.getEventType());
+        holder.eventTypeTextView.setText("Event Type: " + pack.eventType);
         holder.priceTextView.setText("Price: " + pack.getPrice());
-        holder.bookingDeadlineTextView.setText("Booking Deadline: " + pack.getBookingDeadline());
-        holder.cancellationDeadlineTextView.setText("Cancellation Deadline: " + pack.getCancellationDeadline());
+        holder.bookingDeadlineTextView.setText("Booking Deadline: " + pack.bookingDeadline);
+        holder.cancellationDeadlineTextView.setText("Cancellation Deadline: " + pack.cancellationDeadline);
         holder.imagesTextView.setText(("Gallery: " + pack.getImages()));
 
         db.collection("packages")

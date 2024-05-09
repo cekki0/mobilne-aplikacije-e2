@@ -8,6 +8,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,16 +23,25 @@ import com.example.fijiapp.adapters.ServiceCheckBoxAdapter;
 import com.example.fijiapp.model.Package;
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
-public class UpdatePackageActivity  extends AppCompatActivity  {
+public class UpdatePackageActivity extends AppCompatActivity {
+    private FirebaseFirestore db;
+
     private EditText editTextName, editTextDescription, editTextDiscount, editTextEventType, editTextPrice,
             editTextBookingDeadline, editTextCancellationDeadline, imagesEditText, servicesEditText;
     private CheckBox checkBoxVisible, checkBoxAvailable;
-    private RecyclerView recyclerViewProducts, recyclerViewServices, recyclerView,recyclerViewForProducts;
+    private RecyclerView recyclerViewProducts, recyclerViewServices, recyclerView, recyclerViewForProducts;
     private Button buttonAddProduct, buttonAddService, buttonSaveChanges;
 
     private ProductAdapter productAdapter;
@@ -42,17 +52,19 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
     private List<Product> productList = new ArrayList<>();
     private List<Service> serviceList = new ArrayList<>();
 
+    private Package packageToUpdate;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_update_package);
 
+        db = FirebaseFirestore.getInstance();
+
         recyclerViewProducts = findViewById(R.id.recyclerViewProducts);
         recyclerViewServices = findViewById(R.id.recyclerViewServices);
         recyclerViewProducts.setLayoutManager(new LinearLayoutManager(this));
         recyclerViewServices.setLayoutManager(new LinearLayoutManager(this));
-
 
         editTextName = findViewById(R.id.editTextName);
         editTextDescription = findViewById(R.id.editTextDescription);
@@ -60,225 +72,110 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
         editTextEventType = findViewById(R.id.editTextEventType);
         editTextPrice = findViewById(R.id.editTextPrice);
         editTextBookingDeadline = findViewById(R.id.editTextBookingDeadline);
-        //servicesEditText=findViewById(R.id.servicesTextName);
         editTextCancellationDeadline = findViewById(R.id.editTextCancellationDeadline);
         imagesEditText = findViewById(R.id.imagesEditText);
-
 
         checkBoxVisible = findViewById(R.id.checkBoxVisible);
         checkBoxAvailable = findViewById(R.id.checkBoxAvailable);
 
-
         recyclerViewProducts = findViewById(R.id.recyclerViewProducts);
         recyclerViewServices = findViewById(R.id.recyclerViewServices);
 
-
         buttonAddProduct = findViewById(R.id.buttonAddProduct);
         buttonAddService = findViewById(R.id.buttonAddService);
-
         buttonSaveChanges = findViewById(R.id.buttonSaveChanges);
 
-
         productAdapter = new ProductAdapter(productList, this);
-        List<Service> servicesNotPackage = new ArrayList<>();
         recyclerViewProducts.setAdapter(productAdapter);
 
-        Package package1 = getIntent().getParcelableExtra("package");
-        if (package1 != null) {
-
-            editTextName.setText(package1.getName());
-            editTextDescription.setText(package1.getDescription());
-            editTextDiscount.setText(String.valueOf(package1.getDiscount()));
-            editTextEventType.setText(package1.getEventType());
-            editTextPrice.setText(String.valueOf(package1.getPrice()));
-            editTextBookingDeadline.setText(package1.getBookingDeadline());
-            editTextCancellationDeadline.setText(package1.getCancellationDeadline());
-
-
-            if (package1.getImages() != null && !package1.getImages().isEmpty()) {
-                StringBuilder imagesText = new StringBuilder();
-                for (String image : package1.getImages()) {
-                    imagesText.append(image).append("\n");
-                }
-                imagesEditText.setText(imagesText.toString());
-            }
-
-
-            checkBoxVisible.setChecked(package1.getVisible().equals("Da"));
-            checkBoxAvailable.setChecked(package1.getAvailable().equals("Da"));
-
-
-            List<Service> services = new ArrayList<>();
-            Service service1 = new Service(
-                    "Foto i video",
-                    "Snimanje dronom",
-                    "Snimanje dronom",
-                    "Ovo je snimanje iz vazduha sa dronom",
-                    Arrays.asList("Slika 1", "Slika 2", "Slika 3"),
-                    "Ne radimo praznicima",
-                    3000,
-                    6000,
-                    2,
-                    "Okolina Novog Sada",
-                    0,
-                    Arrays.asList("LipFi", "Krle"),
-                    Arrays.asList("Vencanje", "Krstenje", "1 rodjendan"),
-                    "12 meseci pre termina",
-                    "2 dana pre termina",
-                    "Rucno",
-                    "Da",
-                    "Da","APPROVAL"
-            );
-
-            Service service2 = new Service(
-                    "Foto i video",
-                    "Videografija",
-                    "Snimanje kamerom 4k",
-                    "Ovo je snimanje u 4k rezoluciji",
-                    Arrays.asList("Slika 1", "Slika 2", "Slika 3"),
-                    "",
-                    5000,
-                    0, //racun u odn na trajanje
-                    1,
-                    "Okolina Novog Sada",
-                    0,
-                    Arrays.asList("Dragan", "Ceki"),
-                    Arrays.asList("Vencanje", "Krstenje", "1 rodjendan"),
-                    "12 meseci pre termina",
-                    "2 dana pre termina",
-                    "Rucno",
-                    "Da",
-                    "Da","APPROVAL"
-            );
-            Service service3 = new Service(
-                    "Foto i video",
-                    "Videografija",
-                    "Ajoj dragisha",
-                    "Ovo je snimanje u 4k rezoluciji",
-                    Arrays.asList("Slika 1", "Slika 2", "Slika 3"),
-                    "",
-                    5000,
-                    0, //racun u odn na trajanje
-                    1,
-                    "Okolina Novog Sada",
-                    0,
-                    Arrays.asList("Dragan", "Ceki"),
-                    Arrays.asList("Vencanje", "Krstenje", "1 rodjendan"),
-                    "12 meseci pre termina",
-                    "2 dana pre termina",
-                    "Rucno",
-                    "Da",
-                    "Da","APPROVAL"
-            );
-            Product product1 = new Product(
-                    "Electronics",
-                    "Smartphones",
-                    "Alo X",
-                    "lololo igh-performance smartphone with great features",
-                    500,
-                    50,
-                    1450,
-                    new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
-                    "SVADBA,KRSTENJE",
-                    "Yes",
-                    "No","APPROVAL"
-            );
-
-            Product product2 = new Product(
-                    "Ojsa",
-                    "Baco",
-                    "Smartphone X",
-                    "likvid igh-performance smartphone with great features",
-                    5000,
-                    50,
-                    900,
-                    new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
-                    "SVADBA",
-                    "Yes",
-                    "Yes","APPROVAL"
-            );
-
-            Product product3= new Product(
-                    "STA STA",
-                    "Smartphones",
-                    "Joj Zoro",
-                    "oooooo High-performance smartphone with great features",
-                    1500,
-                    50,
-                    450,
-                    new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
-                    "SVADBA",
-                    "Yes",
-                    "Yes","APPROVAL"
-            );
-
-            List<Product> products = new ArrayList<>();
-            List<Product> products1 = new ArrayList<>();
-
-            products.add(product1);
-            products.add(product2);
-            products.add(product3);
-            products1.add(product3);
-
-
-
-            services.add(service1);
-            services.add(service2);
-            services.add(service3);
-            List<Service> services2 = new ArrayList<>();
-            services2.add(service1);
-            services2.add(service2);
-
-            recyclerViewForProducts = findViewById(R.id.recyclerViewForProducts);
-            recyclerViewForProducts.setLayoutManager(new LinearLayoutManager(this));
-
-            productCheckBoxAdapter = new ProductCheckBoxAdapter( this,products);
-            recyclerViewForProducts.setAdapter(productCheckBoxAdapter);
-
-
-
-            recyclerView = findViewById(R.id.recyclerView);
-
-            recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-            serviceCheckBoxAdapter = new ServiceCheckBoxAdapter(this, services);
-            recyclerView.setAdapter(serviceCheckBoxAdapter);
-
-
-            for(Service service : services2)
-            {
-                Log.d("tag","PEJOOOOO" + service.getName());
-
-            }
-
-            for(Service service : services)
-            {
-                Log.d("tag","PEJOOOOO" + service.getName());
-
-            }
-
-
-            for (int i = 0; i < recyclerView.getChildCount(); i++) {
-                View view = recyclerView.getChildAt(i);
-                if (view instanceof LinearLayout) {
-                    LinearLayout layout = (LinearLayout) view;
-                    CheckBox checkBox = layout.findViewById(R.id.checkBox);
-
-                    for (Service service : services2) {
-                        if (checkBox.getText().toString().equals(service.getName())) {
-                            checkBox.setChecked(true);
-                            break;
-                        }
-                    }
-                }
-            }
-
-
-            servicesNotPackage.add(service3);
-
-
+        packageToUpdate = getIntent().getParcelableExtra("package");
+        if (packageToUpdate != null) {
+            loadPackageData(packageToUpdate);
         }
 
-
+        buttonSaveChanges.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                updatePackageDescription();
+            }
+        });
     }
+
+    private void loadPackageData(Package packageToUpdate) {
+        editTextName.setText(packageToUpdate.getName());
+        editTextDescription.setText(packageToUpdate.getDescription());
+        editTextDiscount.setText(String.valueOf(packageToUpdate.getDiscount()));
+        editTextEventType.setText(packageToUpdate.eventType);
+        editTextPrice.setText(String.valueOf(packageToUpdate.getPrice()));
+        editTextBookingDeadline.setText(packageToUpdate.bookingDeadline);
+        editTextCancellationDeadline.setText(packageToUpdate.cancellationDeadline);
+
+        if (packageToUpdate.getImages() != null && !packageToUpdate.getImages().isEmpty()) {
+            StringBuilder imagesText = new StringBuilder();
+            for (String image : packageToUpdate.getImages()) {
+                imagesText.append(image).append("\n");
+            }
+            imagesEditText.setText(imagesText.toString());
+        }
+
+        checkBoxVisible.setChecked(packageToUpdate.getVisible().equals("Da"));
+        checkBoxAvailable.setChecked(packageToUpdate.getAvailable().equals("Da"));
+
+        // Load products and services here if needed
+    }
+
+    private void updatePackageDescription() {
+        String name = editTextName.getText().toString();
+        String newDescription = editTextDescription.getText().toString();
+
+        // Kreiramo mapu sa samo poljem za ažuriranje deskripcije
+        Map<String, Object> updatedFields = new HashMap<>();
+        updatedFields.put("description", newDescription);
+
+        // Tražimo pakete po imenu
+        db.collection("packages")
+                .whereEqualTo("name", name)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            String packageId = documentSnapshot.getId();
+
+                            // Ažuriramo deskripciju paketa
+                            db.collection("packages").document(packageId)
+                                    .update(updatedFields)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Log.d("UpdatePackageActivity", "Package description updated successfully");
+                                            // Handle successful update
+                                            finish();
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e("UpdatePackageActivity", "Error updating package description", e);
+                                            // Handle update failure
+                                        }
+                                    });
+                            break; // Prekidamo petlju jer smo pronašli paket
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("UpdatePackageActivity", "Error finding package by name", e);
+                        // Handle error finding package
+                    }
+                });
+    }
+
 }
+
+
+
+
+

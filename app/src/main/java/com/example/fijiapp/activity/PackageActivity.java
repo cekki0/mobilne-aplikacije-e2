@@ -94,7 +94,7 @@ public class PackageActivity extends AppCompatActivity {
             try {
                 int priceFilter = Integer.parseInt(queryLowerCase);
                 for (Package packagee : packageList) {
-                    if (packagee.getEventType() != null && packagee.getEventType().toLowerCase().contains(queryLowerCase) ||
+                    if (packagee.eventType != null && packagee.eventType.toLowerCase().contains(queryLowerCase) ||
                             packagee.getCategory() != null && packagee.getCategory().toLowerCase().contains(queryLowerCase) ||
                             (packagee.getPrice() <= priceFilter)){
                         filteredList.add(packagee);
@@ -102,7 +102,7 @@ public class PackageActivity extends AppCompatActivity {
                 }
             } catch (NumberFormatException e) {
                 for (Package packagee : packageList) {
-                    if (packagee.getEventType() != null && packagee.getEventType().toLowerCase().contains(queryLowerCase) ||
+                    if (packagee.eventType != null && packagee.eventType.toLowerCase().contains(queryLowerCase) ||
                             packagee.getCategory() != null && packagee.getCategory().toLowerCase().contains(queryLowerCase)
                             ){
                         filteredList.add(packagee);

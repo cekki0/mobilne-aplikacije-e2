@@ -1,9 +1,16 @@
+
+
+
+
+
 package com.example.fijiapp.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
+
+import com.google.firebase.firestore.PropertyName;
 
 import java.util.List;
 
@@ -16,11 +23,16 @@ public class Package implements Parcelable {
     private String category;
     private List<Product> products;
     private List<Service> services;
-    private String eventType;
+
+    @PropertyName("event_type")
+    public String eventType;
     private int price;
     private List<String> images;
-    private String bookingDeadline;
-    private String cancellationDeadline;
+
+    @PropertyName("booking_deadline")
+    public String bookingDeadline;
+    @PropertyName("cancellation_deadline")
+    public String cancellationDeadline;
     public String status;
 
     public Package(){}
@@ -69,6 +81,9 @@ public class Package implements Parcelable {
             return new Package[size];
         }
     };
+
+    public Package(String name, String description, int discount, String eventType, int price, String bookingDeadline, String cancellationDeadline, List<String> images, String visible, String available, String status) {
+    }
 
     public String getStatus(){return status;}
     public void setStatus(String status){this.status = status;}
@@ -136,13 +151,13 @@ public class Package implements Parcelable {
         this.services = services;
     }
 
-    public String getEventType() {
-        return eventType;
-    }
-
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
-    }
+//    public String getEventType() {
+//        return eventType;
+//    }
+//
+//    public void setEventType(String eventType) {
+//        this.eventType = eventType;
+//    }
 
     public int getPrice() {
         return price;
@@ -160,21 +175,21 @@ public class Package implements Parcelable {
         this.images = images;
     }
 
-    public String getBookingDeadline() {
-        return bookingDeadline;
-    }
+//    public String getBookingDeadline() {
+//        return bookingDeadline;
+//    }
+//
+//    public void setBookingDeadline(String bookingDeadline) {
+//        this.bookingDeadline = bookingDeadline;
+//    }
 
-    public void setBookingDeadline(String bookingDeadline) {
-        this.bookingDeadline = bookingDeadline;
-    }
-
-    public String getCancellationDeadline() {
-        return cancellationDeadline;
-    }
-
-    public void setCancellationDeadline(String cancellationDeadline) {
-        this.cancellationDeadline = cancellationDeadline;
-    }
+//    public String getCancellationDeadline() {
+//        return cancellationDeadline;
+//    }
+//
+//    public void setCancellationDeadline(String cancellationDeadline) {
+//        this.cancellationDeadline = cancellationDeadline;
+//    }
 
     @Override
     public int describeContents() {
@@ -198,3 +213,11 @@ public class Package implements Parcelable {
         dest.writeString(cancellationDeadline);
     }
 }
+
+
+
+
+
+
+
+
