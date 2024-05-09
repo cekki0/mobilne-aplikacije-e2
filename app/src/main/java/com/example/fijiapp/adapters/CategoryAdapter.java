@@ -13,15 +13,18 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import com.example.fijiapp.activity.CategoryEditActivity;
+import com.example.fijiapp.activity.category.CategoryEditActivity;
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.category.CategoryManagementAdminActivity;
 import com.example.fijiapp.model.Category;
+import com.example.fijiapp.service.CategoryService;
 
 import java.util.List;
 
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
     private List<Category> categories;
     private Context context;
+    private CategoryService categoryService = new CategoryService();
 
     public CategoryAdapter(List<Category> dataSet, Context context) {
         this.categories = dataSet;
@@ -56,7 +59,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                categoryService.deleteCategory(category);
                 Toast.makeText(context.getApplicationContext(), category.Name + " Category Deleted!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, CategoryManagementAdminActivity.class);
+                context.startActivity(intent);
             }
         });
     }

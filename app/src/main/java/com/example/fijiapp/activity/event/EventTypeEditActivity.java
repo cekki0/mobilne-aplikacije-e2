@@ -1,6 +1,8 @@
-package com.example.fijiapp.activity;
+package com.example.fijiapp.activity.event;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -10,12 +12,17 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
 import com.example.fijiapp.model.EventType;
 import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.model.SubCategoryType;
+import com.example.fijiapp.service.EventTypeService;
+import com.example.fijiapp.service.SubCategoryService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,8 +35,9 @@ public class EventTypeEditActivity extends AppCompatActivity {
     public Spinner subcategorySpinner;
     public ListView subcategoryListView;
     public ArrayAdapter<String> subcategoryListAdapter;
-
     public EventType eventType;
+    public SubCategoryService subCategoryService = new SubCategoryService();
+    public List<SubCategory> subCategories = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +50,11 @@ public class EventTypeEditActivity extends AppCompatActivity {
         saveChangesButton = findViewById(R.id.saveChangesButton);
         subcategorySpinner = findViewById(R.id.subcategorySpinner);
         subcategoryListView = findViewById(R.id.subcategoryListView);
-        addSubcategoryButton = findViewById(R.id.addSubcategoryButton); // Initialize addSubcategoryButton here
+        addSubcategoryButton = findViewById(R.id.addSubcategoryButton);
 
-        eventTypeDescriptionEditText.setText(eventType.description);
+        eventTypeDescriptionEditText.setText(eventType.Description);
 
-        List<SubCategory> subCategories = eventType.suggestedSubCategories;
+        List<SubCategory> subCategories = eventType.SuggestedSubCategories;
         List<String> subcategoryNames = new ArrayList<>();
         for (SubCategory subCategory : subCategories) {
             subcategoryNames.add(subCategory.Name);
@@ -55,36 +63,27 @@ public class EventTypeEditActivity extends AppCompatActivity {
         subcategoryListAdapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_1, subcategoryNames);
         subcategoryListView.setAdapter(subcategoryListAdapter);
 
-        List<SubCategory> allSubCategories = initData();
-        List<String> allSubcategoryNames = new ArrayList<>();
-        for (SubCategory subCategory : allSubCategories) {
-            allSubcategoryNames.add(subCategory.Name);
-        }
-        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, allSubcategoryNames);
-        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        subcategorySpinner.setAdapter(spinnerAdapter);
+        fetchSubCategories();
 
         subcategoryListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                // Remove the clicked subcategory from the list view
                 String removedSubcategory = subcategoryListAdapter.getItem(position);
                 subcategoryListAdapter.remove(removedSubcategory);
-
-                // Update the eventType.suggestedSubCategories
                 List<SubCategory> updatedSubCategories = new ArrayList<>();
+                List<String> updatedSubCategoriesIds = new ArrayList<>();
                 for (int i = 0; i < subcategoryListAdapter.getCount(); i++) {
                     String subcategoryName = subcategoryListAdapter.getItem(i);
-                    for (SubCategory subCategory : eventType.suggestedSubCategories) {
+                    for (SubCategory subCategory : eventType.SuggestedSubCategories) {
                         if (subCategory.Name.equals(subcategoryName)) {
                             updatedSubCategories.add(subCategory);
+                            updatedSubCategoriesIds.add(subCategory.Id);
                             break;
                         }
                     }
                 }
-                eventType.suggestedSubCategories = updatedSubCategories;
-
-                // Notify the adapter of the change
+                eventType.SuggestedSubCategories = updatedSubCategories;
+                eventType.SuggestedSubCategoryIds = updatedSubCategoriesIds;
                 subcategoryListAdapter.notifyDataSetChanged();
             }
         });
@@ -104,10 +103,36 @@ public class EventTypeEditActivity extends AppCompatActivity {
         });
     }
 
+    private void setAdapter()
+    {
+        List<String> allSubcategoryNames = new ArrayList<>();
+        for (SubCategory subCategory : subCategories) {
+            allSubcategoryNames.add(subCategory.Name);
+        }
+        ArrayAdapter<String> spinnerAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, allSubcategoryNames);
+        spinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subcategorySpinner.setAdapter(spinnerAdapter);
+    }
+
+    private void fetchSubCategories() {
+        subCategoryService.getAllSubCategories()
+                .addOnCompleteListener(new OnCompleteListener<List<SubCategory>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<SubCategory>> task) {
+                        if (task.isSuccessful()) {
+                            subCategories = task.getResult();
+                            setAdapter();
+                        } else {
+                            Toast.makeText(EventTypeEditActivity.this,
+                                    "Failed to fetch sub categories", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
     private void addSubCategoryToList() {
         String selectedSubCategory = subcategorySpinner.getSelectedItem().toString();
 
-        // Check if the selected subcategory is already added
         boolean alreadyAdded = false;
         for (int i = 0; i < subcategoryListAdapter.getCount(); i++) {
             if (selectedSubCategory.equals(subcategoryListAdapter.getItem(i))) {
@@ -124,42 +149,43 @@ public class EventTypeEditActivity extends AppCompatActivity {
         }
     }
 
-
     private void saveChanges() {
         String description = eventTypeDescriptionEditText.getText().toString().trim();
 
         if (description.isEmpty()) {
-            Toast.makeText(this, "Please enter the event type description", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "Description cannot be empty!", Toast.LENGTH_SHORT).show();
             return;
         }
 
-        eventType.description = description;
 
-        // Save the modified subcategories list to eventType
+
+        eventType.Description = description;
+
         List<SubCategory> selectedSubcategories = new ArrayList<>();
+        List<String> selectedSubcategoryIds = new ArrayList<>();
         for (int i = 0; i < subcategoryListAdapter.getCount(); i++) {
             String subcategoryName = subcategoryListAdapter.getItem(i);
-            for (SubCategory subCategory : initData()) {
+            for (SubCategory subCategory : subCategories) {
                 if (subCategory.Name.equals(subcategoryName)) {
                     selectedSubcategories.add(subCategory);
+                    selectedSubcategoryIds.add(subCategory.Id);
                     break;
                 }
             }
         }
-        eventType.suggestedSubCategories = selectedSubcategories;
+        eventType.SuggestedSubCategories = selectedSubcategories;
+        eventType.SuggestedSubCategoryIds = selectedSubcategoryIds;
 
+        if (eventType.SuggestedSubCategoryIds.size() < 1) {
+            Toast.makeText(this, "Must add one or more subcategories!", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        EventTypeService eventTypeService = new EventTypeService();
+        eventTypeService.updateEventType(eventType);
         Toast.makeText(this, "Changes saved successfully", Toast.LENGTH_SHORT).show();
+        Intent intent = new Intent(this, EventTypeManagementActivity.class);
+        startActivity(intent);
         finish();
-    }
-
-    private List<SubCategory> initData() {
-        List<SubCategory> subCategories = new ArrayList<>();
-
-        SubCategory subCategory1 = new SubCategory("Catering", "Catering service", SubCategoryType.SERVICE);
-        SubCategory subCategory2 = new SubCategory("Floral", "Floral arrangement service", SubCategoryType.SERVICE);
-        subCategories.add(subCategory1);
-        subCategories.add(subCategory2);
-
-        return subCategories;
     }
 }

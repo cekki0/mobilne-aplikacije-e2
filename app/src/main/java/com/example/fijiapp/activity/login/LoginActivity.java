@@ -1,4 +1,4 @@
-package com.example.fijiapp.activity;
+package com.example.fijiapp.activity.login;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +12,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.MainActivity;
+import com.example.fijiapp.activity.register.RegisterActivity;
 import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.UserRole;
 import com.google.android.gms.tasks.Continuation;
@@ -82,14 +84,15 @@ public class LoginActivity extends AppCompatActivity {
                                                         Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
                                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                                         finish();
-                                                    }
-                                                    else if (extendedUser.Role == UserRole.EVENT_ORGANIZER && user.isEmailVerified()) {
+                                                    } else if (extendedUser.Role == UserRole.EVENT_ORGANIZER && user.isEmailVerified()) {
                                                         Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
                                                         startActivity(new Intent(LoginActivity.this, MainActivity.class));
                                                         finish();
-                                                    }
-                                                    else
-                                                    {
+                                                    } else if (extendedUser.Role == UserRole.STAFF && user.isEmailVerified() && extendedUser.IsActive) {
+                                                        Toast.makeText(getApplicationContext(), "Login successful!", Toast.LENGTH_SHORT).show();
+                                                        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+                                                        finish();
+                                                    } else {
                                                         Toast.makeText(getApplicationContext(), "Account not activated!", Toast.LENGTH_SHORT).show();
                                                     }
                                                 } else {

@@ -44,12 +44,13 @@ dependencies {
     implementation(libs.navigation.ui)
     implementation(libs.activity)
     implementation(libs.firebase.firestore)
-    implementation(libs.firebase.auth)
+    implementation("com.google.firebase:firebase-auth:21.0.0")
+    implementation("org.checkerframework:checker-qual:3.12.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
-    implementation (libs.picasso)
-    implementation ("com.github.prolificinteractive:material-calendarview:2.0.1")
+    implementation(libs.picasso)
+    implementation("com.github.prolificinteractive:material-calendarview:2.0.1")
 }

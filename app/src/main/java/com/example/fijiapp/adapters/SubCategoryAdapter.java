@@ -13,14 +13,18 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
-import com.example.fijiapp.activity.SubCategoryEditActivity;
+import com.example.fijiapp.activity.category.CategoryManagementAdminActivity;
+import com.example.fijiapp.activity.category.SubCategoryEditActivity;
 import com.example.fijiapp.model.SubCategory;
+import com.example.fijiapp.repository.SubCategoryRepository;
+import com.example.fijiapp.service.SubCategoryService;
 
 import java.util.List;
 
 public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.ViewHolder> {
     private List<SubCategory> subCategories;
     private Context context;
+    private SubCategoryService subCategoryService = new SubCategoryService();
 
     public SubCategoryAdapter(List<SubCategory> dataSet, Context context) {
         this.subCategories = dataSet;
@@ -54,7 +58,10 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                subCategoryService.deleteSubCategory(subCategory);
                 Toast.makeText(context.getApplicationContext(), subCategory.Name + " SubCategory Deleted!", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(context, CategoryManagementAdminActivity.class);
+                context.startActivity(intent);
             }
         });
     }

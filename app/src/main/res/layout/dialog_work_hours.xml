@@ -14,7 +14,7 @@
         android:textColor="@android:color/black"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="16dp"
-        android:layout_gravity="center"/>
+        android:layout_gravity="center" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -22,26 +22,26 @@
         android:orientation="horizontal"
         android:layout_marginBottom="16dp">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Mon"
-        android:textStyle="bold"
-        android:textSize="18sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Mon"
+            android:textStyle="bold"
+            android:textSize="18sp" />
 
-    <EditText
-        android:id="@+id/editTextMondayStart"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:hint="Start Time (HH:MM)"
-        android:inputType="time"/>
+        <EditText
+            android:id="@+id/editTextMondayStart"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="Start Time (HH:MM)"
+            android:inputType="time" />
 
-    <EditText
-        android:id="@+id/editTextMondayEnd"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="End Time (HH:MM)"
-        android:inputType="time"/>
+        <EditText
+            android:id="@+id/editTextMondayEnd"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="End Time (HH:MM)"
+            android:inputType="time" />
     </LinearLayout>
 
     <LinearLayout
@@ -55,21 +55,21 @@
             android:layout_height="wrap_content"
             android:text="Tue"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editTextTuesdayStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Start Time (HH:MM)"
-            android:inputType="time"/>
+            android:inputType="time" />
 
         <EditText
             android:id="@+id/editTextTuesdayEnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="End Time (HH:MM)"
-            android:inputType="time"/>
+            android:inputType="time" />
     </LinearLayout>
 
     <LinearLayout
@@ -83,21 +83,21 @@
             android:layout_height="wrap_content"
             android:text="Wed"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editTextWednesdayStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Start Time (HH:MM)"
-            android:inputType="time"/>
+            android:inputType="time" />
 
         <EditText
             android:id="@+id/editTextWednesdayEnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="End Time (HH:MM)"
-            android:inputType="time"/>
+            android:inputType="time" />
     </LinearLayout>
 
     <LinearLayout
@@ -111,21 +111,21 @@
             android:layout_height="wrap_content"
             android:text="Thu"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editTextThursdayStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Start Time (HH:MM)"
-            android:inputType="time"/>
+            android:inputType="time" />
 
         <EditText
             android:id="@+id/editTextThursdayEnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="End Time (HH:MM)"
-            android:inputType="time"/>
+            android:inputType="time" />
     </LinearLayout>
 
     <LinearLayout
@@ -139,30 +139,21 @@
             android:layout_height="wrap_content"
             android:text="Fri"
             android:textStyle="bold"
-            android:textSize="18sp"/>
+            android:textSize="18sp" />
 
         <EditText
             android:id="@+id/editTextFridayStart"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:hint="Start Time (HH:MM)"
-            android:inputType="time"/>
+            android:inputType="time" />
 
         <EditText
             android:id="@+id/editTextFridayEnd"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="End Time (HH:MM)"
-            android:inputType="time"/>
+            android:inputType="time" />
     </LinearLayout>
-
-
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/buttonSaveWorkHours"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Save"
-        android:layout_marginTop="16dp"
-        android:layout_gravity="center_horizontal" />
 
 </LinearLayout>

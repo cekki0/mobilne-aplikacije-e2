@@ -58,6 +58,12 @@ public class UpdateProductActivity extends AppCompatActivity {
             eventEditText.setText(product.Event);
             availableEditText.setChecked(product.Available.equals("Yes"));
             visibleEditText.setChecked(product.Visible.equals("Yes"));
+
+            Log.d("DEBUG", "Available: " + product.Available);
+            Log.d("DEBUG", "Visible: " + product.Visible);
+            subcategorySpinner.setText(String.valueOf(product.SubCategory));
+
+
         }
 
         saveButton.setOnClickListener(new View.OnClickListener() {

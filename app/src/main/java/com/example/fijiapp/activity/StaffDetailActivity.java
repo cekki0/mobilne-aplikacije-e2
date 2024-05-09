@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -14,13 +15,18 @@ import com.example.fijiapp.fragment.WorkHoursDialogFragment;
 import com.example.fijiapp.model.User;
 import com.example.fijiapp.model.WorkDays;
 import com.example.fijiapp.model.WorkHours;
+import com.example.fijiapp.model.WorkingDay;
+import com.example.fijiapp.service.OwnerService;
 import com.google.android.material.button.MaterialButton;
 import com.squareup.picasso.Picasso;
 
+import java.time.LocalTime;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-public class StaffDetailActivity extends AppCompatActivity {
+public class StaffDetailActivity extends AppCompatActivity implements WorkHoursDialogFragment.WorkHoursDialogListener {
 
     private ImageView imageViewProfile;
     private TextView textViewFullName;
@@ -30,8 +36,22 @@ public class StaffDetailActivity extends AppCompatActivity {
     private TextView textViewWorkHours;
     private MaterialButton blockBtn;
     public static final String EXTRA_USER = "extra_user";
-
+    private OwnerService ownerService = new OwnerService();
     private boolean isBlocked = false;
+    private List<WorkingDay> workHours = new ArrayList<>();
+    private User user;
+
+    @Override
+    public void onWorkHoursEntered(LocalTime mondayStartTime, LocalTime mondayEndTime, LocalTime tuesdayStartTime, LocalTime tuesdayEndTime, LocalTime wednesdayStartTime, LocalTime wednesdayEndTime, LocalTime thursdayStartTime, LocalTime thursdayEndTime, LocalTime fridayStartTime, LocalTime fridayEndTime) {
+        workHours = new ArrayList<>();
+        workHours.add(new WorkingDay(WorkDays.MON, new WorkHours(mondayStartTime, mondayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.TUE, new WorkHours(tuesdayStartTime, tuesdayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.WED, new WorkHours(wednesdayStartTime, wednesdayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.THU, new WorkHours(thursdayStartTime, thursdayEndTime)));
+        workHours.add(new WorkingDay(WorkDays.FRI, new WorkHours(fridayStartTime, fridayEndTime)));
+        Toast.makeText(StaffDetailActivity.this, "Saved work hours successfully", Toast.LENGTH_SHORT).show();
+        ownerService.updateWorkHours(user.Email, workHours);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +66,15 @@ public class StaffDetailActivity extends AppCompatActivity {
         textViewWorkHours = findViewById(R.id.textViewWorkHours);
         blockBtn = findViewById(R.id.buttonBlockUser);
 
-        User user = getIntent().getParcelableExtra(EXTRA_USER);
+        user = getIntent().getParcelableExtra(EXTRA_USER);
+        isBlocked = !user.IsActive;
+
+        if (isBlocked) {
+            blockBtn.setText("Activate Account");
+            blockBtn.setIconResource(android.R.drawable.ic_input_add);
+            blockBtn.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
+            blockBtn.setIconTintResource(android.R.color.holo_green_dark);
+        }
 
         if (user != null) {
 
@@ -57,29 +85,33 @@ public class StaffDetailActivity extends AppCompatActivity {
             textViewPhoneNumber.setText(String.format(Locale.getDefault(), "Phone Number: %s", user.PhoneNumber));
             textViewAddress.setText(String.format(Locale.getDefault(), "Address: %s", user.Address));
 
-//            StringBuilder workHoursText = new StringBuilder();
-//            for (Map.Entry<WorkDays, WorkHours> entry : user.WorkHours.entrySet()) {
-//                workHoursText.append(entry.getKey()).append(": ")
-//                        .append(entry.getValue().StartTime).append(" - ")
-//                        .append(entry.getValue().EndTime).append("\n");
-//            }
-//            textViewWorkHours.setText(workHoursText.toString());
+            StringBuilder workHoursText = new StringBuilder();
+            for (WorkingDay wd : user.WorkingDays) {
+                if (wd.WorkHours != null) {
+                    workHoursText.append(wd.WorkDay.name().toString()).append(": ")
+                            .append(wd.WorkHours.StartTime).append(" - ")
+                            .append(wd.WorkHours.EndTime).append("\n");
+                }
+            }
+            textViewWorkHours.setText(workHoursText.toString());
         }
     }
 
     public void onBlockUserButtonClick(View view) {
-        if(!isBlocked){
-            blockBtn.setText("Deactivate Account");
+        if (!isBlocked) {
+            blockBtn.setText("Activate Account");
             blockBtn.setIconResource(android.R.drawable.ic_input_add);
             blockBtn.setTextColor(getResources().getColor(android.R.color.holo_green_dark));
             blockBtn.setIconTintResource(android.R.color.holo_green_dark);
             isBlocked = true;
-        }else{
-            blockBtn.setText("Activate Account");
+            ownerService.deactivateStaffAccount(user.Email);
+        } else {
+            blockBtn.setText("Deactivate Account");
             blockBtn.setIconResource(android.R.drawable.ic_delete);
             blockBtn.setTextColor(getResources().getColor(android.R.color.holo_red_dark));
             blockBtn.setIconTintResource(android.R.color.holo_red_dark);
             isBlocked = false;
+            ownerService.activateStaffAccount(user.Email);
         }
     }
 

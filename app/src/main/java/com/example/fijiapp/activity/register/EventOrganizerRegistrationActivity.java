@@ -1,4 +1,4 @@
-package com.example.fijiapp.activity;
+package com.example.fijiapp.activity.register;
 
 import static com.example.fijiapp.model.UserRole.EVENT_ORGANIZER;
 
@@ -14,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.login.LoginActivity;
 import com.example.fijiapp.model.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -22,7 +23,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 public class EventOrganizerRegistrationActivity extends AppCompatActivity {
@@ -125,7 +125,7 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
                                             }
                                         });
                             }
-                            saveUserToFirestore(new User(firstName, lastName, address, phoneNumber, EVENT_ORGANIZER),user);
+                            saveUserToFirestore(new User(email, firstName, lastName, address, phoneNumber, EVENT_ORGANIZER), user);
                         } else {
                             Toast.makeText(EventOrganizerRegistrationActivity.this, "Error occurred!",
                                     Toast.LENGTH_SHORT).show();
@@ -138,12 +138,12 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
-    private void saveUserToFirestore(User user,FirebaseUser firebaseUser) {
+    private void saveUserToFirestore(User user, FirebaseUser firebaseUser) {
         if (firebaseUser != null) {
             String uid = firebaseUser.getUid();
             String email = firebaseUser.getEmail();
 
-            user.Email=email;
+            user.Email = email;
             user.IsActive = true;
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -167,7 +167,6 @@ public class EventOrganizerRegistrationActivity extends AppCompatActivity {
         } else {
         }
     }
-
 
 
     public void navigateToLoginPage() {

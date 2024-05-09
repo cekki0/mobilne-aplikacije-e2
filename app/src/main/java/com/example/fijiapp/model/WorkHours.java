@@ -3,11 +3,18 @@ package com.example.fijiapp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import java.time.LocalTime;
+import com.google.firebase.firestore.Exclude;
+import com.google.firebase.firestore.PropertyName;
 
-public class WorkHours implements Parcelable {
+import java.io.Serializable;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+
+public class WorkHours implements Parcelable, Serializable {
     public LocalTime StartTime;
     public LocalTime EndTime;
+
+    public int stability; // Ja nemam pojma sta je ovo stvarno, u bazi iz nekog razloga postoji, tkd moram i vamo ubaciti sta sad
 
     public WorkHours(LocalTime startTime, LocalTime endTime) {
         Validate(startTime, endTime);
@@ -19,6 +26,9 @@ public class WorkHours implements Parcelable {
         Validate(LocalTime.parse(startTime), LocalTime.parse(endTime));
         StartTime = LocalTime.parse(startTime);
         EndTime = LocalTime.parse(endTime);
+    }
+
+    public WorkHours() {
     }
 
     private void Validate(LocalTime startTime, LocalTime endTime) {
@@ -53,5 +63,41 @@ public class WorkHours implements Parcelable {
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    @PropertyName("StartTime")
+    public String getStartTimeString() {
+        if (this.StartTime != null) {
+            return this.StartTime.format(DateTimeFormatter.ISO_LOCAL_TIME);
+        } else {
+            return null;
+        }
+    }
+
+    @PropertyName("StartTime")
+    public void setStartTimeString(String timeString) {
+        if (timeString != null) {
+            this.StartTime = LocalTime.parse(timeString, DateTimeFormatter.ISO_LOCAL_TIME);
+        } else {
+            this.StartTime = null;
+        }
+    }
+
+    @PropertyName("EndTime")
+    public String getEndTimeString() {
+        if (this.EndTime != null) {
+            return this.EndTime.format(DateTimeFormatter.ISO_LOCAL_TIME);
+        } else {
+            return null;
+        }
+    }
+
+    @PropertyName("EndTime")
+    public void setEndTimeString(String timeString) {
+        if (timeString != null) {
+            this.EndTime = LocalTime.parse(timeString, DateTimeFormatter.ISO_LOCAL_TIME);
+        } else {
+            this.EndTime = null;
+        }
     }
 }

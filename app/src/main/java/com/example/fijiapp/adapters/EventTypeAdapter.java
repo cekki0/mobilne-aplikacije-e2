@@ -11,16 +11,19 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.fijiapp.activity.EventTypeEditActivity;
+import com.example.fijiapp.activity.event.EventTypeEditActivity;
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.event.EventTypeManagementActivity;
 import com.example.fijiapp.model.EventType;
+import com.example.fijiapp.service.EventTypeService;
 
 import java.util.List;
 
-public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.EventTypeViewHolder> {
+public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.EventTypeViewHolder>  {
 
     private List<EventType> eventTypes;
     private Context context;
+    private EventTypeService eventTypeService = new EventTypeService();
 
     public EventTypeAdapter(List<EventType> eventTypes, Context context) {
         this.eventTypes = eventTypes;
@@ -38,8 +41,14 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.Even
     public void onBindViewHolder(@NonNull EventTypeViewHolder holder, int position) {
         EventType eventType = eventTypes.get(position);
 
-        holder.eventTypeNameTextView.setText(eventType.name);
-        holder.eventTypeDescriptionTextView.setText(eventType.description);
+        holder.eventTypeNameTextView.setText(eventType.Name);
+        holder.eventTypeDescriptionTextView.setText(eventType.Description);
+
+        if (eventType.isActive) {
+            holder.deactivateEventTypeButton.setText("Deactivate");
+        } else {
+            holder.deactivateEventTypeButton.setText("Activate");
+        }
 
         holder.editEventTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -53,14 +62,22 @@ public class EventTypeAdapter extends RecyclerView.Adapter<EventTypeAdapter.Even
         holder.deactivateEventTypeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                eventTypeService.deleteEventType(eventType);
+                refreshPage();
             }
         });
     }
 
+    public void refreshPage() {
+        Intent intent = new Intent(context, EventTypeManagementActivity.class);
+        context.startActivity(intent);
+    }
+
     @Override
     public int getItemCount() {
-        return eventTypes.size();
+        if(eventTypes!=null)
+            return eventTypes.size();
+        return 0;
     }
 
     public static class EventTypeViewHolder extends RecyclerView.ViewHolder {

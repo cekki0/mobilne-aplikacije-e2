@@ -6,6 +6,8 @@ import android.widget.ImageButton;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.PropertyName;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -28,10 +30,17 @@ public class Product implements Parcelable {
     public String Event;
     public String Available;
     public String Visible;
+
     public String Status;
     public ImageButton editButton;
 public  Product(){}
+    public Product(String category, String subCategory, String title, String description, int price, int discount, int newPrice, ArrayList<String> pictureList, String event, String available, String visible) {
+    }
+//    public ImageButton editButton;
+
+
     public Product(String category, String subCategory, String title, String description, int price, int discount, int newPrice, ArrayList<String> pictureList, String event, String available, String visible, String status) {
+
         Category = category;
         SubCategory = subCategory;
         Title = title;

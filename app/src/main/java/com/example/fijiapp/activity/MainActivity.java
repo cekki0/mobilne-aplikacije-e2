@@ -11,6 +11,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.category.CategoryManagementAdminActivity;
+import com.example.fijiapp.activity.event.EventTypeManagementActivity;
+import com.example.fijiapp.activity.login.LoginActivity;
+import com.example.fijiapp.activity.register.ProductServiceManagementActivity;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -73,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(new Intent(MainActivity.this, EventActivity.class));
             } else if (id == R.id.landing_page) {
                 startActivity(new Intent(MainActivity.this, LandingPageActivity.class));
+            }
+            else if (id == R.id.product_service_management) {
+                startActivity(new Intent(MainActivity.this, ProductServiceManagementActivity.class));
             }
             drawerLayout.closeDrawers();
             return true;

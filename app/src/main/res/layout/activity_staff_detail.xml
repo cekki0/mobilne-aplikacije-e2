@@ -8,8 +8,8 @@
     <!-- Profile Image -->
     <ImageView
         android:id="@+id/imageViewProfile"
-        android:layout_width="120dp"
-        android:layout_height="120dp"
+        android:layout_width="220dp"
+        android:layout_height="220dp"
         android:layout_gravity="center_horizontal"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/textViewFullName"
@@ -17,7 +17,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         android:scaleType="fitCenter"
         android:adjustViewBounds="true"
-        android:padding="16dp"/>
+        android:padding="16dp" />
 
     <!-- Full Name -->
     <TextView
@@ -29,7 +29,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal" />
 
     <!-- Email -->
     <TextView
@@ -40,7 +40,7 @@
         android:text="Email: example@example.com"
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal" />
 
     <!-- Phone Number -->
     <TextView
@@ -51,7 +51,7 @@
         android:text="Phone Number: +123456789"
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal" />
 
     <!-- Address -->
     <TextView
@@ -62,7 +62,7 @@
         android:text="Address: 123 Main St, City, Country"
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/textViewWorkHoursTitle"
@@ -73,7 +73,7 @@
         android:textSize="18sp"
         android:textStyle="bold"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"/>
+        android:layout_gravity="center_horizontal" />
 
     <TextView
         android:id="@+id/textViewWorkHours"
@@ -83,8 +83,7 @@
         android:text="Monday: 8:00 - 16:00"
         android:textSize="16sp"
         android:gravity="center"
-        android:layout_gravity="center_horizontal"/>
-
+        android:layout_gravity="center_horizontal" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -99,8 +98,7 @@
         app:icon="@android:drawable/ic_menu_edit"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
-        android:onClick="onEditWorkHoursButtonClicked"
-        />
+        android:onClick="onEditWorkHoursButtonClicked" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonAddEvent"
@@ -114,7 +112,7 @@
         app:icon="@android:drawable/ic_menu_agenda"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
-        android:onClick="onAddEventButtonClick"/>
+        android:onClick="onAddEventButtonClick" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/buttonShowCalendar"
@@ -128,9 +126,7 @@
         app:icon="@android:drawable/ic_menu_agenda"
         app:iconGravity="textStart"
         app:iconPadding="8dp"
-        android:onClick="onCalendarButtonClick"
-        />
-
+        android:onClick="onCalendarButtonClick" />
 
 
     <com.google.android.material.button.MaterialButton
@@ -147,8 +143,7 @@
         app:iconPadding="8dp"
         android:onClick="onBlockUserButtonClick"
         android:textColor="@color/design_default_color_error"
-        app:iconTint="@color/design_default_color_error"
-        />
+        app:iconTint="@color/design_default_color_error" />
 
     <!-- Other Properties -->
     <!-- Add more TextViews for the other properties like Password, WorkHours, etc. -->
