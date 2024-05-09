@@ -21,9 +21,10 @@ public class Package implements Parcelable {
     private List<String> images;
     private String bookingDeadline;
     private String cancellationDeadline;
+    public String status;
 
     public Package(){}
-    public Package(String name, String description, int discount, String visible, String available, String category, List<Product> products, List<Service> services, String eventType, int price, List<String> images, String bookingDeadline, String cancellationDeadline) {
+    public Package(String name, String description, int discount, String visible, String available, String category, List<Product> products, List<Service> services, String eventType, int price, List<String> images, String bookingDeadline, String cancellationDeadline,String status) {
         this.name = name;
         this.description = description;
         this.discount = discount;
@@ -37,6 +38,7 @@ public class Package implements Parcelable {
         this.images = images;
         this.bookingDeadline = bookingDeadline;
         this.cancellationDeadline = cancellationDeadline;
+        this.status = status;
     }
 
     protected Package(Parcel in) {
@@ -53,6 +55,7 @@ public class Package implements Parcelable {
         images = in.createStringArrayList();
         bookingDeadline = in.readString();
         cancellationDeadline = in.readString();
+        status = in.readString();
     }
 
     public static final Creator<Package> CREATOR = new Creator<Package>() {
@@ -67,6 +70,8 @@ public class Package implements Parcelable {
         }
     };
 
+    public String getStatus(){return status;}
+    public void setStatus(String status){this.status = status;}
     public String getName() {
         return name;
     }

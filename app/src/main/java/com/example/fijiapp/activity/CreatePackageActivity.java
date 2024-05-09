@@ -1,5 +1,7 @@
 package com.example.fijiapp.activity;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 import androidx.annotation.Nullable;
 
@@ -11,6 +13,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +25,9 @@ import com.example.fijiapp.adapters.ProductCheckBoxAdapter;
 import com.example.fijiapp.adapters.ServiceCheckBoxAdapter;
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,7 +36,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CreatePackageActivity extends AppCompatActivity {
-
+    private FirebaseFirestore db;
     private EditText nameEditText;
     private EditText descriptionEditText;
     private EditText discountEditText;
@@ -48,59 +54,32 @@ public class CreatePackageActivity extends AppCompatActivity {
     private RecyclerView recyclerViewProducts, recyclerViewServices, recyclerView,recyclerViewForProducts;
     private ServiceCheckBoxAdapter serviceCheckBoxAdapter;
     private ProductCheckBoxAdapter productCheckBoxAdapter;
+    private List<Service> servicesList = new ArrayList<>();
+    private List<Product> productsList = new ArrayList<>();
+    private List<String> categoryList = new ArrayList<>();
+
     Map<String, List<String>> categorySubcategoryMap = new HashMap<>();
 
-    public CreatePackageActivity(){}
-    public CreatePackageActivity(EditText nameEditText, EditText descriptionEditText, EditText discountEditText, CheckBox visibleEditText, CheckBox availableEditText, Spinner categorySpinner, List<Product> products, List<Service> services, EditText eventTypeEditText, EditText priceEditText, EditText imagesEditText, EditText bookingDeadlineEditText, EditText cancellationDeadlineEditText, Button createPackageButton) {
-        this.nameEditText = nameEditText;
-        this.descriptionEditText = descriptionEditText;
-        this.discountEditText = discountEditText;
-        this.visibleEditText = visibleEditText;
-        this.availableEditText = availableEditText;
-        this.categorySpinner = categorySpinner;
-        this.products = products;
-        this.services = services;
-        this.eventTypeEditText = eventTypeEditText;
-        this.priceEditText = priceEditText;
-        this.imagesEditText = imagesEditText;
-        this.bookingDeadlineEditText = bookingDeadlineEditText;
-        this.cancellationDeadlineEditText = cancellationDeadlineEditText;
-        this.createPackageButton = createPackageButton;
-    }
-
-    public CreatePackageActivity(int contentLayoutId, EditText nameEditText, EditText descriptionEditText, EditText discountEditText, CheckBox visibleEditText, CheckBox availableEditText, Spinner categorySpinner, List<Product> products, List<Service> services, EditText eventTypeEditText, EditText priceEditText, EditText imagesEditText, EditText bookingDeadlineEditText, EditText cancellationDeadlineEditText, Button createPackageButton) {
-        super(contentLayoutId);
-        this.nameEditText = nameEditText;
-        this.descriptionEditText = descriptionEditText;
-        this.discountEditText = discountEditText;
-        this.visibleEditText = visibleEditText;
-        this.availableEditText = availableEditText;
-        this.categorySpinner = categorySpinner;
-        this.products = products;
-        this.services = services;
-        this.eventTypeEditText = eventTypeEditText;
-        this.priceEditText = priceEditText;
-        this.imagesEditText = imagesEditText;
-        this.bookingDeadlineEditText = bookingDeadlineEditText;
-        this.cancellationDeadlineEditText = cancellationDeadlineEditText;
-        this.createPackageButton = createPackageButton;
-    }
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_package);
 
-
+        db = FirebaseFirestore.getInstance();
 
         imagesEditText = findViewById(R.id.imagesEditText);
 
+        createPackageButton = findViewById(R.id.createPackageButton);
+        recyclerView = findViewById(R.id.recyclerView);
+        recyclerViewForProducts = findViewById(R.id.recyclerViewForProducts);
 
+        productCheckBoxAdapter = new ProductCheckBoxAdapter(this, productsList);
+        recyclerViewForProducts.setAdapter(productCheckBoxAdapter);
 
+        serviceCheckBoxAdapter = new ServiceCheckBoxAdapter(this, servicesList);
+        recyclerView.setAdapter(serviceCheckBoxAdapter);
 
-
-
-        List<Service> servicesNotPackage = new ArrayList<>();
 
 
         nameEditText = findViewById(R.id.nameEditText);
@@ -122,137 +101,30 @@ public class CreatePackageActivity extends AppCompatActivity {
         categorySubcategoryMap.put("Foto i Video", fotoSubcategories);
         categorySubcategoryMap.put("Laptops", laptopSubcategories);
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(categorySubcategoryMap.keySet()));
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryList);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         categorySpinner.setAdapter(categoryAdapter);
-
-
-        List<Service> services = new ArrayList<>();
-        Service service1 = new Service(
-                "Foto i video",
-                "Snimanje dronom",
-                "Snimanje dronom",
-                "Ovo je snimanje iz vazduha sa dronom",
-                Arrays.asList("Slika 1", "Slika 2", "Slika 3"),
-                "Ne radimo praznicima",
-                3000,
-                6000,
-                2,
-                "Okolina Novog Sada",
-                0,
-                Arrays.asList("LipFi", "Krle"),
-                Arrays.asList("Vencanje", "Krstenje", "1 rodjendan"),
-                "12 meseci pre termina",
-                "2 dana pre termina",
-                "Rucno",
-                "Da",
-                "Da"
-        );
-
-        Service service2 = new Service(
-                "Foto i video",
-                "Videografija",
-                "Snimanje kamerom 4k",
-                "Ovo je snimanje u 4k rezoluciji",
-                Arrays.asList("Slika 1", "Slika 2", "Slika 3"),
-                "",
-                5000,
-                0, //racun u odn na trajanje
-                1,
-                "Okolina Novog Sada",
-                0,
-                Arrays.asList("Dragan", "Ceki"),
-                Arrays.asList("Vencanje", "Krstenje", "1 rodjendan"),
-                "12 meseci pre termina",
-                "2 dana pre termina",
-                "Rucno",
-                "Da",
-                "Da"
-        );
-        Service service3 = new Service(
-                "Foto i video",
-                "Videografija",
-                "Ajoj dragisha",
-                "Ovo je snimanje u 4k rezoluciji",
-                Arrays.asList("Slika 1", "Slika 2", "Slika 3"),
-                "",
-                5000,
-                0, //racun u odn na trajanje
-                1,
-                "Okolina Novog Sada",
-                0,
-                Arrays.asList("Dragan", "Ceki"),
-                Arrays.asList("Vencanje", "Krstenje", "1 rodjendan"),
-                "12 meseci pre termina",
-                "2 dana pre termina",
-                "Rucno",
-                "Da",
-                "Da"
-        );
-        Product product1 = new Product(
-                "Electronics",
-                "Smartphones",
-                "Alo X",
-                "lololo igh-performance smartphone with great features",
-                500,
-                50,
-                1450,
-                new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
-                "SVADBA,KRSTENJE",
-                "Yes",
-                "No"
-        );
-
-        Product product2 = new Product(
-                "Ojsa",
-                "Baco",
-                "Smartphone X",
-                "likvid igh-performance smartphone with great features",
-                5000,
-                50,
-                900,
-                new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
-                "SVADBA",
-                "Yes",
-                "Yes"
-        );
-
-        Product product3= new Product(
-                "STA STA",
-                "Smartphones",
-                "Joj Zoro",
-                "oooooo High-performance smartphone with great features",
-                1500,
-                50,
-                450,
-                new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
-                "SVADBA",
-                "Yes",
-                "Yes"
-        );
-
-        List<Product> products = new ArrayList<>();
-        List<Product> products1 = new ArrayList<>();
-
-        products.add(product1);
-        products.add(product2);
-        products.add(product3);
-        products1.add(product3);
+        db.collection("category")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String categoryName = document.getString("Name");
+                            categoryList.add(categoryName);
+                        }
+                        categoryAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.w(TAG, "Error getting documents.", task.getException());
+                    }
+                });
 
 
 
-        services.add(service1);
-        services.add(service2);
-        services.add(service3);
-        List<Service> services2 = new ArrayList<>();
-        services2.add(service1);
-        services2.add(service2);
 
         recyclerViewForProducts = findViewById(R.id.recyclerViewForProducts);
         recyclerViewForProducts.setLayoutManager(new LinearLayoutManager(this));
 
-        productCheckBoxAdapter = new ProductCheckBoxAdapter(products, this);
-        recyclerViewForProducts.setAdapter(productCheckBoxAdapter);
+
 
 
 
@@ -260,39 +132,119 @@ public class CreatePackageActivity extends AppCompatActivity {
 
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        serviceCheckBoxAdapter = new ServiceCheckBoxAdapter(this, services);
-        recyclerView.setAdapter(serviceCheckBoxAdapter);
+        dohvatiListuProizvoda();
+        dohvatiListuServisa();
+
+        createPackageButton.setOnClickListener(v -> {
+            String packageName = nameEditText.getText().toString().trim();
+            String packageDescription = descriptionEditText.getText().toString().trim();
+            int packageDiscount = Integer.parseInt(discountEditText.getText().toString().trim());
+            String packageVisible = visibleEditText.isChecked() ? "Yes" : "No";
+            String packageAvailable = availableEditText.isChecked() ? "Yes" : "No";
+            String packageCategory = categorySpinner.getSelectedItem().toString();
+            String packageEventType = eventTypeEditText.getText().toString().trim();
+            int packagePrice = Integer.parseInt(priceEditText.getText().toString().trim());
+            List<String> packageImages = Arrays.asList(imagesEditText.getText().toString().trim().split(","));
+            String packageBookingDeadline = bookingDeadlineEditText.getText().toString().trim();
+            String packageCancellationDeadline = cancellationDeadlineEditText.getText().toString().trim();
 
 
-        for(Service service : services2)
-        {
-            Log.d("tag","PEJOOOOO" + service.getName());
-
-        }
-
-        for(Service service : services)
-        {
-            Log.d("tag","PEJOOOOO" + service.getName());
-
-        }
+            List<Product> selectedProducts = productCheckBoxAdapter.getSelectedProducts();
 
 
-        for (int i = 0; i < recyclerView.getChildCount(); i++) {
-            View view = recyclerView.getChildAt(i);
-            if (view instanceof LinearLayout) {
-                LinearLayout layout = (LinearLayout) view;
-                CheckBox checkBox = layout.findViewById(R.id.checkBox);
+            List<Service> selectedServices = serviceCheckBoxAdapter.getSelectedServices();
 
-                for (Service service : services2) {
-                    if (checkBox.getText().toString().equals(service.getName())) {
-                        checkBox.setChecked(true);
-                        break;
-                    }
-                }
+            if (packageName.isEmpty() || packageDescription.isEmpty()) {
+                Toast.makeText(CreatePackageActivity.this, "Molimo vas da popunite sva polja", Toast.LENGTH_SHORT).show();
+                return;
             }
-        }
 
 
-        servicesNotPackage.add(service3);
+            Map<String, Object> packageData = new HashMap<>();
+            packageData.put("name", packageName);
+            packageData.put("description", packageDescription);
+            packageData.put("discount", packageDiscount);
+            packageData.put("visible", packageVisible);
+            packageData.put("available", packageAvailable);
+            packageData.put("category", packageCategory);
+            packageData.put("event_type", packageEventType);
+            packageData.put("price", packagePrice);
+            packageData.put("images", packageImages);
+            packageData.put("booking_deadline", packageBookingDeadline);
+            packageData.put("cancellation_deadline", packageCancellationDeadline);
+            packageData.put("products", selectedProducts);
+            packageData.put("services", selectedServices);
+            packageData.put("status","APPROVAL");
+
+            db.collection("packages")
+                    .add(packageData)
+                    .addOnSuccessListener(documentReference -> {
+                        Toast.makeText(CreatePackageActivity.this, "Paket uspješno spremljen", Toast.LENGTH_SHORT).show();
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(CreatePackageActivity.this, "Greška prilikom spremanja paketa: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                        Log.e(TAG, "Greška prilikom spremanja paketa", e);
+                    });
+        });
+
+
+
+
+
+
+
     }
+
+
+    private void dohvatiListuServisa() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("services")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Service> servicesList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Service service = document.toObject(Service.class);
+                            servicesList.add(service);
+                        }
+                        // Postavljanje liste servisa u adapter
+                        postaviServiseUAdapter(servicesList);
+                    } else {
+                        Log.d(TAG, "Greška prilikom dohvaćanja servisa: ", task.getException());
+                    }
+                });
+    }
+
+    // Postavljanje liste servisa u adapter
+    private void postaviServiseUAdapter(List<Service> servicesList) {
+        serviceCheckBoxAdapter = new ServiceCheckBoxAdapter(this, servicesList);
+        recyclerView.setAdapter(serviceCheckBoxAdapter);
+    }
+    private void dohvatiListuProizvoda() {
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("products")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        List<Product> productsList = new ArrayList<>();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Product product = document.toObject(Product.class);
+                            productsList.add(product);
+
+                        }
+                        // Postavljanje liste proizvoda u adapter
+                        postaviProizvodeUAdapter(productsList);
+                    } else {
+                        Log.d(TAG, "Greška prilikom dohvaćanja proizvoda: ", task.getException());
+                    }
+                });
+    }
+
+    // Postavljanje liste proizvoda u adapter
+    private void postaviProizvodeUAdapter(List<Product> productsList) {
+        RecyclerView recyclerViewForProducts = findViewById(R.id.recyclerViewForProducts);
+        ProductCheckBoxAdapter adapter = new ProductCheckBoxAdapter(this, productsList);
+        recyclerViewForProducts.setAdapter(adapter);
+    }
+
 }

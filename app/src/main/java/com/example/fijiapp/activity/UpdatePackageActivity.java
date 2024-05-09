@@ -127,7 +127,7 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
                     "2 dana pre termina",
                     "Rucno",
                     "Da",
-                    "Da"
+                    "Da","APPROVAL"
             );
 
             Service service2 = new Service(
@@ -148,7 +148,7 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
                     "2 dana pre termina",
                     "Rucno",
                     "Da",
-                    "Da"
+                    "Da","APPROVAL"
             );
             Service service3 = new Service(
                     "Foto i video",
@@ -168,7 +168,7 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
                     "2 dana pre termina",
                     "Rucno",
                     "Da",
-                    "Da"
+                    "Da","APPROVAL"
             );
             Product product1 = new Product(
                     "Electronics",
@@ -181,7 +181,7 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
                     new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
                     "SVADBA,KRSTENJE",
                     "Yes",
-                    "No"
+                    "No","APPROVAL"
             );
 
             Product product2 = new Product(
@@ -195,7 +195,7 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
                     new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
                     "SVADBA",
                     "Yes",
-                    "Yes"
+                    "Yes","APPROVAL"
             );
 
             Product product3= new Product(
@@ -209,7 +209,7 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
                     new ArrayList<>(Arrays.asList("https://example.com/picture1.jpg", "https://example.com/picture2.jpg")),
                     "SVADBA",
                     "Yes",
-                    "Yes"
+                    "Yes","APPROVAL"
             );
 
             List<Product> products = new ArrayList<>();
@@ -232,7 +232,7 @@ public class UpdatePackageActivity  extends AppCompatActivity  {
             recyclerViewForProducts = findViewById(R.id.recyclerViewForProducts);
             recyclerViewForProducts.setLayoutManager(new LinearLayoutManager(this));
 
-            productCheckBoxAdapter = new ProductCheckBoxAdapter(products, this);
+            productCheckBoxAdapter = new ProductCheckBoxAdapter( this,products);
             recyclerViewForProducts.setAdapter(productCheckBoxAdapter);
 
 

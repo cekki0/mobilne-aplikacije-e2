@@ -1,5 +1,8 @@
 package com.example.fijiapp.activity;
 
+import static android.content.ContentValues.TAG;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -10,150 +13,143 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-
 import com.example.fijiapp.R;
+import com.example.fijiapp.model.Product;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.HashMap;
-import java.util.Map;
-
 public class CreateProductActivity extends AppCompatActivity {
 
-    public CreateProductActivity(){}
-    public CreateProductActivity(Spinner category, Spinner subCategory, EditText title, EditText description, EditText selectedImages, EditText eventTypes, EditText price, EditText discount, CheckBox visibleCheckBox, CheckBox availableCheckBox, Button createButton, EditText customSubcategoryEditText) {
-        this.category = category;
-        this.subCategory = subCategory;
-        this.title = title;
-        this.description = description;
-        this.selectedImages = selectedImages;
-        this.eventTypes = eventTypes;
-        this.price = price;
-        this.discount = discount;
-        this.visibleCheckBox = visibleCheckBox;
-        this.availableCheckBox = availableCheckBox;
-        this.createButton = createButton;
-        this.customSubcategoryEditText = customSubcategoryEditText;
-    }
+    private FirebaseFirestore db;
 
-    public CreateProductActivity(int contentLayoutId, Spinner category, Spinner subCategory, EditText title, EditText description, EditText selectedImages, EditText eventTypes, EditText price, EditText discount, CheckBox visibleCheckBox, CheckBox availableCheckBox, Button createButton, EditText customSubcategoryEditText) {
-        super(contentLayoutId);
-        this.category = category;
-        this.subCategory = subCategory;
-        this.title = title;
-        this.description = description;
-        this.selectedImages = selectedImages;
-        this.eventTypes = eventTypes;
-        this.price = price;
-        this.discount = discount;
-        this.visibleCheckBox = visibleCheckBox;
-        this.availableCheckBox = availableCheckBox;
-        this.createButton = createButton;
-        this.customSubcategoryEditText = customSubcategoryEditText;
-    }
-
-    private Spinner category;
-    private Spinner subCategory;
-    private EditText title;
-    private EditText description;
-    private EditText selectedImages;
-    private EditText eventTypes ;
-    private EditText price;
-    private EditText discount;
+    private Spinner categorySpinner;
+    private Spinner subcategorySpinner;
+    private EditText titleEditText;
+    private EditText descriptionEditText;
+    private EditText selectedImagesEditText;
+    private EditText eventTypesEditText;
+    private EditText priceEditText;
+    private EditText discountEditText;
     private CheckBox visibleCheckBox;
     private CheckBox availableCheckBox;
     private Button createButton;
     private EditText customSubcategoryEditText;
-    Map<String, List<String>> categorySubcategoryMap = new HashMap<>();
+
+    private List<String> categoryList = new ArrayList<>();
+    private List<String> subcategoryList = new ArrayList<>();
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-
-        List<String> fotoSubcategories = Arrays.asList("Fotografije i Albumi", "Radosnice", "Maturanti","Custom");
-        List<String> laptopSubcategories = Arrays.asList("Dell", "HP", "Lenovo","Custom");
-
-        categorySubcategoryMap.put("Foto i Video", fotoSubcategories);
-        categorySubcategoryMap.put("Laptops", laptopSubcategories);
-
-
-
         setContentView(R.layout.activity_create_product);
 
-            title = findViewById(R.id.titleEditText);
-            description = findViewById(R.id.descriptionEditText);
-            category = findViewById(R.id.categorySpinner);
-            subCategory = findViewById(R.id.subcategorySpinner);
-            price = findViewById(R.id.priceEditText);
-            discount = findViewById(R.id.discountEditText);
-            visibleCheckBox = findViewById(R.id.visibleCheckBox);
-            availableCheckBox = findViewById(R.id.availableCheckBox);
-            createButton =  findViewById(R.id.createProductButton);
-            selectedImages = findViewById(R.id.selectImagesButton);
-            eventTypes = findViewById(R.id.eventTypesEditText);
-            customSubcategoryEditText = findViewById(R.id.customSubcategoryEditText);
+        db = FirebaseFirestore.getInstance();
+
+        categorySpinner = findViewById(R.id.categorySpinner);
+        subcategorySpinner = findViewById(R.id.subcategorySpinner);
+        titleEditText = findViewById(R.id.titleEditText);
+        descriptionEditText = findViewById(R.id.descriptionEditText);
+        priceEditText = findViewById(R.id.priceEditText);
+        discountEditText = findViewById(R.id.discountEditText);
+        visibleCheckBox = findViewById(R.id.visibleCheckBox);
+        availableCheckBox = findViewById(R.id.availableCheckBox);
+        createButton = findViewById(R.id.createProductButton);
+        selectedImagesEditText = findViewById(R.id.selectImagesButton);
+        eventTypesEditText = findViewById(R.id.eventTypesEditText);
+        customSubcategoryEditText = findViewById(R.id.customSubcategoryEditText);
 
 
-
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(categorySubcategoryMap.keySet()));
+        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, categoryList);
         categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        category.setAdapter(categoryAdapter);
+        categorySpinner.setAdapter(categoryAdapter);
+
+        ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, subcategoryList);
+        subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        subcategorySpinner.setAdapter(subcategoryAdapter);
 
 
+        db.collection("category")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String categoryName = document.getString("Name");
+                            categoryList.add(categoryName);
+                        }
+                        categoryAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.w("CreateProductActivity", "Error getting documents.", task.getException());
+                    }
+                });
 
-        subCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        db.collection("subcategories")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            String subcategoryName = document.getString("Name");
+                            subcategoryList.add(subcategoryName);
+                        }
+                        subcategoryAdapter.notifyDataSetChanged();
+                    } else {
+                        Log.w("CreateProductActivity", "Error getting documents.", task.getException());
+                    }
+                });
+
+        createButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedSubcategory = parent.getItemAtPosition(position).toString();
+            public void onClick(View v) {
 
-                if (selectedSubcategory.equals("Custom")) {
-                    customSubcategoryEditText.setVisibility(View.VISIBLE);
-                } else {
-                    customSubcategoryEditText.setVisibility(View.INVISIBLE);
-                }
-            }
+                String selectedCategory = categorySpinner.getSelectedItem().toString();
+                String selectedSubCategory = subcategorySpinner.getSelectedItem().toString();
+                String titleText = titleEditText.getText().toString();
+                String descriptionText = descriptionEditText.getText().toString();
+                int priceValue = Integer.parseInt(priceEditText.getText().toString());
+                int discountValue = Integer.parseInt(discountEditText.getText().toString());
+                String eventTypeText = eventTypesEditText.getText().toString();
+                String selectedImagesText = selectedImagesEditText.getText().toString();
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Implementacija ako nije ništa odabrano (opcionalno)
+
+                String[] picturePaths = selectedImagesText.split(",");
+
+
+                ArrayList<String> pictureList = new ArrayList<>(Arrays.asList(picturePaths));
+                String availableText = availableCheckBox.isChecked() ? "Da" : "Ne";
+                String visibleText = visibleCheckBox.isChecked() ? "Da" : "Ne";
+                String status;
+                if(selectedSubCategory!=null){
+                    status = "PENDING";
+                }else status = "APPROVAL";
+
+                Product product = new Product(selectedCategory, selectedSubCategory, titleText, descriptionText, priceValue, discountValue, priceValue - priceValue * discountValue / 100, pictureList, eventTypeText, visibleText, availableText,status);
+
+                // Spremanje podataka u Firestore
+                db.collection("products").add(product)
+                        .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                            @Override
+                            public void onSuccess(DocumentReference documentReference) {
+                                Log.d("CreateProductActivity", "DocumentSnapshot added with ID: " + documentReference.getId());
+                                }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.w("CreateProductActivity", "Error adding document", e);
+                                  }
+                        });
             }
         });
-
-        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCategory = parent.getItemAtPosition(position).toString();
-                Log.d("KATEGORIJA", "Selektovana kategorija: ");
-
-                List<String> subcategories = categorySubcategoryMap.get(selectedCategory);
-                ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(CreateProductActivity.this, android.R.layout.simple_spinner_item, subcategories);
-
-                subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                subCategory.setAdapter(subcategoryAdapter);
-
-
-                String selectedSubcategory = subCategory.getSelectedItem().toString();
-
-
-                Log.d("Selected subcategory", selectedSubcategory);
-                if (selectedSubcategory.equals("Custom") ) {
-                    customSubcategoryEditText.setVisibility(View.VISIBLE);
-                } else {
-                    customSubcategoryEditText.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
     }
-
 }

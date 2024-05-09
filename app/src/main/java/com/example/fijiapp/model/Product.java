@@ -12,6 +12,8 @@ import java.util.ArrayList;
 public class Product implements Parcelable {
 
 
+
+
     public enum EventType{SVADBA, RODJENDAN, KRSTENJE, RODJENJE}
 
     public int Id;
@@ -26,9 +28,10 @@ public class Product implements Parcelable {
     public String Event;
     public String Available;
     public String Visible;
+    public String Status;
     public ImageButton editButton;
-
-    public Product(String category, String subCategory, String title, String description, int price, int discount, int newPrice, ArrayList<String> pictureList, String event, String available, String visible) {
+public  Product(){}
+    public Product(String category, String subCategory, String title, String description, int price, int discount, int newPrice, ArrayList<String> pictureList, String event, String available, String visible, String status) {
         Category = category;
         SubCategory = subCategory;
         Title = title;
@@ -40,6 +43,7 @@ public class Product implements Parcelable {
         Event = event;
         Available = available;
         Visible = visible;
+        Status = status;
     }
 
     protected Product(Parcel in) {
@@ -54,6 +58,7 @@ public class Product implements Parcelable {
         Available = in.readString();
         Visible = in.readString();
         Event =  in.readString();
+        Status = in.readString();
     }
 
     public static final Creator<Product> CREATOR = new Creator<Product>() {
@@ -73,6 +78,7 @@ public class Product implements Parcelable {
         return 0;
     }
 
+
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(Category);
@@ -87,24 +93,25 @@ public class Product implements Parcelable {
         dest.writeString(Available);
         dest.writeString(Visible);
         dest.writeString(Event);
+        dest.writeString(Status);
 
     }
 
-    public String getTitle() {
-        return Title;
-    }
-
-    public String getCategory() {
-        return Category;
-    }
-
-    // Getter method for Price
-    public int getPrice() {
-        return Price;
-    }
-
-    // Getter method for SubCategory
-    public String getSubCategory() {
-        return SubCategory;
-    }
+//    public String getTitle() {
+//        return Title;
+//    }
+//
+//    public String getCategory() {
+//        return Category;
+//    }
+//
+//    // Getter method for Price
+//    public int getPrice() {
+//        return Price;
+//    }
+//
+//    // Getter method for SubCategory
+//    public String getSubCategory() {
+//        return SubCategory;
+//    }
 }

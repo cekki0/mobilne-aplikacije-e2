@@ -168,8 +168,8 @@ public class LandingPageActivity extends AppCompatActivity {
         List<Product> productList = new ArrayList<>();
 
         // Add dummy products
-        productList.add(new Product("Category1", "SubCategory1", "Product1", "Description1", 100, 10, 90, new ArrayList<>(), "Event1", "Available", "Visible"));
-        productList.add(new Product("Category2", "SubCategory2", "Product2", "Description2", 200, 20, 180, new ArrayList<>(), "Event2", "Available", "Visible"));
+        productList.add(new Product("Category1", "SubCategory1", "Product1", "Description1", 100, 10, 90, new ArrayList<>(), "Event1", "Available", "Visible","APPROVAL"));
+        productList.add(new Product("Category2", "SubCategory2", "Product2", "Description2", 200, 20, 180, new ArrayList<>(), "Event2", "Available", "Visible","APPROVAL"));
         // Add more products...
 
         return productList;
@@ -179,8 +179,8 @@ public class LandingPageActivity extends AppCompatActivity {
         List<Service> serviceList = new ArrayList<>();
 
         // Add dummy services
-        serviceList.add(new Service("Category1", "SubCategory1", "Service1", "Description1", new ArrayList<>(), "Specifics1", 50, 100, 2, "Location1", 0, new ArrayList<>(), new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1", "AcceptanceMode1", "Available", "Visible"));
-        serviceList.add(new Service("Category2", "SubCategory2", "Service2", "Description2", new ArrayList<>(), "Specifics2", 80, 150, 3, "Location2", 10, new ArrayList<>(), new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2", "AcceptanceMode2", "Available", "Visible"));
+        serviceList.add(new Service("Category1", "SubCategory1", "Service1", "Description1", new ArrayList<>(), "Specifics1", 50, 100, 2, "Location1", 0, new ArrayList<>(), new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1", "AcceptanceMode1", "Available", "Visible","APPROVAL"));
+        serviceList.add(new Service("Category2", "SubCategory2", "Service2", "Description2", new ArrayList<>(), "Specifics2", 80, 150, 3, "Location2", 10, new ArrayList<>(), new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2", "AcceptanceMode2", "Available", "Visible","APPROVAL"));
         // Add more services...
 
         return serviceList;
@@ -191,15 +191,15 @@ public class LandingPageActivity extends AppCompatActivity {
 
         // Add dummy packages
         List<Product> products1 = new ArrayList<>();
-        products1.add(new Product("Category1", "SubCategory1", "Product1", "Description1", 100, 10, 90, new ArrayList<>(), "Event1", "Available", "Visible"));
-        products1.add(new Product("Category2", "SubCategory2", "Product2", "Description2", 200, 20, 180, new ArrayList<>(), "Event2", "Available", "Visible"));
+        products1.add(new Product("Category1", "SubCategory1", "Product1", "Description1", 100, 10, 90, new ArrayList<>(), "Event1", "Available", "Visible","APPROVAL"));
+        products1.add(new Product("Category2", "SubCategory2", "Product2", "Description2", 200, 20, 180, new ArrayList<>(), "Event2", "Available", "Visible","APPROVAL"));
 
         List<Service> services1 = new ArrayList<>();
-        services1.add(new Service("Category1", "SubCategory1", "Service1", "Description1", new ArrayList<>(), "Specifics1", 50, 100, 2, "Location1", 0, new ArrayList<>(), new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1", "AcceptanceMode1", "Available", "Visible"));
-        services1.add(new Service("Category2", "SubCategory2", "Service2", "Description2", new ArrayList<>(), "Specifics2", 80, 150, 3, "Location2", 10, new ArrayList<>(), new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2", "AcceptanceMode2", "Available", "Visible"));
+        services1.add(new Service("Category1", "SubCategory1", "Service1", "Description1", new ArrayList<>(), "Specifics1", 50, 100, 2, "Location1", 0, new ArrayList<>(), new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1", "AcceptanceMode1", "Available", "Visible","APPROVAL"));
+        services1.add(new Service("Category2", "SubCategory2", "Service2", "Description2", new ArrayList<>(), "Specifics2", 80, 150, 3, "Location2", 10, new ArrayList<>(), new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2", "AcceptanceMode2", "Available", "Visible","APPROVAL"));
 
-        packageList.add(new Package("Package1", "Description1", 10, "Visible", "Available", "Category1", products1, services1, "Event1", 300, new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1"));
-        packageList.add(new Package("Package2", "Description2", 15, "Visible", "Available", "Category2", products1, services1, "Event2", 400, new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2"));
+        packageList.add(new Package("Package1", "Description1", 10, "Visible", "Available", "Category1", products1, services1, "Event1", 300, new ArrayList<>(), "BookingDeadline1", "CancellationDeadline1","APPROVAL"));
+        packageList.add(new Package("Package2", "Description2", 15, "Visible", "Available", "Category2", products1, services1, "Event2", 400, new ArrayList<>(), "BookingDeadline2", "CancellationDeadline2","APPROVAL"));
 
 
         // Add more packages...
@@ -233,26 +233,26 @@ public class LandingPageActivity extends AppCompatActivity {
 
         List<Product> filteredList = new ArrayList<>();
 
-        for (Product product : productList) {
-            // Filter by title
-            if (!product.getTitle().toLowerCase().contains(titleFilter))
-                continue;
-
-            // Filter by category
-            if (!product.getCategory().toLowerCase().contains(categoryFilter))
-                continue;
-
-            // Filter by subcategory
-            if (!product.getSubCategory().toLowerCase().contains(subcategoryFilter))
-                continue;
-
-            // Filter by price
-            if (product.getPrice() < minPriceFilter || product.getPrice() > maxPriceFilter)
-                continue;
-
-            // If all filters pass, add product to filtered list
-            filteredList.add(product);
-        }
+//        for (Product product : productList) {
+//            // Filter by title
+//            if (!product.getTitle().toLowerCase().contains(titleFilter))
+//                continue;
+//
+//            // Filter by category
+//            if (!product.getCategory().toLowerCase().contains(categoryFilter))
+//                continue;
+//
+//            // Filter by subcategory
+//            if (!product.getSubCategory().toLowerCase().contains(subcategoryFilter))
+//                continue;
+//
+//            // Filter by price
+//            if (product.getPrice() < minPriceFilter || product.getPrice() > maxPriceFilter)
+//                continue;
+//
+//            // If all filters pass, add product to filtered list
+//            filteredList.add(product);
+//        }
 
         // Update RecyclerView with filtered list
         productAdapter.filterList(filteredList);

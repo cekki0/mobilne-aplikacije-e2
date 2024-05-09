@@ -151,7 +151,8 @@
                 android:layout_weight="1"
                 android:contentDescription="@string/delete_button_description"
                 android:scaleType="fitCenter"
-                android:src="@drawable/delete" />
+                android:src="@drawable/delete"
+               />
 
 
         </LinearLayout>

@@ -8,28 +8,29 @@ import androidx.annotation.NonNull;
 import java.util.List;
 
 public class Service implements Parcelable {
-    private String category;
-    private String subCategory;
-    private String name;
-    private String description;
-    private List<String> gallery;
-    private String specifics;
-    private int pricePerHour;
-    private int totalPrice;
-    private int durationHours;
-    private String location;
-    private int discount;
-    private List<String> serviceProviders;
-    private List<String> eventTypes;
-    private String bookingDeadline;
-    private String cancellationDeadline;
-    private String acceptanceMode;
-    private String available;
-    private String visible;
+    public String category;
+    public String subCategory;
+    public String name;
+    public String description;
+    public List<String> gallery;
+    public String specifics;
+    public int pricePerHour;
+    public int totalPrice;
+    public int durationHours;
+    public String location;
+    public int discount;
+    public List<String> serviceProviders;
+    public List<String> eventTypes;
+    public String bookingDeadline;
+    public String cancellationDeadline;
+    public String acceptanceMode;
+    public String available;
+    public String visible;
+    public String status;
 
     public Service() {}
 
-    public Service(String category, String subCategory, String name, String description, List<String> gallery, String specifics, int pricePerHour, int totalPrice, int durationHours, String location, int discount, List<String> serviceProviders, List<String> eventTypes, String bookingDeadline, String cancellationDeadline, String acceptanceMode, String available, String visible) {
+    public Service(String category, String subCategory, String name, String description, List<String> gallery, String specifics, int pricePerHour, int totalPrice, int durationHours, String location, int discount, List<String> serviceProviders, List<String> eventTypes, String bookingDeadline, String cancellationDeadline, String acceptanceMode, String available, String visible, String status) {
         this.category = category;
         this.subCategory = subCategory;
         this.name = name;
@@ -48,6 +49,10 @@ public class Service implements Parcelable {
         this.acceptanceMode = acceptanceMode;
         this.available = available;
         this.visible = visible;
+        this.status = status;
+    }
+
+    public Service(String category, String subcategory, String name, String description, List<String> pictureList, String specifics, int pricePerHour, int totalPrice, int durationHours, String location, int discount, String serviceProviders, String eventTypes, String bookingDeadline, String cancellationDeadline, String acceptanceMode, String availableText, String visibleText, String customSubcategory, String status) {
     }
 
     public String getCategory() {
@@ -169,7 +174,9 @@ public class Service implements Parcelable {
     public void setCancellationDeadline(String cancellationDeadline) {
         this.cancellationDeadline = cancellationDeadline;
     }
-
+    public void setStatus(String status) {
+        this.status = status;
+    }
     public String getAcceptanceMode() {
         return acceptanceMode;
     }

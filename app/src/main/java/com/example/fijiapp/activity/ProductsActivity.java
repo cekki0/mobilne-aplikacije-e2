@@ -13,81 +13,33 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fijiapp.R;
 import com.example.fijiapp.adapters.ProductAdapter;
 import com.example.fijiapp.model.Product;
+import com.example.fijiapp.model.Service;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
 import android.view.View;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class ProductsActivity extends AppCompatActivity {
+
+public class ProductsActivity extends AppCompatActivity implements ProductAdapter.OnItemClickListener {
     private List<Product> products = new ArrayList<>();
     private ProductAdapter adapter;
-
-public ProductsActivity()
-{}
-    public ProductsActivity(List<Product> products, ProductAdapter adapter) {
-        this.products = products;
-        this.adapter = adapter;
-    }
-
-
+    private FirebaseFirestore db;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product);
 
-        Product product1 = new Product(
-                "Electronics",
-                "Smartphones",
-                "Alo X",
-                "lololo igh-performance smartphone with great features",
-                500,
-                50,
-                1450,
-                new ArrayList<>(Arrays.asList("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg", "https://static.toiimg.com/thumb/msid-53891743,width-748,height-499,resizemode=4,imgsize-152022/.jpg","https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/2/h/0/medium-beautifull-nature-wall-picture-photographic-paper-14x20-original-imag6jtayz9vphgx.jpeg?q=90&crop=false")),
-                "SVADBA,KRSTENJE",
-                "Yes",
-                "No"
-        );
-
-        Product product2 = new Product(
-                "Ojsa",
-                "Baco",
-                "Smartphone X",
-                "likvid igh-performance smartphone with great features",
-                5000,
-                50,
-                900,
-                new ArrayList<>(Arrays.asList("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg", "https://static.toiimg.com/thumb/msid-53891743,width-748,height-499,resizemode=4,imgsize-152022/.jpg","https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/2/h/0/medium-beautifull-nature-wall-picture-photographic-paper-14x20-original-imag6jtayz9vphgx.jpeg?q=90&crop=false")),
-                "SVADBA",
-                "Yes",
-                "Yes"
-        );
-
-        Product product3= new Product(
-                "STA STA",
-                "Smartphones",
-                "Smartphone X",
-                "oooooo High-performance smartphone with great features",
-                1500,
-                50,
-                450,
-                new ArrayList<>(Arrays.asList("https://upload.wikimedia.org/wikipedia/commons/thumb/e/ec/Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg/800px-Mona_Lisa%2C_by_Leonardo_da_Vinci%2C_from_C2RMF_retouched.jpg", "https://static.toiimg.com/thumb/msid-53891743,width-748,height-499,resizemode=4,imgsize-152022/.jpg","https://rukminim2.flixcart.com/image/850/1000/xif0q/poster/2/h/0/medium-beautifull-nature-wall-picture-photographic-paper-14x20-original-imag6jtayz9vphgx.jpeg?q=90&crop=false")),
-                "SVADBA",
-                "Yes",
-                "Yes"
-        );
-
-
-        products.add(product1);
-        products.add(product2);
-        products.add(product3);
-
+        db = FirebaseFirestore.getInstance();
 
         RecyclerView recyclerView = findViewById(R.id.productRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         adapter = new ProductAdapter(products, this);
+        adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
         SearchView searchView = findViewById(R.id.searchView);
@@ -104,7 +56,24 @@ public ProductsActivity()
             }
         });
 
+        loadProductsFromFirestore();
+    }
+    private void loadProductsFromFirestore() {
+        db.collection("products").whereEqualTo("Status", "APPROVAL")
 
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        products.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            Product product = document.toObject(Product.class);
+                            products.add(product);
+                        }
+                        adapter.notifyDataSetChanged();
+                    } else {
+
+                    }
+                });
     }
 
     private void filter(String query) {
@@ -116,22 +85,22 @@ public ProductsActivity()
             try {
                 int priceFilter = Integer.parseInt(queryLowerCase);
                 for (Product product : products) {
-                    if (product.Event.toLowerCase().contains(queryLowerCase) ||
-                            product.Category.toLowerCase().contains(queryLowerCase) ||
-                            product.SubCategory.toLowerCase().contains(queryLowerCase) ||
-                            product.Available.toLowerCase().contains(queryLowerCase) ||
+                    if (product.Event != null && product.Event.toLowerCase().contains(queryLowerCase) ||
+                            product.Category != null && product.Category.toLowerCase().contains(queryLowerCase) ||
+                            product.SubCategory != null && product.SubCategory.toLowerCase().contains(queryLowerCase) ||
+                            product.Available != null && product.Available.toLowerCase().contains(queryLowerCase) ||
                             (product.Price <= priceFilter) ||
-                            product.Description.toLowerCase().contains(queryLowerCase)) {
+                            product.Description != null && product.Description.toLowerCase().contains(queryLowerCase)) {
                         filteredList.add(product);
                     }
                 }
             } catch (NumberFormatException e) {
                 for (Product product : products) {
-                    if (product.Event.toLowerCase().contains(queryLowerCase) ||
-                            product.Category.toLowerCase().contains(queryLowerCase) ||
-                            product.SubCategory.toLowerCase().contains(queryLowerCase) ||
-                            product.Available.toLowerCase().contains(queryLowerCase) ||
-                            product.Description.toLowerCase().contains(queryLowerCase)) {
+                    if (product.Event != null && product.Event.toLowerCase().contains(queryLowerCase) ||
+                            product.Category != null && product.Category.toLowerCase().contains(queryLowerCase) ||
+                            product.SubCategory != null && product.SubCategory.toLowerCase().contains(queryLowerCase) ||
+                            product.Available != null && product.Available.toLowerCase().contains(queryLowerCase) ||
+                            product.Description != null && product.Description.toLowerCase().contains(queryLowerCase)) {
                         filteredList.add(product);
                     }
                 }
@@ -140,12 +109,36 @@ public ProductsActivity()
         adapter.filterList(filteredList);
     }
 
-    public void createProductPage(View view){
-    Intent intent = new Intent(this,CreateProductActivity.class);
-    startActivity(intent);
+    @Override
+    public void onItemClickProduct(Product product) {
+
     }
 
+    @Override
+    public void onDeleteButtonClickProduct(Product product) {
+        if (product != null) {
+            String productName = product.Title;
+            if (productName != null) {
 
+                db.collection("products")
+                        .whereEqualTo("Title", productName)
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                document.getReference().update("Status", "DELETED");
+                            }
+                            // Ažuriranje uspešno završeno, obavesti adapter da su podaci promenjeni
+                            product.Status ="DELETED";
+                            adapter.notifyDataSetChanged();
+                        })
+                        .addOnFailureListener(e -> {
+                             });
+            }
+        }
+    }
 
-
+    public void createProductPage(View view) {
+        Intent intent = new Intent(this, CreateProductActivity.class);
+        startActivity(intent);
+    }
 }

@@ -12,50 +12,55 @@ import com.example.fijiapp.model.Service;
 import  android.view.View;
 import android.widget.CheckBox;
 
+import java.util.ArrayList;
 import java.util.List;
-
 public class ServiceCheckBoxAdapter extends RecyclerView.Adapter<ServiceCheckBoxAdapter.ViewHolder> {
 
     private Context context;
-    private List<Service> serviceList;
+    private List<Service> services;
+    private List<Service> selectedServices = new ArrayList<>();
 
-    public ServiceCheckBoxAdapter(){}
-
+    public ServiceCheckBoxAdapter(Context context, List<Service> services) {
+        this.context = context;
+        this.services = services;
+    }
 
     @NonNull
     @Override
-    public ServiceCheckBoxAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.checkbox_item, parent, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ServiceCheckBoxAdapter.ViewHolder holder, int position) {
-        Service service = serviceList.get(position);
-        holder.bind(service);
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+        Service service = services.get(position);
+        holder.checkBox.setText(service.getName());
+        holder.checkBox.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            if (isChecked) {
+                selectedServices.add(service);
+            } else {
+                selectedServices.remove(service);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return serviceList.size();
+        return services.size();
     }
 
-    public ServiceCheckBoxAdapter(Context context, List<Service> serviceList) {
-        this.context = context;
-        this.serviceList = serviceList;
+    public List<Service> getSelectedServices() {
+        return selectedServices;
     }
 
-
-    public class ViewHolder  extends RecyclerView.ViewHolder{
-
-        private CheckBox checkBox;
+    public static class ViewHolder extends RecyclerView.ViewHolder {
+        CheckBox checkBox;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
             checkBox = itemView.findViewById(R.id.checkBox);
         }
-        public void bind(Service service) {
-            checkBox.setText(service.getName());
-        }
     }
 }
+

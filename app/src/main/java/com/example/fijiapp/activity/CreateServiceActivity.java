@@ -9,174 +9,164 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.model.Service;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CreateServiceActivity extends AppCompatActivity {
 
-    private Spinner category;
-    private Spinner subCategory;
-    private EditText name;
-    private EditText description;
-    private EditText gallery;
-    private EditText specifics;
-    private EditText pricePerHour;
+    private FirebaseFirestore db;
 
-    private EditText durationHours;
-    private EditText location;
-    private EditText discount;
-    private EditText serviceProviders;
-    private EditText eventTypes;
-    private EditText bookingDeadline;
-    private EditText cancellationDeadline;
-    private EditText acceptanceMode;
-    private CheckBox available;
-    private CheckBox visible;
+    private Spinner categorySpinner;
+    private Spinner subcategorySpinner;
+    private EditText nameEditText;
+    private EditText descriptionEditText;
+    private EditText galleryEditText;
+    private EditText specificsEditText;
+    private EditText pricePerHourEditText;
+    private EditText durationHoursEditText;
+    private EditText locationEditText;
+    private EditText discountEditText;
+    private EditText serviceProvidersEditText;
+    private EditText eventTypesEditText;
+    private EditText bookingDeadlineEditText;
+    private EditText cancellationDeadlineEditText;
+    private EditText acceptanceModeEditText;
+    private CheckBox availableCheckBox;
+    private CheckBox visibleCheckBox;
     private EditText customSubcategoryEditText;
-    Map<String, List<String>> categorySubcategoryMap = new HashMap<>();
-
-
-
-    public CreateServiceActivity(){}
-
-    public CreateServiceActivity(Spinner category, Spinner subCategory, EditText name, EditText description, EditText gallery, EditText specifics, EditText pricePerHour, EditText durationHours, EditText location, EditText discount, EditText serviceProviders, EditText eventTypes, EditText bookingDeadline, EditText cancellationDeadline, EditText acceptanceMode, CheckBox available, CheckBox visible, EditText customSubcategoryEditText) {
-        this.category = category;
-        this.subCategory = subCategory;
-        this.name = name;
-        this.description = description;
-        this.gallery = gallery;
-        this.specifics = specifics;
-        this.pricePerHour = pricePerHour;
-        this.durationHours = durationHours;
-        this.location = location;
-        this.discount = discount;
-        this.serviceProviders = serviceProviders;
-        this.eventTypes = eventTypes;
-        this.bookingDeadline = bookingDeadline;
-        this.cancellationDeadline = cancellationDeadline;
-        this.acceptanceMode = acceptanceMode;
-        this.available = available;
-        this.visible = visible;
-        this.customSubcategoryEditText = customSubcategoryEditText;
-    }
-
-    public CreateServiceActivity(int contentLayoutId, Spinner category, Spinner subCategory, EditText name, EditText description, EditText gallery, EditText specifics, EditText pricePerHour, EditText durationHours, EditText location, EditText discount, EditText serviceProviders, EditText eventTypes, EditText bookingDeadline, EditText cancellationDeadline, EditText acceptanceMode, CheckBox available, CheckBox visible, EditText customSubcategoryEditText) {
-        super(contentLayoutId);
-        this.category = category;
-        this.subCategory = subCategory;
-        this.name = name;
-        this.description = description;
-        this.gallery = gallery;
-        this.specifics = specifics;
-        this.pricePerHour = pricePerHour;
-        this.durationHours = durationHours;
-        this.location = location;
-        this.discount = discount;
-        this.serviceProviders = serviceProviders;
-        this.eventTypes = eventTypes;
-        this.bookingDeadline = bookingDeadline;
-        this.cancellationDeadline = cancellationDeadline;
-        this.acceptanceMode = acceptanceMode;
-        this.available = available;
-        this.visible = visible;
-
-        this.customSubcategoryEditText = customSubcategoryEditText;
-    }
+    private List<String> categoryList = new ArrayList<>();
+    private List<String> subcategoryList = new ArrayList<>();
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-
-        List<String> fotoSubcategories = Arrays.asList("Fotografije i Albumi", "Radosnice", "Maturanti","Custom");
-        List<String> laptopSubcategories = Arrays.asList("Dell", "HP", "Lenovo","Custom");
-
-        categorySubcategoryMap.put("Foto i Video", fotoSubcategories);
-
-        categorySubcategoryMap.put("Laptops", laptopSubcategories);
         setContentView(R.layout.activity_create_service);
 
-        category = findViewById(R.id.categorySpinner);
-        subCategory = findViewById(R.id.subcategorySpinner);
-        name = findViewById(R.id.nameEditText);
-        description = findViewById(R.id.descriptionEditText);
-        gallery = findViewById(R.id.galleryEditText);
-        specifics = findViewById(R.id.specificsEditText);
-        pricePerHour = findViewById(R.id.pricePerHourEditText);
-        durationHours = findViewById(R.id.durationHoursEditText);
-        location = findViewById(R.id.locationEditText);
-        discount = findViewById(R.id.discountEditText);
-        serviceProviders = findViewById(R.id.serviceProvidersEditText);
-        eventTypes = findViewById(R.id.eventTypesEditText);
-        bookingDeadline = findViewById(R.id.bookingDeadlineEditText);
-        cancellationDeadline = findViewById(R.id.cancellationDeadlineEditText);
-        acceptanceMode = findViewById(R.id.acceptanceModeEditText);
-        available = findViewById(R.id.availableCheckBox);
-        visible = findViewById(R.id.visibleCheckBox);
+        db = FirebaseFirestore.getInstance();
+
+        categorySpinner = findViewById(R.id.categorySpinner);
+        subcategorySpinner = findViewById(R.id.subcategorySpinner);
+        nameEditText = findViewById(R.id.nameEditText);
+        descriptionEditText = findViewById(R.id.descriptionEditText);
+        galleryEditText = findViewById(R.id.galleryEditText);
+        specificsEditText = findViewById(R.id.specificsEditText);
+        pricePerHourEditText = findViewById(R.id.pricePerHourEditText);
+        durationHoursEditText = findViewById(R.id.durationHoursEditText);
+        locationEditText = findViewById(R.id.locationEditText);
+        discountEditText = findViewById(R.id.discountEditText);
+        serviceProvidersEditText = findViewById(R.id.serviceProvidersEditText);
+        eventTypesEditText = findViewById(R.id.eventTypesEditText);
+        bookingDeadlineEditText = findViewById(R.id.bookingDeadlineEditText);
+        cancellationDeadlineEditText = findViewById(R.id.cancellationDeadlineEditText);
+        acceptanceModeEditText = findViewById(R.id.acceptanceModeEditText);
+        availableCheckBox = findViewById(R.id.availableCheckBox);
+        visibleCheckBox = findViewById(R.id.visibleCheckBox);
         customSubcategoryEditText = findViewById(R.id.customSubcategoryEditText);
 
+        loadCategoriesFromFirestore();
+        loadSubcategoriesFromFirestore();
 
-        ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, new ArrayList<>(categorySubcategoryMap.keySet()));
-        categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        category.setAdapter(categoryAdapter);
-
-
-        category.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        findViewById(R.id.createServiceButton).setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedCategory = parent.getItemAtPosition(position).toString();
-                Log.d("KATEGORIJA", "Selektovana kategorija: ");
-
-                List<String> subcategories = categorySubcategoryMap.get(selectedCategory);
-                ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(CreateServiceActivity.this, android.R.layout.simple_spinner_item, subcategories);
-
-                subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-                subCategory.setAdapter(subcategoryAdapter);
-
-
-                String selectedSubcategory = subCategory.getSelectedItem().toString();
-
-
-                Log.d("Selected subcategory", selectedSubcategory);
-                if (selectedSubcategory.equals("Custom") ) {
-                    customSubcategoryEditText.setVisibility(View.VISIBLE);
-                } else {
-                    customSubcategoryEditText.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
+            public void onClick(View v) {
+                createService();
             }
         });
-        subCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selectedSubcategory = parent.getItemAtPosition(position).toString();
-
-                if (selectedSubcategory.equals("Custom")) {
-                    customSubcategoryEditText.setVisibility(View.VISIBLE);
-                } else {
-                    customSubcategoryEditText.setVisibility(View.INVISIBLE);
-                }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-
-            }
-        });
-
     }
 
+    private void loadCategoriesFromFirestore() {
+        db.collection("category")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    categoryList.clear();
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        String categoryName = document.getString("Name");
+                        categoryList.add(categoryName);
+                    }
+                    ArrayAdapter<String> categoryAdapter = new ArrayAdapter<>(CreateServiceActivity.this, android.R.layout.simple_spinner_item, categoryList);
+                    categoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    categorySpinner.setAdapter(categoryAdapter);
+                })
+                .addOnFailureListener(e -> Log.e("CreateServiceActivity", "Error getting categories from Firestore", e));
+    }
 
+    private void loadSubcategoriesFromFirestore() {
+        db.collection("subcategories")
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    subcategoryList.clear();
+                    for (DocumentSnapshot document : queryDocumentSnapshots) {
+                        String subcategoryName = document.getString("Name");
+                        subcategoryList.add(subcategoryName);
+                    }
+                    ArrayAdapter<String> subcategoryAdapter = new ArrayAdapter<>(CreateServiceActivity.this, android.R.layout.simple_spinner_item, subcategoryList);
+                    subcategoryAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                    subcategorySpinner.setAdapter(subcategoryAdapter);
+                })
+                .addOnFailureListener(e -> Log.e("CreateServiceActivity", "Error getting subcategories from Firestore", e));
+    }
+
+    private void createService() {
+        String category = categorySpinner.getSelectedItem().toString();
+        String subcategory = subcategorySpinner.getSelectedItem().toString();
+        String name = nameEditText.getText().toString();
+        String description = descriptionEditText.getText().toString();
+        String selectedImagesText = galleryEditText.getText().toString();
+        String[] picturePaths = selectedImagesText.split(",");
+        List<String> pictureList = Arrays.asList(picturePaths);
+        String specifics = specificsEditText.getText().toString();
+        int pricePerHour = Integer.parseInt(pricePerHourEditText.getText().toString());
+        int durationHours = Integer.parseInt(durationHoursEditText.getText().toString());
+        String location = locationEditText.getText().toString();
+        int discount = Integer.parseInt(discountEditText.getText().toString());
+        String serviceProvidersText = serviceProvidersEditText.getText().toString();
+        String[] serviceProvidersArray = serviceProvidersText.split(",");
+        List<String> serviceProviders = Arrays.asList(serviceProvidersArray);
+        String eventTypesText = eventTypesEditText.getText().toString();
+        String[] eventTypesArray = eventTypesText.split(",");
+        List<String> eventTypes = Arrays.asList(eventTypesArray);
+        String bookingDeadline = bookingDeadlineEditText.getText().toString();
+        String cancellationDeadline = cancellationDeadlineEditText.getText().toString();
+        String acceptanceMode = acceptanceModeEditText.getText().toString();
+        String availableText = availableCheckBox.isChecked() ? "Da" : "Ne";
+        String visibleText = visibleCheckBox.isChecked() ? "Da" : "Ne";
+        String customSubcategory = customSubcategoryEditText.getText().toString();
+        double totalPriceDouble = pricePerHour * durationHours * (1 - discount / 100.0);
+        int totalPrice = (int) Math.round(totalPriceDouble);
+        String status;
+        if(customSubcategory!=null){
+            status = "PENDING";
+        }else status = "APPROVAL";
+        Service service = new Service(category, subcategory, name, description, pictureList, specifics, pricePerHour, totalPrice, durationHours, location, discount, serviceProviders, eventTypes, bookingDeadline, cancellationDeadline, acceptanceMode, availableText, visibleText,status);
+
+        db.collection("services")
+                .add(service)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("CreateServiceActivity", "Service added with ID: " + documentReference.getId());
+                        // Clear input fields if needed
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("CreateServiceActivity", "Error adding service", e);
+                        // Handle failure
+                    }
+                });
+    }
 }

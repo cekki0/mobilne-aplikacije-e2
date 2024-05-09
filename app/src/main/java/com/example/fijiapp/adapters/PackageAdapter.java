@@ -13,6 +13,8 @@ import com.example.fijiapp.activity.UpdatePackageActivity;
 import com.example.fijiapp.model.Package;
 import com.example.fijiapp.model.Product;
 import com.example.fijiapp.model.Service;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import android.view.View;
 import android.widget.ImageButton;
@@ -21,33 +23,34 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHolder> {
     private List<Package> packages = new ArrayList<>();
     private Context context;
+    private FirebaseFirestore db;
 
-
-
-    public PackageAdapter(){}
     public PackageAdapter(List<Package> packages, Context context) {
         this.packages = packages;
         this.context = context;
+        this.db = FirebaseFirestore.getInstance();
     }
 
+    @NonNull
+    @Override
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.package_card, parent, false);
+        return new ViewHolder(view);
+    }
 
     public void filterList(List<Package> filteredList) {
         packages = filteredList;
         notifyDataSetChanged();
     }
-    @NonNull
-    @Override
-    public PackageAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.package_card,parent,false);
-        return new PackageAdapter.ViewHolder(view);
-    }
 
     @Override
-    public void onBindViewHolder(@NonNull PackageAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Package pack = packages.get(position);
+
         holder.nameTextView.setText("Name: " + pack.getName());
         holder.descriptionTextView.setText("Description: " + pack.getDescription());
         holder.discountTextView.setText("Discount: " + pack.getDiscount());
@@ -58,38 +61,44 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         holder.priceTextView.setText("Price: " + pack.getPrice());
         holder.bookingDeadlineTextView.setText("Booking Deadline: " + pack.getBookingDeadline());
         holder.cancellationDeadlineTextView.setText("Cancellation Deadline: " + pack.getCancellationDeadline());
-        holder.imagesTextView.setText(("Galerry: " + pack.getImages()));
+        holder.imagesTextView.setText(("Gallery: " + pack.getImages()));
+
+        db.collection("packages")
+                .whereEqualTo("name", pack.getName())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                            List<Product> productList = documentSnapshot.toObject(Package.class).getProducts();
+                            if (productList != null) {
+                                StringBuilder productText = new StringBuilder("Products: ");
+                                for (Product product : productList) {
+                                    productText.append(product.Title).append(", ");
+                                }
+                                holder.productsTextView.setText(productText.toString());
+                            }
+                        }
+                    }
+                });
 
 
-        List<Product> productList = pack.getProducts();
-        StringBuilder productText = new StringBuilder("Products: ");
-        for (Product product : productList) {
-            productText.append(product.Title).append(", ");
-        }
-        holder.productsTextView.setText(productText.toString());
-
-
-        List<Service> serviceList = pack.getServices();//svi servisi
-        StringBuilder serviceText = new StringBuilder();
-        for (Service service : serviceList) {
-            serviceText.append(service.getName()).append(", ");
-        }
-        holder.servicesTextView.setText(serviceText.toString());
-
-        //Koji nisu u paketu
-        List<Service> serviceNotInPackageList =new ArrayList<>();
-        List<Service> notInPackageList = new ArrayList<>();
-        for(Service service : serviceList){
-            if(!serviceList.contains(service.getName())){
-                notInPackageList.add(service);
-            }
-        }
-
-
-
-
-
-
+        db.collection("packages")
+                .whereEqualTo("name", pack.getName())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                            List<Service> serviceList = documentSnapshot.toObject(Package.class).getServices();
+                            if (serviceList != null) {
+                                StringBuilder serviceText = new StringBuilder("Services: ");
+                                for (Service service : serviceList) {
+                                    serviceText.append(service.getName()).append(", ");
+                                }
+                                holder.servicesTextView.setText(serviceText.toString());
+                            }
+                        }
+                    }
+                });
 
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,7 +110,14 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
             }
         });
 
-
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (deleteClickListener != null) {
+                    deleteClickListener.onPackageDeleteClick(pack);
+                }
+            }
+        });
     }
 
     @Override
@@ -109,7 +125,7 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         return packages.size();
     }
 
-    public static  class ViewHolder extends RecyclerView.ViewHolder {
+    public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView nameTextView;
         private TextView descriptionTextView;
         private TextView discountTextView;
@@ -125,8 +141,6 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
         private TextView servicesTextView;
         private ImageButton editButton;
         private ImageButton deleteButton;
-        private TextView servicesEditText;
-
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -144,13 +158,17 @@ public class PackageAdapter extends RecyclerView.Adapter<PackageAdapter.ViewHold
             productsTextView = itemView.findViewById(R.id.productsTextView);
             servicesTextView = itemView.findViewById(R.id.servicesTextView);
             editButton = itemView.findViewById(R.id.editButton);
-            servicesEditText = itemView.findViewById(R.id.servicesTextView);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
         }
-
-
     }
 
+    public interface OnPackageDeleteClickListener {
+        void onPackageDeleteClick(Package pack);
+    }
 
+    private OnPackageDeleteClickListener deleteClickListener;
 
-
+    public void setOnPackageDeleteClickListener(OnPackageDeleteClickListener listener) {
+        this.deleteClickListener = listener;
+    }
 }

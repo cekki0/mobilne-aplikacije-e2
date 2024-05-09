@@ -17,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fijiapp.R;
 import com.example.fijiapp.activity.UpdateProductActivity;
 import com.example.fijiapp.model.Product;
+import com.example.fijiapp.model.Service;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
@@ -24,10 +25,15 @@ import java.util.List;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHolder> {
     private List<Product> products;
     private Context context;
+    private OnItemClickListener listener;
 
     public ProductAdapter(List<Product> products, Context context) {
         this.products = products;
         this.context = context;
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener) {
+        this.listener = listener;
     }
 
     @NonNull
@@ -86,6 +92,17 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
 
 
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (listener != null) {
+                    int position = holder.getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        listener.onItemClickProduct(products.get(position));
+                    }
+                }
+            }
+        });
 
 
 
@@ -101,6 +118,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
 
 
                 context.startActivity(intent);
+            }
+        });
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    Product product = products.get(position);
+                    listener.onDeleteButtonClickProduct(product);              }
             }
         });
 
@@ -135,6 +161,7 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
         TextView subCategoryTextView;
         ImageView imageView;
         LinearLayout imageViewContainer;
+        ImageButton deleteButton;
 
 
         public ViewHolder(@NonNull View itemView) {
@@ -156,11 +183,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ViewHold
             categoryTextView = itemView.findViewById(R.id.categoryTextView);
             subCategoryTextView = itemView.findViewById(R.id.subCategoryTextView);
             //imageView = itemView.findViewById(R.id.imageView);
+            deleteButton = itemView.findViewById(R.id.deleteButton);
             imageViewContainer = itemView.findViewById(R.id.imageViewContainer);
         }
     }
 
-
+    public interface OnItemClickListener {
+        void onItemClickProduct(Product product);
+        void onDeleteButtonClickProduct(Product product);
+    }
 
 }
 

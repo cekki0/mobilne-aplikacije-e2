@@ -21,28 +21,28 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
-
 public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHolder> {
 
-   private List<Service> services;
-   private Context context;
+    private List<Service> services;
+    private Context context;
     private OnItemClickListener listener;
+
     public ServiceAdapter(List<Service> services, Context context, OnItemClickListener listener) {
         this.services = services;
         this.context = context;
         this.listener = listener;
     }
+
     public void filterList(List<Service> filteredList){
         services = filteredList;
         notifyDataSetChanged();
     }
 
-
     @NonNull
     @Override
-    public ServiceAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_card,parent,false);
-    return new ServiceAdapter.ViewHolder(view);
+    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_card,parent,false);
+        return new ViewHolder(view);
     }
 
     @Override
@@ -52,7 +52,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         holder.subCategoryTextView.setText("Subcategory: " + service.getSubCategory());
         holder.nameTextView.setText("Name: " + service.getName());
         holder.descriptionTextView.setText("Description: " + service.getDescription());
-//        holder.galleryTextView.setText("Gallery: " + service.getGallery());
         holder.specificsTextView.setText("Specifics: " + service.getSpecifics());
         holder.pricePerHourTextView.setText("Price per Hour: " + service.getPricePerHour());
         holder.totalPriceTextView.setText("Total Price: " + service.getTotalPrice());
@@ -67,7 +66,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         holder.availableTextView.setText("Available: " + service.getAvailable());
         holder.visibleTextView.setText("Visible: " + service.getVisible());
 
-
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,15 +78,9 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             }
         });
 
-
-
-
-
         List<String> pictureList = service.getGallery();
         if (pictureList != null && !pictureList.isEmpty()) {
-
             holder.imageViewContainer.removeAllViews();
-
 
             for (String imageUrl : pictureList) {
                 ImageView imageView = new ImageView(context);
@@ -98,20 +90,16 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
                 );
                 imageView.setLayoutParams(layoutParams);
 
-
                 Picasso.get().load(imageUrl)
                         .resize(300, 300)
                         .centerCrop()
                         .into(imageView);
-
 
                 holder.imageViewContainer.addView(imageView);
             }
         } else {
             holder.imageViewContainer.setVisibility(View.GONE);
         }
-
-
 
         holder.editButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -123,27 +111,29 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             }
         });
 
+
+        holder.deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int position = holder.getAdapterPosition();
+                if (position != RecyclerView.NO_POSITION && listener != null) {
+                    Service service = services.get(position);
+                    listener.onDeleteButtonClick(service);
+                }
+            }
+        });
     }
-    public void setOnItemClickListener(OnItemClickListener listener) {
-        this.listener = listener;
-    }
-
-
-
 
     @Override
     public int getItemCount() {
         return services.size();
     }
 
-
-    public static class  ViewHolder extends  RecyclerView.ViewHolder{
-
+    public static class  ViewHolder extends RecyclerView.ViewHolder {
         TextView categoryTextView;
         TextView subCategoryTextView;
         TextView nameTextView;
         TextView descriptionTextView;
-        TextView galleryTextView;
         TextView specificsTextView;
         TextView pricePerHourTextView;
         TextView totalPriceTextView;
@@ -160,6 +150,7 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
         ImageButton editButton;
         ImageButton deleteButton;
         LinearLayout imageViewContainer;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
@@ -167,7 +158,6 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             subCategoryTextView = itemView.findViewById(R.id.subCategoryTextView);
             nameTextView = itemView.findViewById(R.id.nameTextView);
             descriptionTextView = itemView.findViewById(R.id.descriptionTextView);
-            //galleryTextView = itemView.findViewById(R.id.galleryTextView);
             specificsTextView = itemView.findViewById(R.id.specificsTextView);
             pricePerHourTextView = itemView.findViewById(R.id.pricePerHourTextView);
             totalPriceTextView = itemView.findViewById(R.id.totalPriceTextView);
@@ -184,11 +174,11 @@ public class ServiceAdapter extends RecyclerView.Adapter<ServiceAdapter.ViewHold
             editButton = itemView.findViewById(R.id.editButton);
             deleteButton = itemView.findViewById(R.id.deleteButton);
             imageViewContainer = itemView.findViewById(R.id.imageViewContainer);
-
         }
     }
 
     public interface OnItemClickListener {
         void onItemClick(Service service);
+        void onDeleteButtonClick(Service service);
     }
 }
