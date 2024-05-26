@@ -45,6 +45,11 @@ public class RegistrationRequestAdapter extends RecyclerView.Adapter<Registratio
         holder.nameTextView.setText("Name: " + user.getFullName());
         holder.addressTextView.setText("Address: " + user.Address);
         holder.phoneTextView.setText("Phone: " + user.PhoneNumber);
+        if(user.Company!=null)
+        {
+            holder.companyEmailTextView.setText("Company Email: " + user.Company.Email);
+            holder.companyNameTextView.setText("Company Name: " + user.Company.Name);
+        }
 
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -86,7 +91,9 @@ public class RegistrationRequestAdapter extends RecyclerView.Adapter<Registratio
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView emailTextView;
+        TextView companyEmailTextView;
         TextView nameTextView;
+        TextView companyNameTextView;
         TextView addressTextView;
         TextView phoneTextView;
         Button approveButton;
@@ -100,6 +107,8 @@ public class RegistrationRequestAdapter extends RecyclerView.Adapter<Registratio
             phoneTextView = itemView.findViewById(R.id.phoneTextView);
             approveButton = itemView.findViewById(R.id.approveButton);
             denyButton = itemView.findViewById(R.id.denyButton);
+            companyEmailTextView = itemView.findViewById(R.id.companyEmailTextView);
+            companyNameTextView = itemView.findViewById(R.id.companyNameTextView);
         }
     }
 }
