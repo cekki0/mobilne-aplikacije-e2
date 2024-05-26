@@ -18,8 +18,12 @@ public class UserService {
         userRepository = new UserRepository();
     }
 
-    public void updateCategory(User user) {
+    public void updateUser(User user) {
         userRepository.updateUser(user);
+    }
+
+    public void deleteUser(User user) {
+        userRepository.deleteUser(user);
     }
 
     public Task<List<User>> getAllUsers() {

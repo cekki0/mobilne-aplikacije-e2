@@ -1,5 +1,8 @@
 package com.example.fijiapp.repository;
 
+import android.util.Log;
+
+import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.model.User;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
@@ -22,6 +25,11 @@ public class UserRepository {
         }
 
         return userRef.document(userId).set(user);
+    }
+
+    public Task<Void> deleteUser(User user) {
+        String userId = user.Id;
+        return userRef.document(userId).delete();
     }
 
     public Task<QuerySnapshot> getAllUsers() {
