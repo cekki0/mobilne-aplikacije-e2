@@ -14,6 +14,7 @@ import com.example.fijiapp.model.Category;
 
 import java.util.List;
 
+import android.widget.EditText;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 
@@ -25,6 +26,8 @@ public class CategoryManagementAdminActivity extends AppCompatActivity {
 
     private CategoryAdapter adapter;
     private List<Category> categories;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
