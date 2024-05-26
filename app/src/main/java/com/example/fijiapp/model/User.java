@@ -5,10 +5,14 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Parcelable {
+    @Exclude
+    public String Id;
     public String Email;
     public String FirstName;
     public String LastName;

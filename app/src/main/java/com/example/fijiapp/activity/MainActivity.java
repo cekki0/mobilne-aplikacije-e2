@@ -15,6 +15,7 @@ import com.example.fijiapp.activity.category.CategoryManagementAdminActivity;
 import com.example.fijiapp.activity.event.EventTypeManagementActivity;
 import com.example.fijiapp.activity.login.LoginActivity;
 import com.example.fijiapp.activity.register.ProductServiceManagementActivity;
+import com.example.fijiapp.activity.register.RegistrationRequestsManagement;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -80,6 +81,9 @@ public class MainActivity extends AppCompatActivity {
             }
             else if (id == R.id.product_service_management) {
                 startActivity(new Intent(MainActivity.this, ProductServiceManagementActivity.class));
+            }
+            else if (id == R.id.registration_request_management) {
+                startActivity(new Intent(MainActivity.this, RegistrationRequestsManagement.class));
             }
             drawerLayout.closeDrawers();
             return true;

@@ -16,14 +16,17 @@
         android:theme="@style/Theme.FijiApp"
         tools:targetApi="33">
         <activity
+            android:name=".activity.register.RegistrationRequestsManagement"
+            android:exported="false" />
+        <activity
             android:name=".activity.register.ProductServiceManagementActivity"
             android:exported="false" />
         <activity
             android:name=".activity.LandingPageActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activity.EventActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".activity.event.EventTypeAddActivity"
             android:exported="false" />
@@ -91,13 +94,13 @@
         <activity
             android:name=".activity.event.EventTypeManagementActivity"
             android:exported="true"
-            android:theme="@style/Theme.FijiApp"></activity>
+            android:theme="@style/Theme.FijiApp" />
         <activity android:name=".activity.PackageActivity" />
         <activity android:name=".activity.UpdateProductActivity" />
         <activity android:name=".activity.UpdateServiceActivity" />
         <activity android:name=".activity.CreatePackageActivity" />
         <activity android:name=".activity.UpdatePackageActivity" />
-        <activity android:name=".activity.MainActivity"></activity>
+        <activity android:name=".activity.MainActivity" />
     </application>
 
 </manifest>

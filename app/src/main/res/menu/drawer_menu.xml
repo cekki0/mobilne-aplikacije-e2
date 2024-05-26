@@ -31,5 +31,8 @@
         <item
             android:id="@+id/product_service_management"
             android:title="Product Service Management" />
+        <item
+            android:id="@+id/registration_request_management"
+            android:title="Registration Request Management" />
     </group>
 </menu>
