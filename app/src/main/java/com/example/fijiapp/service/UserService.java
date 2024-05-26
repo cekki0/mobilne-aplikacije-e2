@@ -29,7 +29,8 @@ public class UserService {
                 for (DocumentSnapshot document : task.getResult()) {
                     User user = document.toObject(User.class);
                     user.Id = document.getId();
-                    users.add(user);
+                    if(!user.IsActive)
+                        users.add(user);
                 }
                 return users;
             } else {

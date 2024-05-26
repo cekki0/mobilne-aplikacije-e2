@@ -15,6 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.example.fijiapp.R;
 import com.example.fijiapp.activity.category.CategoryManagementAdminActivity;
 import com.example.fijiapp.adapters.CategoryAdapter;
+import com.example.fijiapp.adapters.RegistrationRequestAdapter;
 import com.example.fijiapp.adapters.UserAdapter;
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.User;
@@ -27,7 +28,7 @@ import java.util.List;
 
 public class RegistrationRequestsManagement extends AppCompatActivity {
 
-    private UserAdapter adapter;
+    private RegistrationRequestAdapter adapter;
     private List<User> users;
 
     @Override
@@ -59,7 +60,7 @@ public class RegistrationRequestsManagement extends AppCompatActivity {
         RecyclerView recyclerView = findViewById(R.id.userRecyclerView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        adapter = new UserAdapter(users, this);
+        adapter = new RegistrationRequestAdapter(users, this);
         recyclerView.setAdapter(adapter);
     }
 }
