@@ -16,6 +16,9 @@
         android:theme="@style/Theme.FijiApp"
         tools:targetApi="33">
         <activity
+            android:name=".activity.GuestActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.EventsViewActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />

@@ -1,15 +1,18 @@
 package com.example.fijiapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.GuestActivity;
 import com.example.fijiapp.model.ODEvent;
 
 import java.util.List;
@@ -39,12 +42,22 @@ public class ODEventAdapter extends RecyclerView.Adapter<ODEventAdapter.ViewHold
         holder.locationView.setText("Location: " + event.Location);
         holder.dateView.setText("Date: " + event.Date);
         holder.typeView.setText("Type: " + event.Type);
+
+        holder.guestListButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(context, GuestActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
         return events.size();
     }
+
+
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView eventNameView;
@@ -54,6 +67,7 @@ public class ODEventAdapter extends RecyclerView.Adapter<ODEventAdapter.ViewHold
         TextView locationView;
         TextView dateView;
         TextView typeView;
+        Button guestListButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -64,6 +78,7 @@ public class ODEventAdapter extends RecyclerView.Adapter<ODEventAdapter.ViewHold
             locationView = itemView.findViewById(R.id.locationView);
             dateView = itemView.findViewById(R.id.dateView);
             typeView = itemView.findViewById(R.id.typeView);
+            guestListButton = itemView.findViewById(R.id.guestListButton);
         }
     }
 }
