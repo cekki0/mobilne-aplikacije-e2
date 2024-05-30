@@ -85,6 +85,9 @@ public class MainActivity extends AppCompatActivity {
             else if (id == R.id.registration_request_management) {
                 startActivity(new Intent(MainActivity.this, RegistrationRequestsManagement.class));
             }
+            else if (id == R.id.od_events_view) {
+                startActivity(new Intent(MainActivity.this, EventsViewActivity.class));
+            }
             drawerLayout.closeDrawers();
             return true;
         });

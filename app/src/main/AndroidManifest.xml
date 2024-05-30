@@ -16,6 +16,10 @@
         android:theme="@style/Theme.FijiApp"
         tools:targetApi="33">
         <activity
+            android:name=".activity.EventsViewActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
             android:name=".activity.register.RegistrationRequestsManagement"
             android:exported="false" />
         <activity
