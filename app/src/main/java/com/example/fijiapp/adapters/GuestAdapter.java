@@ -1,15 +1,19 @@
 package com.example.fijiapp.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
+import com.example.fijiapp.activity.GuestActivity;
+import com.example.fijiapp.activity.GuestDialog;
 import com.example.fijiapp.model.Guest;
 
 import java.util.List;
@@ -53,6 +57,7 @@ public class GuestAdapter extends RecyclerView.Adapter<GuestAdapter.ViewHolder> 
         TextView isInvitedView;
         TextView hasAcceptedInvitationView;
         TextView foodCriteriaView;
+        Button addGuestButton;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -62,7 +67,7 @@ public class GuestAdapter extends RecyclerView.Adapter<GuestAdapter.ViewHolder> 
             isInvitedView = itemView.findViewById(R.id.isInvitedView);
             hasAcceptedInvitationView = itemView.findViewById(R.id.hasAcceptedInvitationView);
             foodCriteriaView = itemView.findViewById(R.id.foodCriteriaView);
-
+            addGuestButton = itemView.findViewById(R.id.addGuestButton);
         }
     }
 }

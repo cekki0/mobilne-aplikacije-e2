@@ -2,6 +2,7 @@ package com.example.fijiapp.activity;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.View;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -21,7 +22,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import java.util.ArrayList;
 import java.util.List;
 
-public class GuestActivity extends AppCompatActivity {
+public class GuestActivity extends AppCompatActivity implements GuestDialog.GuestDialogListener {
 
     private List<Guest> guests;
     private RecyclerView recyclerView;
@@ -61,5 +62,18 @@ public class GuestActivity extends AppCompatActivity {
                 // For example, log the error or show a toast
             }
         });
+    }
+
+    public void onAddGuestClick(View view) {
+        GuestDialog guestDialog = new GuestDialog(this);
+        guestDialog.setGuestDialogListener(this); // Set the listener
+        guestDialog.show();
+    }
+
+    @Override
+    public void onGuestAdded(Guest guest) {
+        // Add the new guest to the list and notify the adapter
+        guests.add(guest);
+        guestAdapter.notifyItemInserted(guests.size() - 1);
     }
 }
