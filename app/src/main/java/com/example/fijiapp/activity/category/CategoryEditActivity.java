@@ -12,7 +12,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.fijiapp.R;
 import com.example.fijiapp.activity.login.LoginActivity;
 import com.example.fijiapp.model.Category;
+import com.example.fijiapp.model.Notification;
 import com.example.fijiapp.service.CategoryService;
+import com.example.fijiapp.service.NotificationService;
 import com.google.android.material.button.MaterialButton;
 
 public class CategoryEditActivity extends AppCompatActivity {
@@ -23,6 +25,7 @@ public class CategoryEditActivity extends AppCompatActivity {
     private EditText editTextDescription;
     private Category categoryToUpdate;
     private CategoryService categoryService = new CategoryService();
+    private NotificationService notificationService = new NotificationService();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,10 +67,13 @@ public class CategoryEditActivity extends AppCompatActivity {
             return;
         }
 
+        String oldName = categoryToUpdate.Name;
         categoryToUpdate.Name = name;
         categoryToUpdate.Description = description;
 
         categoryService.updateCategory(categoryToUpdate);
+
+        notificationService.addNotification(new Notification("Category updated","kM35CD5qkJaxqUl9Py74V7cvGhs2","GNwDoz5jVOUefhzOGoBc0wYHK2B2","Category "+oldName+" changed its name to "+name));
         Toast.makeText(CategoryEditActivity.this, "Category updated!", Toast.LENGTH_SHORT).show();
         navigateToManagementPage();
     }
