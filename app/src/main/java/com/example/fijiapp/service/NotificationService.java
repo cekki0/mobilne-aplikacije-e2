@@ -36,7 +36,7 @@ public class NotificationService {
         return notificationRepository.deleteNotification(notification);
     }
 
-    public Task<List<Notification>> getAllNotifications() {
+    public Task<List<Notification>> getAllNotificationsByUserId(String userId) {
         return notificationRepository.getAllNotifications().continueWithTask(task -> {
             if (task.isSuccessful()) {
                 List<Task<Notification>> notificationTasks = new ArrayList<>();
@@ -44,14 +44,19 @@ public class NotificationService {
                     Notification notification = document.toObject(Notification.class);
                     notification.Id = document.getId();
 
-                    Task<User> userTask = userService.getUserById(notification.SenderId);
-                    Task<Notification> notificationTask = userTask.continueWithTask(userTaskResult -> {
-                        if (userTaskResult.isSuccessful()) {
-                            notification.Sender = userTaskResult.getResult();
-                        }
-                        return Tasks.forResult(notification);
-                    });
-                    notificationTasks.add(notificationTask);
+
+
+                    if (notification.ReceiverId.equals(userId)) {
+                        Log.d("KURAC",notification.ReceiverId+" "+userId);
+                        Task<User> userTask = userService.getUserById(notification.SenderId);
+                        Task<Notification> notificationTask = userTask.continueWithTask(userTaskResult -> {
+                            if (userTaskResult.isSuccessful()) {
+                                notification.Sender = userTaskResult.getResult();
+                            }
+                            return Tasks.forResult(notification);
+                        });
+                        notificationTasks.add(notificationTask);
+                    }
                 }
                 return Tasks.whenAllSuccess(notificationTasks);
             } else {
@@ -71,6 +76,5 @@ public class NotificationService {
                     throw task.getException();
                 }
             }
-        });
-    }
+        });}
 }
