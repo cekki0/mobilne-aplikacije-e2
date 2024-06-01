@@ -7,6 +7,7 @@ import com.example.fijiapp.model.User;
 import com.google.android.gms.tasks.Task;
 import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
@@ -30,6 +31,10 @@ public class UserRepository {
     public Task<Void> deleteUser(User user) {
         String userId = user.Id;
         return userRef.document(userId).delete();
+    }
+
+    public Task<DocumentSnapshot> getUserById(String userId) {
+        return userRef.document(userId).get();
     }
 
     public Task<QuerySnapshot> getAllUsers() {

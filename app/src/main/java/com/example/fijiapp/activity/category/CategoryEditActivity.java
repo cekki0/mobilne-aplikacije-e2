@@ -16,6 +16,7 @@ import com.example.fijiapp.model.Notification;
 import com.example.fijiapp.service.CategoryService;
 import com.example.fijiapp.service.NotificationService;
 import com.google.android.material.button.MaterialButton;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class CategoryEditActivity extends AppCompatActivity {
 
@@ -26,12 +27,16 @@ public class CategoryEditActivity extends AppCompatActivity {
     private Category categoryToUpdate;
     private CategoryService categoryService = new CategoryService();
     private NotificationService notificationService = new NotificationService();
+    private FirebaseAuth mAuth;
+    private String currentUserId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category_edit);
 
+        mAuth = FirebaseAuth.getInstance();
+        currentUserId = mAuth.getCurrentUser().getUid();
         editTextName = findViewById(R.id.editTextName);
         editTextDescription = findViewById(R.id.editTextDescription);
         Button buttonEditCategory = findViewById(R.id.buttonEditCategory);
@@ -73,7 +78,7 @@ public class CategoryEditActivity extends AppCompatActivity {
 
         categoryService.updateCategory(categoryToUpdate);
 
-        notificationService.addNotification(new Notification("Category updated","kM35CD5qkJaxqUl9Py74V7cvGhs2","GNwDoz5jVOUefhzOGoBc0wYHK2B2","Category "+oldName+" changed its name to "+name));
+        notificationService.addNotification(new Notification("Category updated","kM35CD5qkJaxqUl9Py74V7cvGhs2",currentUserId,"Category "+oldName+" changed its name to "+name));
         Toast.makeText(CategoryEditActivity.this, "Category updated!", Toast.LENGTH_SHORT).show();
         navigateToManagementPage();
     }

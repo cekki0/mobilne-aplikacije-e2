@@ -32,6 +32,24 @@ public class UserService {
         userRepository.deleteUser(user);
     }
 
+    public Task<User> getUserById(String userId) {
+        return userRepository.getUserById(userId)
+                .continueWith(task -> {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            User user = document.toObject(User.class);
+                            user.Id = document.getId();
+                            return user;
+                        } else {
+                            return null;
+                        }
+                    } else {
+                        throw task.getException();
+                    }
+                });
+    }
+
     public Task<List<User>> getAllUsers() {
         return userRepository.getAllUsers().continueWithTask(task -> {
             if (task.isSuccessful()) {

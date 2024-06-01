@@ -1,26 +1,54 @@
 package com.example.fijiapp.activity;
 
 import android.os.Bundle;
-
-import androidx.activity.EdgeToEdge;
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import com.example.fijiapp.R;
+import com.example.fijiapp.adapters.NotificationAdapter;
+import com.example.fijiapp.model.Notification;
+import com.example.fijiapp.service.NotificationService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+
+import java.util.List;
 
 public class NotificationViewActivity extends AppCompatActivity {
+    private NotificationAdapter adapter;
+    private List<Notification> notifications;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_notification_view);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+        fetchAndInitializeRecyclerView();
+    }
+
+
+    private void fetchAndInitializeRecyclerView() {
+        NotificationService notificationService = new NotificationService();
+        notificationService.getAllNotifications()
+                .addOnCompleteListener(new OnCompleteListener<List<Notification>>() {
+                    @Override
+                    public void onComplete(@NonNull Task<List<Notification>> task) {
+                        if (task.isSuccessful()) {
+                            notifications = task.getResult();
+                            initializeRecyclerView(notifications);
+                        } else {
+                            Toast.makeText(NotificationViewActivity.this,
+                                    "Failed to fetch requests", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
+
+    private void initializeRecyclerView(List<Notification> notifications) {
+        RecyclerView recyclerView = findViewById(R.id.notificationRecyclerView);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        adapter = new NotificationAdapter(notifications, this);
+        recyclerView.setAdapter(adapter);
     }
 }
