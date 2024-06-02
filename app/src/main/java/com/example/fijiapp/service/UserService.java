@@ -6,6 +6,7 @@ import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.Company;
 import com.example.fijiapp.model.SubCategory;
 import com.example.fijiapp.model.User;
+import com.example.fijiapp.model.UserRole;
 import com.example.fijiapp.repository.CategoryRepository;
 import com.example.fijiapp.repository.UserRepository;
 import com.google.android.gms.tasks.Task;
@@ -48,6 +49,33 @@ public class UserService {
                         throw task.getException();
                     }
                 });
+    }
+
+    public Task<List<User>> getAllServiceProviders() {
+        return userRepository.getAllUsers().continueWithTask(task -> {
+            if (task.isSuccessful()) {
+                List<Task<User>> userTasks = new ArrayList<>();
+                for (DocumentSnapshot document : task.getResult()) {
+                    User user = document.toObject(User.class);
+                    user.Id = document.getId();
+
+                    if (user.Role == UserRole.SERVICE_PROVIDER) {
+                        Log.d("IMA SAMO JEDAN", "brojimo");
+                        Task<Company> companyTask = companyService.getCompanyByOwnerEmail(user.Email);
+                        Task<User> userTask = companyTask.continueWithTask(companyTaskResult -> {
+                            if (companyTaskResult.isSuccessful()) {
+                                user.Company = companyTaskResult.getResult();
+                            }
+                            return Tasks.forResult(user);
+                        });
+                        userTasks.add(userTask);
+                    }
+                }
+                return Tasks.whenAllSuccess(userTasks);
+            } else {
+                throw task.getException();
+            }
+        });
     }
 
     public Task<List<User>> getAllUsers() {

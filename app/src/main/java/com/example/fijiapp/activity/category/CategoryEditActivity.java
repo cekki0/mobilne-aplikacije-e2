@@ -2,21 +2,29 @@ package com.example.fijiapp.activity.category;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.fijiapp.R;
 import com.example.fijiapp.activity.login.LoginActivity;
 import com.example.fijiapp.model.Category;
 import com.example.fijiapp.model.Notification;
+import com.example.fijiapp.model.User;
 import com.example.fijiapp.service.CategoryService;
 import com.example.fijiapp.service.NotificationService;
+import com.example.fijiapp.service.UserService;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.firebase.auth.FirebaseAuth;
+
+import java.util.List;
 
 public class CategoryEditActivity extends AppCompatActivity {
 
@@ -76,10 +84,29 @@ public class CategoryEditActivity extends AppCompatActivity {
         categoryToUpdate.Name = name;
         categoryToUpdate.Description = description;
 
-        categoryService.updateCategory(categoryToUpdate);
+        UserService userService = new UserService();
+        Task<List<User>> task = userService.getAllServiceProviders();
 
-        notificationService.addNotification(new Notification("Category updated","kM35CD5qkJaxqUl9Py74V7cvGhs2",currentUserId,"Category "+oldName+" changed its name to "+name));
-        Toast.makeText(CategoryEditActivity.this, "Category updated!", Toast.LENGTH_SHORT).show();
-        navigateToManagementPage();
+        categoryService.updateCategory(categoryToUpdate);
+        task.addOnCompleteListener(new OnCompleteListener<List<User>>() {
+            @Override
+            public void onComplete(@NonNull Task<List<User>> task) {
+                if (task.isSuccessful()) {
+                    List<User> serviceProviders = task.getResult();
+                    Log.d("TAG", String.valueOf(serviceProviders.size()));
+                    for (User serviceProvider : serviceProviders) {
+                        String receiverId = serviceProvider.Id;
+                        String notificationMessage = "Category " + oldName + " changed its name to " + name;
+                        Notification notification = new Notification("Category updated!", receiverId, currentUserId, notificationMessage);
+                        notificationService.addNotification(notification);
+                    }
+                    Toast.makeText(CategoryEditActivity.this, "Category updated!", Toast.LENGTH_SHORT).show();
+                    navigateToManagementPage();
+                } else {
+                    Log.e("TAG", "Error getting service providers: " + task.getException());
+                    Toast.makeText(CategoryEditActivity.this, "Failed to update category. Please try again later.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
