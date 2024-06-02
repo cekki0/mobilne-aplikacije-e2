@@ -44,10 +44,7 @@ public class NotificationService {
                     Notification notification = document.toObject(Notification.class);
                     notification.Id = document.getId();
 
-
-
                     if (notification.ReceiverId.equals(userId)) {
-                        Log.d("KURAC",notification.ReceiverId+" "+userId);
                         Task<User> userTask = userService.getUserById(notification.SenderId);
                         Task<Notification> notificationTask = userTask.continueWithTask(userTaskResult -> {
                             if (userTaskResult.isSuccessful()) {

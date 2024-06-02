@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:id="@+id/cardView"
     app:cardCornerRadius="8dp"
     app:cardElevation="4dp"
     android:layout_margin="8dp">
@@ -36,22 +37,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Sender: " />
-
-        <LinearLayout
+        <TextView
+            android:id="@+id/seenTextView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:gravity="center"
-            android:layout_marginTop="16dp">
-
-            <Button
-                android:id="@+id/seenButton"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Seen"
-                android:layout_marginEnd="16dp"/>
-
-        </LinearLayout>
+            android:text="Seen: " />
 
     </LinearLayout>
 </androidx.cardview.widget.CardView>

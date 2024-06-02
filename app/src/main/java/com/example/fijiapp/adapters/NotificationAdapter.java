@@ -10,6 +10,8 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.fijiapp.R;
@@ -20,6 +22,7 @@ import com.example.fijiapp.model.Notification;
 import com.example.fijiapp.model.User;
 import com.example.fijiapp.service.NotificationService;
 import com.example.fijiapp.service.UserService;
+
 
 import java.util.List;
 
@@ -32,7 +35,6 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     public NotificationAdapter(List<Notification> dataSet, Context context) {
         this.notifications = dataSet;
         this.context = context;
-
     }
 
     @NonNull
@@ -45,22 +47,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull NotificationAdapter.ViewHolder holder, int position) {
         Notification notification = notifications.get(position);
-        Log.d("WTF", notification.Message);
         holder.title.setText("Title: " + notification.Title);
         holder.message.setText("Message: " + notification.Message);
         holder.date.setText("Date: " + notification.date);
         holder.sender.setText("Sender: " + notification.Sender.getFullName());
+        holder.seen.setText("Seen: " + notification.HasSeen.toString());
 
-        holder.seenButton.setOnClickListener(new View.OnClickListener() {
+        int backgroundColor = notification.HasSeen ? R.color.darker_background : R.color.brighter_background;
+        holder.cardView.setCardBackgroundColor(ContextCompat.getColor(context, backgroundColor));
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                notification.HasSeen=true;
-                notificationService.updateNotification(notification);
-                Intent intent = new Intent(context, NotificationViewActivity.class);
-                context.startActivity(intent);
+                if (!notification.HasSeen) {
+                    notification.HasSeen = true;
+                    notifyDataSetChanged();
+                    notificationService.updateNotification(notification);
+                }
             }
         });
-
     }
 
     @Override
@@ -77,16 +82,17 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         TextView title;
         TextView message;
         TextView date;
-        TextView sender;
-        Button seenButton;
+        TextView sender,seen;
+        CardView cardView;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            cardView = itemView.findViewById(R.id.cardView);
             title = itemView.findViewById(R.id.titleTextView);
             message = itemView.findViewById(R.id.messageTextView);
             date = itemView.findViewById(R.id.dateTextView);
             sender = itemView.findViewById(R.id.senderTextView);
-            seenButton = itemView.findViewById(R.id.seenButton);
+            seen = itemView.findViewById(R.id.seenTextView);
         }
     }
 }
