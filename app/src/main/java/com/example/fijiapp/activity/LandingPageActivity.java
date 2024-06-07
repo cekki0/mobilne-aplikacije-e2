@@ -284,9 +284,9 @@ public class LandingPageActivity extends AppCompatActivity {
 
         @Override
         public void afterTextChanged(Editable editable) {
-            filterProducts();
+//            filterProducts();
             filterServices();
-            filterPackages();
+//            filterPackages();
         }
     };
 
