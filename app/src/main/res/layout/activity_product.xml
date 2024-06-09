@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -6,13 +5,35 @@
     android:orientation="vertical"
     android:padding="8dp">
 
-    <SearchView
-        android:id="@+id/searchView"
+    <HorizontalScrollView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:iconifiedByDefault="false"
-        android:queryHint="Search products"
-        android:layout_marginBottom="8dp"/>
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/button_products"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Products" />
+
+            <Button
+                android:id="@+id/button_services"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Services" />
+
+            <Button
+                android:id="@+id/button_package"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Package" />
+
+        </LinearLayout>
+    </HorizontalScrollView>
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/productRecyclerView"
@@ -23,10 +44,10 @@
         android:scrollbars="vertical" />
 
     <Button
-        android:id="@+id/button"
+        android:id="@+id/button_create_pdf"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create"
-        android:onClick="createProductPage"/>
+        android:text="Download PDF"
+        android:onClick="createPdf" />
 
 </LinearLayout>

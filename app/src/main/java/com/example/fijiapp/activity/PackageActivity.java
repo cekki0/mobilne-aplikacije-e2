@@ -42,20 +42,7 @@ public class PackageActivity extends AppCompatActivity {
         adapter = new PackageAdapter(packageList, this);
         recyclerView.setAdapter(adapter);
 
-        SearchView searchView = findViewById(R.id.searchView);
 
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter(newText);
-                return true;
-            }
-        });
 
         loadPackagesFromFirestore();
 
@@ -85,33 +72,9 @@ public class PackageActivity extends AppCompatActivity {
                 });
     }
 
-    private void filter(String query) {
-        List<Package> filteredList = new ArrayList<>();
-        if (TextUtils.isEmpty(query)) {
-            filteredList.addAll(packageList);
-        } else {
-            String queryLowerCase = query.toLowerCase().trim();
-            try {
-                int priceFilter = Integer.parseInt(queryLowerCase);
-                for (Package packagee : packageList) {
-                    if (packagee.eventType != null && packagee.eventType.toLowerCase().contains(queryLowerCase) ||
-                            packagee.getCategory() != null && packagee.getCategory().toLowerCase().contains(queryLowerCase) ||
-                            (packagee.getPrice() <= priceFilter)){
-                        filteredList.add(packagee);
-                    }
-                }
-            } catch (NumberFormatException e) {
-                for (Package packagee : packageList) {
-                    if (packagee.eventType != null && packagee.eventType.toLowerCase().contains(queryLowerCase) ||
-                            packagee.getCategory() != null && packagee.getCategory().toLowerCase().contains(queryLowerCase)
-                            ){
-                        filteredList.add(packagee);
-                    }
-                }
-            }
-        }
-        adapter.filterList(filteredList);
-    }
+
+
+
 
 
     public void createPackagePage(View view) {

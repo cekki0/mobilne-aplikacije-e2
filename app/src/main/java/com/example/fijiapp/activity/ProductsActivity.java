@@ -42,19 +42,7 @@ public class ProductsActivity extends AppCompatActivity implements ProductAdapte
         adapter.setOnItemClickListener(this);
         recyclerView.setAdapter(adapter);
 
-        SearchView searchView = findViewById(R.id.searchView);
-        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                filter(newText);
-                return true;
-            }
-        });
+       
 
         loadProductsFromFirestore();
     }
@@ -76,38 +64,7 @@ public class ProductsActivity extends AppCompatActivity implements ProductAdapte
                 });
     }
 
-    private void filter(String query) {
-        List<Product> filteredList = new ArrayList<>();
-        if (TextUtils.isEmpty(query)) {
-            filteredList.addAll(products);
-        } else {
-            String queryLowerCase = query.toLowerCase().trim();
-            try {
-                int priceFilter = Integer.parseInt(queryLowerCase);
-                for (Product product : products) {
-                    if (product.Event != null && product.Event.toLowerCase().contains(queryLowerCase) ||
-                            product.Category != null && product.Category.toLowerCase().contains(queryLowerCase) ||
-                            product.SubCategory != null && product.SubCategory.toLowerCase().contains(queryLowerCase) ||
-                            product.Available != null && product.Available.toLowerCase().contains(queryLowerCase) ||
-                            (product.Price <= priceFilter) ||
-                            product.Description != null && product.Description.toLowerCase().contains(queryLowerCase)) {
-                        filteredList.add(product);
-                    }
-                }
-            } catch (NumberFormatException e) {
-                for (Product product : products) {
-                    if (product.Event != null && product.Event.toLowerCase().contains(queryLowerCase) ||
-                            product.Category != null && product.Category.toLowerCase().contains(queryLowerCase) ||
-                            product.SubCategory != null && product.SubCategory.toLowerCase().contains(queryLowerCase) ||
-                            product.Available != null && product.Available.toLowerCase().contains(queryLowerCase) ||
-                            product.Description != null && product.Description.toLowerCase().contains(queryLowerCase)) {
-                        filteredList.add(product);
-                    }
-                }
-            }
-        }
-        adapter.filterList(filteredList);
-    }
+
 
     @Override
     public void onItemClickProduct(Product product) {
