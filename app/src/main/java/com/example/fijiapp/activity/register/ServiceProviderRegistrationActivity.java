@@ -487,6 +487,7 @@ public class ServiceProviderRegistrationActivity extends AppCompatActivity {
             String email = firebaseUser.getEmail();
 
             user.Email = email;
+            user.IsActive = false;
 
             FirebaseFirestore db = FirebaseFirestore.getInstance();
 

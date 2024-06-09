@@ -14,6 +14,9 @@ public class ODEvent {
     public String Type;
     public List<String> Services = null;
 
+    public ODEvent() {
+    }
+
     public ODEvent(String eventName, String description, Integer maxParticipants, com.example.fijiapp.model.Privacy privacy, String location, java.util.Date date, String type, List<String> services) {
         EventName = eventName;
         Description = description;

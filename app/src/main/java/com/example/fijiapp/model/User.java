@@ -5,10 +5,14 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.firebase.firestore.Exclude;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class User implements Parcelable {
+    @Exclude
+    public String Id;
     public String Email;
     public String FirstName;
     public String LastName;
@@ -18,6 +22,8 @@ public class User implements Parcelable {
     public List<WorkingDay> WorkingDays = new ArrayList<>();
     public UserRole Role;
     public Boolean IsActive = true;
+    @Exclude
+    public Company Company;
 
     public User(String email, String firstName, String lastName, String address, String phoneNumber, String profileImage, UserRole role, List<WorkingDay> workingDays) {
         Email = email;
