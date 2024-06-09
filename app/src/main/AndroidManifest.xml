@@ -16,6 +16,9 @@
         android:theme="@style/Theme.FijiApp"
         tools:targetApi="33">
         <activity
+            android:name=".activity.RatingCommentActivity"
+            android:exported="false" />
+        <activity
             android:name=".activity.NotificationViewActivity"
             android:exported="false" />
         <activity
@@ -80,6 +83,10 @@
             android:theme="@style/Theme.FijiApp" />
         <activity
             android:name=".activity.register.EventOrganizerRegistrationActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
+            android:name=".activity.ReservationListODActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity

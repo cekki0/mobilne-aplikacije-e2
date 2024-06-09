@@ -4,7 +4,7 @@ import java.time.LocalTime;
 import java.util.Date;
 import java.util.List;
 
-public class ODEvent {
+public class ODEvent extends Reservation {
     public String EventName;
     public String Description;
     public Integer MaxParticipants;

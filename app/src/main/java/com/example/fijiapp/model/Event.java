@@ -6,7 +6,7 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class Event {
+public class Event extends Reservation {
     public String EventName;
     public Date Date;
     public LocalTime StartTime;
