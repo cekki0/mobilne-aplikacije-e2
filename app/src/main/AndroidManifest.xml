@@ -34,14 +34,9 @@
         <activity
             android:name=".activity.register.ProductServiceManagementActivity"
             android:exported="false" />
-
-<!--        <activity-->
-<!--            android:name=".activity.LandingPageActivity"-->
-<!--            android:exported="true"></activity>-->
         <activity
             android:name=".activity.LandingPageActivity"
             android:exported="true" />
-
         <activity
             android:name=".activity.EventActivity"
             android:exported="true" />
@@ -87,6 +82,10 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
+            android:name=".activity.PriceListActivity"
+            android:exported="false"
+            android:theme="@style/Theme.FijiApp" />
+        <activity
             android:name=".activity.register.EventOrganizerRegistrationActivity"
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
@@ -99,7 +98,7 @@
             android:exported="false"
             android:theme="@style/Theme.FijiApp" />
         <activity
-            android:name=".activity.PriceListActivity"
+            android:name=".activity.login.LoginActivity"
             android:exported="true"
             android:theme="@style/Theme.FijiApp">
             <intent-filter>
@@ -122,13 +121,7 @@
         <activity android:name=".activity.UpdateServiceActivity" />
         <activity android:name=".activity.CreatePackageActivity" />
         <activity android:name=".activity.UpdatePackageActivity" />
-
-<!--        <activity android:name=".activity.MainActivity"></activity>-->
-
         <activity android:name=".activity.MainActivity" />
-
-
-
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="${applicationId}.provider"
@@ -139,5 +132,7 @@
                 android:resource="@xml/file_path" />
         </provider>
     </application>
+
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+
 </manifest>
