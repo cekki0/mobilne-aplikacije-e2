@@ -43,6 +43,30 @@ public class PriceListActivity extends AppCompatActivity {
                 fetchAllDataAndExportToPdf();
             }
         });
+
+        Button productButton = findViewById(R.id.productButton);
+        productButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PriceListActivity.this, ProductsActivity.class));
+            }
+        });
+
+        Button serviceButton = findViewById(R.id.serviceButton);
+        serviceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PriceListActivity.this, ServiceActivity.class));
+            }
+        });
+
+        Button packageButton = findViewById(R.id.packageButton);
+        packageButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(PriceListActivity.this, PackageActivity.class));
+            }
+        });
     }
 
     private void fetchAllDataAndExportToPdf() {
@@ -91,7 +115,7 @@ public class PriceListActivity extends AppCompatActivity {
             String collectionName = collections.get(i);
             String title = collectionName.substring(0, 1).toUpperCase() + collectionName.substring(1).toLowerCase();
 
-            if (yPosition > pageHeight - 50) { // New page if content exceeds current page height
+            if (yPosition > pageHeight - 50) {
                 document.finishPage(page);
                 pageNumber++;
                 pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create();
@@ -105,7 +129,7 @@ public class PriceListActivity extends AppCompatActivity {
             yPosition += titlePaint.descent() - titlePaint.ascent() + 20;
 
             for (QueryDocumentSnapshot documentSnapshot : snapshot) {
-                if (yPosition > pageHeight - 50) { // New page if content exceeds current page height
+                if (yPosition > pageHeight - 50) {
                     document.finishPage(page);
                     pageNumber++;
                     pageInfo = new PdfDocument.PageInfo.Builder(pageWidth, pageHeight, pageNumber).create();
@@ -114,10 +138,10 @@ public class PriceListActivity extends AppCompatActivity {
                 }
 
                 String name = documentSnapshot.getString("Name");
-                if (name == null || name.isEmpty()) {
+                if (name == null || name=="null" || name.isEmpty()) {
                     name = documentSnapshot.getString("name");
                     if (name == null || name.isEmpty()) {
-                        name = documentSnapshot.getString("title");
+                        name = documentSnapshot.getString("Title");
                     }
                 }
 
@@ -145,7 +169,7 @@ public class PriceListActivity extends AppCompatActivity {
                 String data = dataBuilder.toString();
                 canvas.drawText(data, 10, yPosition, paint);
 
-                yPosition += paint.descent() - paint.ascent() + 20; // Line height
+                yPosition += paint.descent() - paint.ascent() + 20; 
             }
         }
 
