@@ -29,7 +29,6 @@ import java.util.List;
 public class StaffCalendarActivity extends AppCompatActivity {
 
     private MaterialCalendarView calendarView;
-    private Button buttonMarkBusy;
     private List<CalendarDay> busyDates;
     private List<Event> events = new ArrayList<>();
     private EventAdapter adapter;
@@ -47,7 +46,6 @@ public class StaffCalendarActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
         calendarView = findViewById(R.id.calendarView);
-        buttonMarkBusy = findViewById(R.id.buttonMarkBusy);
 
         loadEvents(recyclerView);
     }
