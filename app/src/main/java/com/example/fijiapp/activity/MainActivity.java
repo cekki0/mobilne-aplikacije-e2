@@ -75,7 +75,7 @@ public class MainActivity extends AppCompatActivity {
                             if (id == R.id.nav_home) {
                                 startActivity(new Intent(MainActivity.this, MainActivity.class));
                             } else if (id == R.id.product) {
-                                startActivity(new Intent(MainActivity.this, ProductsActivity.class));
+                                startActivity(new Intent(MainActivity.this, PriceListActivity.class));
                             } else if (id == R.id.service) {
                                 startActivity(new Intent(MainActivity.this, ServiceActivity.class));
                             } else if (id == R.id.packages) {
